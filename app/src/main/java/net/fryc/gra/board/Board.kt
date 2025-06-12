@@ -33,6 +33,7 @@ class Board(val size : Int, val difficulty: Difficulty) {
     }
 
     private fun createRandomNonConflictingField() : Field {
+        // TODO przy losowaniu wartosci uwzglednic poziom trudnosci zeby kontrolowac ilosc takich samych wartosci
         val field = Field(
             Random.nextInt(0, this.size),
             Random.nextInt(0, this.size),

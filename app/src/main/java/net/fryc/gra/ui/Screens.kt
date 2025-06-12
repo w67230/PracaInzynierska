@@ -205,24 +205,19 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
             }
         }
 
-        val field = board.getField(y-1, y-1);
-        if(field != null){
-            if(field.value < 0){
-                if(board.checkWin()){
-                    AlertDialog(onDismissRequest = {
-                        startMenu(activity);
-                    }, confirmButton = {
-                        TextButton(onClick = {
-                            startMenu(activity);
-                        }) {
-                            Text(text = "Ok");
-                        }
-                    }, text = {
-                        Text(text = stringResource(R.string.win));
-                    });
-
+        if(board.checkWin()){
+            AlertDialog(onDismissRequest = {
+                startMenu(activity);
+            }, confirmButton = {
+                TextButton(onClick = {
+                    startMenu(activity);
+                }) {
+                    Text(text = "Ok");
                 }
-            }
+            }, text = {
+                Text(text = stringResource(R.string.win));
+            });
+
         }
 
         if(shouldShowHelp){
