@@ -33,7 +33,13 @@ class Board(val size : Int, val difficulty: Difficulty) {
     }
 
     private fun createRandomNonConflictingField() : Field {
-        val field = Field(Random.nextInt(0, this.size), Random.nextInt(0, this.size), this.getRandomNonConflictingColor(), Random.nextInt(1, 100), this);
+        val field = Field(
+            Random.nextInt(0, this.size),
+            Random.nextInt(0, this.size),
+            this.getRandomNonConflictingColor(),
+            if(this.difficulty != Difficulty.EASY) Random.nextInt(1, 100) else -1,
+            this
+        );
 
         while(field.hasSamePositionAsOtherField()){
             field.x = Random.nextInt(0, this.size);
