@@ -1,6 +1,7 @@
 package net.fryc.gra.board
 
 import androidx.compose.ui.graphics.Color
+import net.fryc.gra.MainActivity
 import kotlin.random.Random
 
 class Board(val size : Int, val difficulty: Difficulty) {
@@ -29,7 +30,7 @@ class Board(val size : Int, val difficulty: Difficulty) {
     }
 
     private fun createBlackField() : Field {
-        return Field(0,0, Color.Transparent,-1, this);
+        return Field(0,0, Color.Unspecified,-1, this);
     }
 
     private fun createRandomNonConflictingField() : Field {
@@ -144,10 +145,12 @@ class Board(val size : Int, val difficulty: Difficulty) {
                             previousValue = if(field.value == -1) previousValue else field.value;
                         }
                         else {
+                            //MainActivity.LOGGER.warning("Nie wyszlo przy wierszowym: " + forRows + " i przy wartosciach: " + previousValue + " i " + field.value);
                             return false;
                         }
                     }
                     else {
+                        //MainActivity.LOGGER.warning("Nie wyszlo przy wierszowym: " + forRows + " i przy kolorach: " + previousColor.toString() + " i " + field.color.toString());
                         return false;
                     }
                 }
@@ -180,7 +183,7 @@ class Board(val size : Int, val difficulty: Difficulty) {
      * Returns true when first value is lower than second one, or when second value is -1
      */
     fun compareValues(value1 : Int, value2 : Int) : Boolean {
-        return if(value2 == -1) true else value1 < value2;
+        return if(value2 == -1) true else value1 <= value2;
     }
 
 }
