@@ -109,57 +109,71 @@ class Board(val size : Int, val difficulty: Difficulty) {
         return null;
     }
 
-    /**
-     * Should be called only when black field is the last field (is in right-bottom corner)
-     */
     fun checkWin(): Boolean {
+        return this.checkRowWin() || this.checkColumnWin();
+    }
+
+    fun checkRowWin() : Boolean {
+        return this.checkFieldCorrectness(true);
+    }
+
+    fun checkColumnWin() : Boolean {
+        return this.checkFieldCorrectness(false);
+    }
+
+    fun checkFieldCorrectness(forRows : Boolean) : Boolean {
         var y = 0;
         var x = 0;
-        while (y < this.size) {
-            var previousColor = if(this.difficulty == Difficulty.EASY || this.difficulty == Difficulty.HARD) Color.Unspecified else this.getRowColorForWin(y);
-            var previousValue = if(this.difficulty == Difficulty.HARD || this.difficulty == Difficulty.VERY_HARD) 0 else -1;
-            while (x < this.size) {
+        while ((if(forRows) y else x) < this.size) {
+            var previousColor = Color.Unspecified;
+            var previousValue = if(this.difficulty != Difficulty.EASY) 0 else -1;
+            while ((if(forRows) x else y) < this.size) {
                 val field = this.getField(x, y);
                 if (field != null) {
-                    if(field.value < 0){
-                        return true;
-                    }
-                    if (previousColor == Color.Unspecified) {
-                        previousColor = field.color;
-                    }
-                    else if (previousColor != field.color){
-                        return false;
-                    }
-                    else if(previousValue > -1){
-                        if(field.value < previousValue){
-                            return false;
+                    if(this.compareColors(previousColor, field.color)){
+                        previousColor = if(field.color == Color.Unspecified) previousColor else field.color;
+
+                        if(this.compareValues(previousValue, field.value)){
+                            previousValue = if(field.value == -1) previousValue else field.value;
                         }
                         else {
-                            previousValue = field.value;
+                            return false;
                         }
                     }
-
+                    else {
+                        return false;
+                    }
                 }
+                // TODO skoro ide po szerokosci  i wysokosci planszy, to pole nigdy nie powinno byc null, ale moge dac tu jakis wyjatek jakby jakims cudem sie tak stalo
 
-                x++;
+                if(forRows) x++ else y++;
             }
 
-            x = 0;
-            y++;
+            if(forRows) {
+                x = 0;
+                y++;
+            }
+            else {
+                y = 0;
+                x++;
+            };
         }
 
         return true;
     }
 
-    private fun getRowColorForWin(y : Int) : Color {
-        return when(y){
-            0 -> Color.Red;
-            1 -> Color.Green;
-            2 -> Color.Cyan;
-            3 -> Color.Magenta;
-            4 -> Color.DarkGray;
-            else -> Color.Yellow;
-        }
+    /**
+     * Returns true when colors are the same or one of the colors is unspecified
+     */
+    fun compareColors(color1 : Color, color2 : Color) : Boolean {
+        return if(color1 == Color.Unspecified || color2 == Color.Unspecified) true else color1 == color2;
+    }
+
+    /**
+     * Returns true when first value is lower than second one, or when second value is -1
+     */
+    fun compareValues(value1 : Int, value2 : Int) : Boolean {
+        return if(value2 == -1) true else value1 < value2;
     }
 
 }
