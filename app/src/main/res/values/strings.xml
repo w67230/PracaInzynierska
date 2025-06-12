@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Układanka</string>
+    <string name="win">Wygrałeś</string>
+    <string name="menu">Menu Główne</string>
+    <string name="start">Rozpocznij Grę</string>
+    <string name="size_4">4x4</string>
+    <string name="size_5">5x5</string>
+    <string name="size_6">6x6</string>
+    <string name="easy">Łatwy</string>
+    <string name="normal">Normalny</string>
+    <string name="hard">Trudny</string>
+    <string name="v_hard">Bardzo Trudny</string>
+    <string name="size_info">Rozmiar:</string>
+    <string name="difficulty_info">Trudność:</string>
+    <string name="h2p">Jak Grać?</string>
+    <string name="cel_gry">Celem gry jest ułożenie kolorowych bloczków (poprzez klikanie lub przeciąganie ich) w taki sposób, aby w każdym wierszu znajdował się 1 kolor.</string>
+    <string name="cel_dodatkowo">Dodatkowo, puste pole musi się znaleźć na ostatnim miejscu (w prawym dolnym rogu).</string>
+    <string name="cel_poziomy">Na poziomach trudności wyższych niż łatwy pojawiają się dodatkowe ograniczenia dotyczące prawidłowego ułożenia.</string>
+    <string name="przyklad_latwy">Przykładowe prawidłowe ułożenie na łatwym poziomie trudności:</string>
+    <string name="tytul_cel">Cel gry</string>
+    <string name="tytul_poziomy">Poziomy trudności</string>
+    <string name="poziomy_info">Jeśli nie pamiętasz wymagań związanych z danym poziomem trudności, możesz podczas rozgrywki nacisnąć \"?\" znajdujący się nad planszą, aby otrzymać wyjaśnienie dotyczące wybranego poziomu trudności.</string>
+    <string name="normal_cel">Poszczególne wiersze muszą zawierać odpowiednie kolory:\n\npierwszy - czerwony\ndrugi  - zielony\ntrzeci - niebieski\nczwarty - fioletowy\npiąty - szary\nszósty - żółty</string>
+    <string name="hard_cel">W kwadratach pojawiają się liczby: w poszczególnych wierszach muszą one być ustawione rosnąco.</string>
+    <string name="hard_cel_dalej">Na tym poziomie trudności kolejność kolorów w poszczególnych wierszach jest dowolna (jak na łatwym poziomie trudności).</string>
+    <string name="hard_cel_przyklad">Przykładowe prawidłowe ułożenie na trudnym poziomie trudności:</string>
+    <string name="v_hard_cel">Obowiązują ograniczenia z normalnego i trudnego poziomu trudności.</string>
+    <string name="warning">Wszelkie postępy zostaną utracone.\nCzy na pewno chcesz wyjść do menu?\n</string>
+</resources>
