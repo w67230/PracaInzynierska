@@ -231,12 +231,7 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
                 }
             }, text = {
                 Text(text =
-                    when(board.difficulty){
-                        Difficulty.EASY -> stringResource(R.string.cel_gry) + "\n\n" + stringResource(R.string.cel_dodatkowo);
-                        Difficulty.NORMAL -> stringResource(R.string.normal_cel);
-                        Difficulty.HARD -> stringResource(R.string.hard_cel);
-                        Difficulty.VERY_HARD -> stringResource(R.string.hard_cel) + "\n\n" + stringResource(R.string.normal_cel);
-                    }
+                    stringResource(R.string.cel_gry) + "\n\n" + stringResource(R.string.cel_dodatkowo)
                 );
             });
         }
@@ -275,12 +270,6 @@ fun howToPlayScreen(activity: MainActivity){
             showSimpleText(resourceString = R.string.cel_gry);
         }
         this.item {
-            showSimpleText(resourceString = R.string.cel_dodatkowo);
-        }
-        this.item {
-            showSimpleText(resourceString = R.string.cel_poziomy);
-        }
-        this.item {
             showSimpleText(resourceString = R.string.przyklad_latwy);
         }
         this.item {
@@ -313,24 +302,7 @@ fun howToPlayScreen(activity: MainActivity){
             }
         }
         this.item {
-            Spacer(modifier = Modifier.size(30.dp));
-            Text(text = stringResource(R.string.tytul_poziomy), fontWeight = FontWeight.Bold, fontSize = 6.em, modifier = Modifier.padding(bottom = 10.dp));
-        }
-        this.item {
-            showSimpleText(resourceString = R.string.poziomy_info);
-        }
-        this.item {
-            Spacer(modifier = Modifier.size(30.dp));
-            showSimpleText(resourceString = R.string.normal);
-            showSimpleText(resourceString = R.string.normal_cel);
-        }
-        this.item {
-            Spacer(modifier = Modifier.size(30.dp));
-            showSimpleText(resourceString = R.string.hard);
-            showSimpleText(resourceString = R.string.hard_cel);
-        }
-        this.item {
-            showSimpleText(resourceString = R.string.hard_cel_dalej);
+            showSimpleText(resourceString = R.string.cel_dodatkowo);
         }
         this.item {
             showSimpleText(resourceString = R.string.hard_cel_przyklad);
@@ -367,11 +339,6 @@ fun howToPlayScreen(activity: MainActivity){
                 x = 0;
                 y++;
             }
-        }
-        this.item {
-            Spacer(modifier = Modifier.size(30.dp));
-            showSimpleText(resourceString = R.string.v_hard);
-            showSimpleText(resourceString = R.string.v_hard_cel);
         }
         this.item {
             Button(onClick = {

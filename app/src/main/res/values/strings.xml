@@ -13,8 +13,8 @@
     <string name="size_info">Rozmiar:</string>
     <string name="difficulty_info">Trudność:</string>
     <string name="h2p">Jak Grać?</string>
-    <string name="cel_gry">Celem gry jest ułożenie kolorowych bloczków (poprzez klikanie lub przeciąganie ich) w taki sposób, aby w każdym wierszu znajdował się 1 kolor.</string>
-    <string name="cel_dodatkowo">Dodatkowo, puste pole musi się znaleźć na ostatnim miejscu (w prawym dolnym rogu).</string>
+    <string name="cel_gry">Celem gry jest ułożenie kolorowych bloczków (poprzez klikanie lub przeciąganie ich) w taki sposób, aby w każdym wierszu, lub kolumnie, znajdował się 1 kolor.</string>
+    <string name="cel_dodatkowo">Na poziomach trudności wyższych niż łatwy, bloczki zawierają liczby, które muszą zostać ułożone rosnąco w danym wierszu lub kolumnie (ułożenie według kolorów nadal obowiązuje)</string>
     <string name="cel_poziomy">Na poziomach trudności wyższych niż łatwy pojawiają się dodatkowe ograniczenia dotyczące prawidłowego ułożenia.</string>
     <string name="przyklad_latwy">Przykładowe prawidłowe ułożenie na łatwym poziomie trudności:</string>
     <string name="tytul_cel">Cel gry</string>
