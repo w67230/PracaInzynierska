@@ -1,6 +1,7 @@
 package net.fryc.gra.board
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.isUnspecified
 import net.fryc.gra.MainActivity
 import kotlin.random.Random
 
@@ -13,6 +14,7 @@ class Board(val size : Int, val difficulty: Difficulty) {
     var magentaFieldsCount = 0;
     var grayFieldsCount = 0;
     var yellowFieldsCount = 0;
+    var sameValuesAmount = 0;
 
     init{
         this.createFields();
@@ -27,6 +29,34 @@ class Board(val size : Int, val difficulty: Difficulty) {
             this.fields.add(this.createRandomNonConflictingField());
             i++;
         }
+
+        while(this.difficulty != Difficulty.EASY && this.difficulty.getSameNumbersAmount() > this.sameValuesAmount){
+            val field = this.getRandomNonBlackField();
+            val possibleFields = this.fields.filter {
+                return@filter it.value != field.value && it.color == field.color;
+            }.toList();
+
+            var field2 : Field? = null;
+            for(x in possibleFields){
+                field2 = possibleFields.filter { x.value != it.value }.getOrNull(0);
+                if(field2 != null) break;
+            }
+
+            if(field2 != null){
+                this.fields[this.fields.indexOf(field2)] = Field(field2.y, field2.x, field2.color, field.value, field2.board);
+                MainActivity.LOGGER.warning(this.sameValuesAmount.toString());
+                this.sameValuesAmount++;
+            }
+        }
+    }
+
+    private fun getRandomNonBlackField() : Field {
+        var field : Field;
+        do{
+            field = this.fields[Random.nextInt(0, this.fields.size)];
+        } while(field.value < 0 || field.color.isUnspecified);
+
+        return field;
     }
 
     private fun createBlackField() : Field {
@@ -34,12 +64,12 @@ class Board(val size : Int, val difficulty: Difficulty) {
     }
 
     private fun createRandomNonConflictingField() : Field {
-        // TODO przy losowaniu wartosci uwzglednic poziom trudnosci zeby kontrolowac ilosc takich samych wartosci
+        val color = this.getRandomNonConflictingColor();
         val field = Field(
             Random.nextInt(0, this.size),
             Random.nextInt(0, this.size),
-            this.getRandomNonConflictingColor(),
-            if(this.difficulty != Difficulty.EASY) Random.nextInt(1, 100) else -1,
+            color,
+            this.getRandomNonConflictingValue(color),
             this
         );
 
@@ -96,12 +126,40 @@ class Board(val size : Int, val difficulty: Difficulty) {
         }
     }
 
+    private fun getRandomNonConflictingValue(color: Color) : Int {
+        if(this.difficulty == Difficulty.EASY) return 0;
+
+        var value : Int;
+
+        do {
+            value = Random.nextInt(1, 100);
+        } while(!isValueAvailable(value, color));
+
+        return value;
+    }
+
+    private fun isValueAvailable(value : Int, color : Color) : Boolean {
+        if(this.difficulty.getSameNumbersAmount() < 0) return true;
+
+        val available = this.fields.filter {
+            return@filter it.value == value && it.color == color;
+        }.isEmpty();
+
+        if(!available && this.difficulty.getSameNumbersAmount() > this.sameValuesAmount){
+            MainActivity.LOGGER.warning("Zwiekszam naturalnie lciczcbebebebebe");
+            this.sameValuesAmount++;
+            return true;
+        }
+
+        return available;
+    }
+
     fun getBlackField() : Field {
         if(this.fields.isEmpty()){
             this.createFields();
         }
         for (field in this.fields){
-            if(field.value < 0) return field;
+            if(field.value < 0 || field.color.isUnspecified) return field;
         }
 
         throw Exception("Black field doesn't exist! It should never happen!");
@@ -180,10 +238,10 @@ class Board(val size : Int, val difficulty: Difficulty) {
     }
 
     /**
-     * Returns true when first value is lower than second one, or when second value is -1
+     * Returns true when first value is lower than second one, or when second value is 0 (or lower)
      */
     fun compareValues(value1 : Int, value2 : Int) : Boolean {
-        return if(value2 == -1) true else value1 <= value2;
+        return if(value2 < 1) true else value1 <= value2;
     }
 
 }

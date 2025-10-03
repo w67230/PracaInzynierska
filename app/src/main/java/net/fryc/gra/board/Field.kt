@@ -38,7 +38,7 @@ class Field(var y: Int, var x : Int, val color : Color, val value : Int, val boa
                 this.onClickOrDrag(activity);
             }
         }, Orientation.Vertical)) {
-            if(this@Field.value > 0 && this@Field.board.difficulty > Difficulty.NORMAL){
+            if(this@Field.value > 0 && this@Field.board.difficulty > Difficulty.EASY){
                 Text(text = this@Field.value.toString(), modifier = Modifier.align(Alignment.Center), fontWeight = FontWeight.Bold, color = Color.Black);
             }
         }
