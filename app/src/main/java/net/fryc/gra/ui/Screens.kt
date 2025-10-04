@@ -22,6 +22,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -35,11 +37,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 import net.fryc.gra.MainActivity
 import net.fryc.gra.R
 import net.fryc.gra.board.Board
 import net.fryc.gra.board.Difficulty
 import net.fryc.gra.ui.theme.GraTheme
+import java.sql.Time
+import java.time.Clock
+import java.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 
 fun startGame(size : Int = 4, difficulty : Difficulty = Difficulty.EASY, activity: MainActivity){
@@ -165,6 +172,20 @@ fun menu(activity: MainActivity){
 
 @Composable
 fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
+    var refresh by remember {
+        mutableStateOf(false);
+    }
+    LaunchedEffect(key1 = refresh) {
+        delay(50);
+        refresh = !refresh;
+    }
+    val clock by remember {
+        derivedStateOf { Clock.tick(Clock.systemDefaultZone(), Duration.ofSeconds(1)) }
+    }
+    val startTime by remember {
+        derivedStateOf { clock.millis() }
+    }
+
     var shouldShowHelp by remember {
         mutableStateOf(false);
     }
@@ -176,6 +197,7 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
     Column(modifier) {
         Spacer(modifier = Modifier.size(50.dp));
         Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+            Text(text = Time.from(clock.instant()).time.minus(startTime).milliseconds.toString(), fontWeight = FontWeight.Bold, fontSize = 5.em);
             IconButton(onClick = {
                 shouldShowHelp = true;
             }) {

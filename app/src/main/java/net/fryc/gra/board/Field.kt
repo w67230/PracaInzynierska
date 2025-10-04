@@ -2,9 +2,9 @@ package net.fryc.gra.board
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.DraggableState
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -29,11 +29,11 @@ class Field(var y: Int, var x : Int, val color : Color, val value : Int, val boa
             if(this.canMove()){
                 this.onClickOrDrag(activity);
             }
-        }.draggable(DraggableState {
+        }.draggable(rememberDraggableState {
             if(this.canMoveHorizontally(it)){
                 this.onClickOrDrag(activity);
             }
-        }, Orientation.Horizontal).draggable(DraggableState {
+        }, Orientation.Horizontal).draggable(rememberDraggableState {
             if(this.canMoveVertically(it)){
                 this.onClickOrDrag(activity);
             }
