@@ -21,21 +21,22 @@ import net.fryc.gra.ui.redraw
 import kotlin.math.abs
 
 
-class Field(var y: Int, var x : Int, val color : Color, val value : Int, val board: Board) {
+open class Field(open var y: Int, open var x : Int, open val color : Color, open val value : Int, open val board: Board) {
 
     @Composable
-    fun drawBox(activity: MainActivity){
+    open fun drawBox(activity: MainActivity){
         Box(Modifier.height((90-this.board.size*5).dp).width((90-this.board.size*5).dp).padding(5.dp, 5.dp).background(this.color).clickable {
             if(this.canMove()){
-                this.onClickOrDrag(activity);
+                this.move();
+                redraw(this.board, activity);
             }
         }.draggable(rememberDraggableState {
-            if(this.canMoveHorizontally(it)){
-                this.onClickOrDrag(activity);
+            if(it != 0F){
+                this.tryToMove(if(it < 0) Direction.LEFT else Direction.RIGHT, activity)
             }
         }, Orientation.Horizontal).draggable(rememberDraggableState {
-            if(this.canMoveVertically(it)){
-                this.onClickOrDrag(activity);
+            if(it != 0F){
+                this.tryToMove(if(it < 0) Direction.UP else Direction.DOWN, activity)
             }
         }, Orientation.Vertical)) {
             if(this@Field.value > 0 && this@Field.board.difficulty > Difficulty.EASY){
@@ -44,32 +45,48 @@ class Field(var y: Int, var x : Int, val color : Color, val value : Int, val boa
         }
     }
 
-    fun canMoveHorizontally(dragFloat: Float, field: Field = this.board.getBlackField()) : Boolean {
-        if(this.isNextToField(field)){
-            return (field.x-this.x > 0 && dragFloat > 0) || (field.x-this.x < 0 && dragFloat < 0);
+    open fun tryToMove(direction : Direction, activity: MainActivity, multiMove : Boolean = true) {
+        val blackField = this.board.getBlackField();
+        if(this.isOnSameLine(blackField)){
+            if(direction.isDirectionalMovingPossible(this, blackField)){
+                this.move(blackField);
+                redraw(this.board, activity);
+            }
+            else if(multiMove){
+                this.tryToMultiMove(direction, activity);
+                this.tryToMove(direction, activity, false);
+            }
         }
-        return false;
     }
 
-    fun canMoveVertically(dragFloat: Float, field: Field = this.board.getBlackField()) : Boolean {
-        if(this.isNextToField(field)){
-            return (field.y-this.y < 0 && dragFloat < 0) || (field.y-this.y > 0 && dragFloat > 0);
-        }
-        return false;
-    }
-    fun canMove(field: Field = this.board.getBlackField()) : Boolean {
-        return this.isNextToField(field);
+    open fun tryToMultiMove(direction : Direction, activity: MainActivity) {
+        direction.getNextField(this)?.tryToMove(direction, activity);
     }
 
-    fun onClickOrDrag(activity: MainActivity, field: Field = this.board.getBlackField()){
-        var tempX = this.x;
-        var tempY = this.y;
+    open fun canMoveHorizontally(left : Boolean, field: Field = this.board.getBlackField()) : Boolean {
+        return this.isNextToField(field) && ( (field.x-this.x > 0 && !left) || (field.x-this.x < 0 && left) );
+    }
+
+    open fun canMoveVertically(up : Boolean, field: Field = this.board.getBlackField()) : Boolean {
+        return this.isNextToField(field) && ( (field.y-this.y > 0 && !up) || (field.y-this.y < 0 && up) );
+    }
+
+    open fun canMove() : Boolean {
+        return this.canMoveVertically(true) || this.canMoveVertically(false) ||
+                this.canMoveHorizontally(true) || this.canMoveHorizontally(false);
+    }
+
+    open fun move(field: Field = this.board.getBlackField()){
+        val tempX = this.x;
+        val tempY = this.y;
         this.x = field.x;
         this.y = field.y;
         field.x = tempX;
         field.y = tempY;
+    }
 
-        redraw(this.board, activity);
+    fun isOnSameLine(field : Field) : Boolean {
+        return this.x == field.x || this.y == field.y;
     }
 
     fun isNextToField(field: Field) : Boolean {

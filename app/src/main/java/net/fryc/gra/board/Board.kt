@@ -1,7 +1,6 @@
 package net.fryc.gra.board
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.isUnspecified
 import net.fryc.gra.MainActivity
 import kotlin.random.Random
 
@@ -54,13 +53,13 @@ class Board(val size : Int, val difficulty: Difficulty) {
         var field : Field;
         do{
             field = this.fields[Random.nextInt(0, this.fields.size)];
-        } while(field.value < 0 || field.color.isUnspecified);
+        } while(field is BlackField);
 
         return field;
     }
 
     private fun createBlackField() : Field {
-        return Field(0,0, Color.Unspecified,-1, this);
+        return BlackField(0,0,-1, this);
     }
 
     private fun createRandomNonConflictingField() : Field {
@@ -146,7 +145,6 @@ class Board(val size : Int, val difficulty: Difficulty) {
         }.isEmpty();
 
         if(!available && this.difficulty.getSameNumbersAmount() > this.sameValuesAmount){
-            MainActivity.LOGGER.warning("Zwiekszam naturalnie lciczcbebebebebe");
             this.sameValuesAmount++;
             return true;
         }
@@ -159,7 +157,7 @@ class Board(val size : Int, val difficulty: Difficulty) {
             this.createFields();
         }
         for (field in this.fields){
-            if(field.value < 0 || field.color.isUnspecified) return field;
+            if(field is BlackField) return field;
         }
 
         throw Exception("Black field doesn't exist! It should never happen!");
@@ -203,16 +201,18 @@ class Board(val size : Int, val difficulty: Difficulty) {
                             previousValue = if(field.value == -1) previousValue else field.value;
                         }
                         else {
-                            //MainActivity.LOGGER.warning("Nie wyszlo przy wierszowym: " + forRows + " i przy wartosciach: " + previousValue + " i " + field.value);
+
                             return false;
                         }
                     }
                     else {
-                        //MainActivity.LOGGER.warning("Nie wyszlo przy wierszowym: " + forRows + " i przy kolorach: " + previousColor.toString() + " i " + field.color.toString());
+
                         return false;
                     }
                 }
-                // TODO skoro ide po szerokosci  i wysokosci planszy, to pole nigdy nie powinno byc null, ale moge dac tu jakis wyjatek jakby jakims cudem sie tak stalo
+                else {
+                    throw NullPointerException("A null field found in fields array");
+                }
 
                 if(forRows) x++ else y++;
             }
