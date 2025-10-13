@@ -205,17 +205,13 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
             }
         }
         Spacer(modifier = Modifier.size(30.dp));
-        while(y < board.size){
-            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                while(x < board.size) {
-                    board.getField(x, y)?.drawBox(activity = activity);
 
-                    x++;
+        board.fieldsMatrix.forEach {
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                it.forEach { field ->
+                    field.drawBox(activity);
                 }
             }
-
-            x = 0;
-            y++;
         }
 
         Spacer(modifier = Modifier.size(90.dp));

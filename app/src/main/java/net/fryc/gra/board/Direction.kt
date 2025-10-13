@@ -8,7 +8,7 @@ enum class Direction {
         }
 
         override fun getNextField(field: Field): Field? {
-            return field.board.getField(field.x, field.y - 1);
+            return field.board.getFieldFromMatrix(field.x, field.y - 1);
         }
     },
     DOWN {
@@ -17,7 +17,7 @@ enum class Direction {
         }
 
         override fun getNextField(field: Field): Field? {
-            return field.board.getField(field.x, field.y + 1);
+            return field.board.getFieldFromMatrix(field.x, field.y + 1);
         }
     },
     LEFT {
@@ -26,7 +26,7 @@ enum class Direction {
         }
 
         override fun getNextField(field: Field): Field? {
-            return field.board.getField(field.x - 1, field.y);
+            return field.board.getFieldFromMatrix(field.x - 1, field.y);
         }
     },
     RIGHT {
@@ -35,7 +35,7 @@ enum class Direction {
         }
 
         override fun getNextField(field: Field): Field? {
-            return field.board.getField(field.x + 1, field.y);
+            return field.board.getFieldFromMatrix(field.x + 1, field.y);
         }
     };
 

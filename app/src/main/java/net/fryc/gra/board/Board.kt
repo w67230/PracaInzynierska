@@ -7,6 +7,7 @@ import kotlin.random.Random
 class Board(val size : Int, val difficulty: Difficulty) {
 
     val fields = ArrayList<Field>();
+    val fieldsMatrix : ArrayList<ArrayList<Field>>;
     var redFieldsCount = 0;
     var greenFieldsCount = 0;
     var blueFieldsCount = 0;
@@ -17,6 +18,7 @@ class Board(val size : Int, val difficulty: Difficulty) {
 
     init{
         this.createFields();
+        this.fieldsMatrix = createFieldsMatrix();
     }
 
     private fun createFields(){
@@ -47,6 +49,25 @@ class Board(val size : Int, val difficulty: Difficulty) {
                 this.sameValuesAmount++;
             }
         }
+    }
+
+    private fun createFieldsMatrix() : ArrayList<ArrayList<Field>> {
+        val matrix : ArrayList<ArrayList<Field>> = ArrayList();
+        var y = 0;
+        while(y < this.size){
+            val row = ArrayList<Field>();
+            var x = 0;
+            while(x < this.size){
+                this.getFieldFromFields(x, y)?.let { row.add(it) };
+
+                x++;
+            }
+
+            matrix.add(row);
+            y++;
+        }
+
+        return matrix;
     }
 
     private fun getRandomNonBlackField() : Field {
@@ -163,7 +184,7 @@ class Board(val size : Int, val difficulty: Difficulty) {
         throw Exception("Black field doesn't exist! It should never happen!");
     }
 
-    fun getField(x : Int, y : Int) : Field? {
+    fun getFieldFromFields(x : Int, y : Int) : Field? {
         for(field in this.fields){
             if(field.x == x && field.y == y){
                 return field;
@@ -171,6 +192,13 @@ class Board(val size : Int, val difficulty: Difficulty) {
         }
 
         return null;
+    }
+
+    fun getFieldFromMatrix(x : Int, y : Int) : Field? {
+        if(x >= this.size || y >= this.size) return null;
+        if(x < 0 || y < 0) return null;
+
+        return this.fieldsMatrix[y][x];
     }
 
     fun checkWin(): Boolean {
@@ -192,7 +220,7 @@ class Board(val size : Int, val difficulty: Difficulty) {
             var previousColor = Color.Unspecified;
             var previousValue = if(this.difficulty != Difficulty.EASY) 0 else -1;
             while ((if(forRows) x else y) < this.size) {
-                val field = this.getField(x, y);
+                val field = this.getFieldFromFields(x, y);
                 if (field != null) {
                     if(this.compareColors(previousColor, field.color)){
                         previousColor = if(field.color == Color.Unspecified) previousColor else field.color;

@@ -83,6 +83,9 @@ open class Field(open var y: Int, open var x : Int, open val color : Color, open
         this.y = field.y;
         field.x = tempX;
         field.y = tempY;
+
+        this.board.fieldsMatrix[this.y][this.x] = this;
+        field.board.fieldsMatrix[field.y][field.x] = field;
     }
 
     fun isOnSameLine(field : Field) : Boolean {
