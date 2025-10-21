@@ -3,7 +3,7 @@ package net.fryc.gra
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import net.fryc.gra.ui.startMenu
+import net.fryc.gra.ui.screen.startMenu
 import java.util.logging.Logger
 
 class MainActivity(var isInMenu : Boolean = true) : ComponentActivity() {

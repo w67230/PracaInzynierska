@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import net.fryc.gra.MainActivity
-import net.fryc.gra.ui.redraw
+import net.fryc.gra.ui.screen.redraw
 import kotlin.math.abs
 
 
