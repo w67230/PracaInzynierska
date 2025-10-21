@@ -1,16 +1,17 @@
 plugins {
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
 android {
     namespace = "net.fryc.gra"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "net.fryc.gra"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -35,9 +36,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
         resources {
