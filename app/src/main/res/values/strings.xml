@@ -20,4 +20,7 @@
     <string name="tytul_poziomy">Poziomy trudności</string>
     <string name="hard_cel_przyklad">Przykładowe prawidłowe ułożenie na trudnym poziomie trudności:</string>
     <string name="warning">Wszelkie postępy zostaną utracone.\nCzy na pewno chcesz wyjść do menu?\n</string>
+    <string name="settings">Opcje</string>
+    <string name="move_with_click">Przesuwaj bloki kliknięciem</string>
+    <string name="multi_move_with_click">Przesuwaj wiele bloków kliknięciem</string>
 </resources>

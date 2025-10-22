@@ -26,9 +26,11 @@ open class Field(open var y: Int, open var x : Int, open val color : Color, open
     @Composable
     open fun drawBox(activity: MainActivity){
         Box(Modifier.height((90-this.board.size*5).dp).width((90-this.board.size*5).dp).padding(5.dp, 5.dp).background(this.color).clickable {
-            if(this.canMove()){
-                this.move();
-                redraw(this.board, activity);
+            if(activity.settings.moveBlocksWithClick){
+                if(this.canMove()){
+                    this.move();
+                    redraw(this.board, activity);
+                }
             }
         }.draggable(rememberDraggableState {
             if(it != 0F){

@@ -118,6 +118,15 @@ fun menu(activity: MainActivity){
                 Text(text = stringResource(R.string.h2p));
             }
         }
+        Row(modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .padding(top = 20.dp)) {
+            Button(onClick = {
+                settings(activity);
+            }) {
+                Text(text = stringResource(R.string.settings));
+            }
+        }
 
     }
 
