@@ -23,4 +23,11 @@
     <string name="settings">Opcje</string>
     <string name="move_with_click">Przesuwaj bloki kliknięciem</string>
     <string name="multi_move_with_click">Przesuwaj wiele bloków kliknięciem</string>
+    <string name="scores">Wyniki</string>
+    <string name="scores_empty">Nic tu nie ma...</string>
+    <string name="time">Czas</string>
+    <string name="moves">Ruchy</string>
+    <string name="difficulty">Trudność</string>
+    <string name="size">Rozmiar</string>
+    <string name="date">Data</string>
 </resources>

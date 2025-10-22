@@ -6,7 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.fryc.gra.storage.AppDataContainer
-import net.fryc.gra.storage.Settings
+import net.fryc.gra.storage.score.Score
+import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.screen.startMenu
 import java.util.logging.Logger
 
@@ -14,6 +15,7 @@ class MainActivity(var isInMenu : Boolean = true) : ComponentActivity() {
 
     var container : AppDataContainer? = null;
     var settings : Settings = Settings(0, false, false);
+    var scores : List<Score> = ArrayList<Score>();
 
     companion object {
         val LOGGER : Logger = Logger.getLogger("gra");
@@ -26,6 +28,7 @@ class MainActivity(var isInMenu : Boolean = true) : ComponentActivity() {
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         this.container = AppDataContainer(this.baseContext);
         this.updateSettings();
+        this.updateScores();
 
         startMenu(this);
     }
@@ -46,6 +49,14 @@ class MainActivity(var isInMenu : Boolean = true) : ComponentActivity() {
                 if (it != null) {
                     this@MainActivity.settings = it;
                 }
+            }
+        }
+    }
+
+    fun updateScores() {
+        this.container?.viewModelScope?.launch {
+            this@MainActivity.container?.scoreRepository?.getAllScores()?.collect {
+                this@MainActivity.scores = it;
             }
         }
     }

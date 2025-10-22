@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DatePicker
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,15 +27,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.fryc.gra.MainActivity
 import net.fryc.gra.R
 import net.fryc.gra.board.Board
 import net.fryc.gra.board.Difficulty
+import net.fryc.gra.storage.score.Score
 import net.fryc.gra.ui.theme.GraTheme
 import java.sql.Time
 import java.time.Clock
 import java.time.Duration
+import java.util.Date
 import kotlin.time.Duration.Companion.milliseconds
 
 
@@ -57,12 +62,17 @@ fun redraw(board: Board, activity: MainActivity){
 
 @Composable
 fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
+    var shouldKeepTicking by remember {
+        mutableStateOf(true)
+    }
     var refresh by remember {
         mutableStateOf(false);
     }
     LaunchedEffect(key1 = refresh) {
-        delay(50);
-        refresh = !refresh;
+        if(shouldKeepTicking){
+            delay(50);
+            refresh = !refresh;
+        }
     }
     val clock by remember {
         derivedStateOf { Clock.tick(Clock.systemDefaultZone(), Duration.ofSeconds(1)) }
@@ -102,13 +112,35 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
         Spacer(modifier = Modifier.size(90.dp));
 
         if(board.checkWin()){
+            shouldKeepTicking = false;
+            val score by remember {
+                derivedStateOf { Score(
+                    movesAmount = 12,
+                    timeInSeconds = Time.from(clock.instant()).time.minus(startTime).milliseconds.inWholeSeconds,
+                    difficulty = board.difficulty.ordinal,
+                    size = board.size,
+                    date = Date.from(clock.instant()).toString(),
+                ) }
+            }
+
             AlertDialog(onDismissRequest = {
                 startMenu(activity);
             }, confirmButton = {
                 TextButton(onClick = {
+                    activity.container?.viewModelScope?.launch {
+                        val score2 : Score = score;
+                        activity.container?.scoreRepository?.saveScore(score2);
+                    }
+
                     startMenu(activity);
                 }) {
-                    Text(text = "Ok");
+                    Text(text = "Zapisz i wyjdź");
+                }
+            }, dismissButton = {
+                TextButton(onClick = {
+                    startMenu(activity);
+                }) {
+                    Text(text = "Wyjdź");
                 }
             }, text = {
                 Text(text = stringResource(R.string.win));

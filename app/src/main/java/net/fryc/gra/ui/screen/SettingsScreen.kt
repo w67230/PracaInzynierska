@@ -20,7 +20,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.fryc.gra.MainActivity
 import net.fryc.gra.R
-import net.fryc.gra.storage.Settings
+import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.theme.GraTheme
 
 fun settings(activity: MainActivity){

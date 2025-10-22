@@ -11,6 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import net.fryc.gra.R
+import net.fryc.gra.board.Difficulty
 
 
 @Composable
@@ -34,5 +36,34 @@ fun addNavigationBar(modifier : Modifier, onBackPress : () -> Unit, showHelp : B
                 Text("?", fontWeight = FontWeight.Bold, fontSize = 5.em);
             }
         }
+    }
+}
+
+fun getDifficultyFromInt(difficulty : Int): Difficulty {
+    return when(difficulty){
+        0 -> Difficulty.EASY;
+        1 -> Difficulty.NORMAL;
+        2 -> Difficulty.HARD;
+        else -> Difficulty.VERY_HARD;
+    }
+}
+
+@Composable
+fun getDifficultyName(difficulty : Difficulty) : String {
+    return when(difficulty){
+        Difficulty.EASY -> stringResource(R.string.easy);
+        Difficulty.NORMAL -> stringResource(R.string.normal);
+        Difficulty.HARD -> stringResource(R.string.hard);
+        Difficulty.VERY_HARD -> stringResource(R.string.v_hard);
+    }
+}
+
+@Composable
+fun getSizeName(size : Int) : String {
+    return when(size){
+        4 -> stringResource(R.string.size_4);
+        5 -> stringResource(R.string.size_5);
+        6 -> stringResource(R.string.size_6);
+        else -> stringResource(R.string.size_6);
     }
 }

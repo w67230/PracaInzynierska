@@ -52,22 +52,19 @@ fun menu(activity: MainActivity){
         Text(text = stringResource(R.string.app_name), modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(bottom = 50.dp), fontSize = 50.sp);
+
         Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
             Text(text = stringResource(R.string.size_info), fontSize = 20.sp, modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .padding(end = 17.dp));
+
             Slider(modifier = Modifier
                 .width(100.dp)
                 .padding(end = 7.dp),value = size.toFloat(),valueRange = 4f..6f, steps = 3, onValueChange = {
                 size = it.toInt();
             })
-            val sizeString = when(size){
-                4 -> stringResource(R.string.size_4);
-                5 -> stringResource(R.string.size_5);
-                6 -> stringResource(R.string.size_6);
-                else -> stringResource(R.string.size_6);
-            }
-            Text(text = sizeString, fontSize = 20.sp, modifier = Modifier
+
+            Text(text = getSizeName(size), fontSize = 20.sp, modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .fillMaxWidth(0.6f));
         }
@@ -79,27 +76,15 @@ fun menu(activity: MainActivity){
             Slider(modifier = Modifier
                 .width(100.dp)
                 .padding(end = 7.dp),value = difficulty.ordinal.toFloat(),valueRange = 0f..3f, steps = 4, onValueChange = {
-                difficulty = when(it.toInt()){
-                    0 -> Difficulty.EASY;
-                    1 -> Difficulty.NORMAL;
-                    2 -> Difficulty.HARD;
-                    3 -> Difficulty.VERY_HARD;
-                    else -> Difficulty.VERY_HARD;
-                }
+                difficulty = getDifficultyFromInt(it.toInt());
             });
 
-            val diffString = when(difficulty){
-                Difficulty.EASY -> stringResource(R.string.easy);
-                Difficulty.NORMAL -> stringResource(R.string.normal);
-                Difficulty.HARD -> stringResource(R.string.hard);
-                Difficulty.VERY_HARD -> stringResource(R.string.v_hard);
-            }
-
-            Text(text = diffString, fontSize = 20.sp, modifier = Modifier
+            Text(text = getDifficultyName(difficulty), fontSize = 20.sp, modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .fillMaxWidth(0.6f));
 
         }
+
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
@@ -109,6 +94,17 @@ fun menu(activity: MainActivity){
                 Text(text = stringResource(R.string.start));
             }
         }
+
+        Row(modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .padding(top = 20.dp)) {
+            Button(onClick = {
+                score(activity);
+            }) {
+                Text(text = stringResource(R.string.scores));
+            }
+        }
+
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
@@ -118,6 +114,7 @@ fun menu(activity: MainActivity){
                 Text(text = stringResource(R.string.h2p));
             }
         }
+
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
@@ -127,7 +124,5 @@ fun menu(activity: MainActivity){
                 Text(text = stringResource(R.string.settings));
             }
         }
-
     }
-
 }

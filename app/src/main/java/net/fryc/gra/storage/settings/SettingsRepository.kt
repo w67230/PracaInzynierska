@@ -1,4 +1,4 @@
-package net.fryc.gra.storage
+package net.fryc.gra.storage.settings
 
 import kotlinx.coroutines.flow.Flow
 

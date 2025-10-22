@@ -1,4 +1,4 @@
-package net.fryc.gra.storage
+package net.fryc.gra.storage.settings
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -13,5 +13,5 @@ interface SettingsDao {
     suspend fun saveOptions(settings: Settings);
 
     @Query("SELECT * from settings WHERE id = 0")
-    fun getOptions(): Flow<Settings>
+    fun getOptions(): Flow<Settings?>
 }
