@@ -42,56 +42,18 @@ fun startMenu(activity: MainActivity){
 
 @Composable
 fun menu(activity: MainActivity){
-    var size by remember {
-        mutableIntStateOf(4);
-    }
-    var difficulty by remember {
-        mutableStateOf(Difficulty.EASY);
-    }
     Column(modifier = Modifier.padding(start = 30.dp, end = 20.dp, top = 80.dp)) {
         Text(text = stringResource(R.string.app_name), modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(bottom = 50.dp), fontSize = 50.sp);
 
-        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(text = stringResource(R.string.size_info), fontSize = 20.sp, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(end = 17.dp));
-
-            Slider(modifier = Modifier
-                .width(100.dp)
-                .padding(end = 7.dp),value = size.toFloat(),valueRange = 4f..6f, steps = 3, onValueChange = {
-                size = it.toInt();
-            })
-
-            Text(text = getSizeName(size), fontSize = 20.sp, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .fillMaxWidth(0.6f));
-        }
-
-        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(text = stringResource(R.string.difficulty_info), fontSize = 20.sp, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(end = 7.dp));
-            Slider(modifier = Modifier
-                .width(100.dp)
-                .padding(end = 7.dp),value = difficulty.ordinal.toFloat(),valueRange = 0f..3f, steps = 4, onValueChange = {
-                difficulty = getDifficultyFromInt(it.toInt());
-            });
-
-            Text(text = getDifficultyName(difficulty), fontSize = 20.sp, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .fillMaxWidth(0.6f));
-
-        }
-
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
             Button(onClick = {
-                startGame(size, difficulty, activity);
+                customization(activity);
             }) {
-                Text(text = stringResource(R.string.start));
+                Text(text = stringResource(R.string.play));
             }
         }
 

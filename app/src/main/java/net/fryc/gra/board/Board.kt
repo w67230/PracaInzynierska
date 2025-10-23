@@ -1,7 +1,6 @@
 package net.fryc.gra.board
 
 import androidx.compose.ui.graphics.Color
-import net.fryc.gra.MainActivity
 import net.fryc.gra.storage.settings.Settings
 import kotlin.random.Random
 
