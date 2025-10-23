@@ -112,13 +112,15 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
 
         if(board.checkWin()){
             shouldKeepTicking = false;
+            val time : Long = Time.from(clock.instant()).time.minus(startTime).milliseconds.inWholeSeconds;
+            val date : String = Date.from(clock.instant()).toString();
             val score by remember {
                 derivedStateOf { Score(
                     movesAmount = 12,
-                    timeInSeconds = Time.from(clock.instant()).time.minus(startTime).milliseconds.inWholeSeconds,
+                    timeInSeconds = time,
                     difficulty = board.difficulty.ordinal,
                     size = board.size,
-                    date = Date.from(clock.instant()).toString(),
+                    date = date,
                 ) }
             }
 
@@ -168,7 +170,7 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
             }, confirmButton = {
                 TextButton(onClick = {
                     shouldShowWarning = false;
-                    startMenu(activity);
+                    customization(activity);
                 }) {
                     Text(text = "Tak");
                 }
