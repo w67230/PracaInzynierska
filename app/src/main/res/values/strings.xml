@@ -30,4 +30,10 @@
     <string name="difficulty">Trudność</string>
     <string name="size">Rozmiar</string>
     <string name="date">Data</string>
+    <string name="block_colors">Kolory bloków</string>
+    <string name="cancel">Anuluj</string>
+    <string name="save">Zapisz</string>
+    <string name="red">Czerwony</string>
+    <string name="green">Zielony</string>
+    <string name="blue">Niebieski</string>
 </resources>

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DatePicker
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -44,7 +43,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 
 fun startGame(size : Int = 4, difficulty : Difficulty = Difficulty.EASY, activity: MainActivity){
-    val board = Board(size, difficulty);
+    val board = Board(size, difficulty, activity.settings);
     activity.isInMenu = false;
     redraw(board, activity);
 }

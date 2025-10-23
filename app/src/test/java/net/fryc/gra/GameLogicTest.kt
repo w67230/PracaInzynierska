@@ -4,16 +4,29 @@ import androidx.compose.ui.graphics.Color
 import net.fryc.gra.board.Board
 import net.fryc.gra.board.Difficulty
 import net.fryc.gra.board.Field
+import net.fryc.gra.storage.settings.Settings
 import org.junit.Assert
 import org.junit.Test
 
 
 class GameLogicTest {
 
+    private val settings : Settings = Settings(
+        0,
+        false,
+        false,
+        Color.Red.red, Color.Red.green, Color.Red.blue,
+        Color.Green.red, Color.Green.green, Color.Green.blue,
+        Color.Blue.red, Color.Blue.green, Color.Blue.blue,
+        Color.Magenta.red, Color.Magenta.green, Color.Magenta.blue,
+        Color.DarkGray.red, Color.DarkGray.green, Color.DarkGray.blue,
+        Color.Yellow.red, Color.Yellow.green, Color.Yellow.blue
+    );
+
     @Test
     fun when_rowsOrColumnsAreCorrectlyOrdered_then_PlayerWins() {
-        val board = Board(4, Difficulty.EASY);
-        val normalBoard = Board(4, Difficulty.NORMAL);
+        val board = Board(4, Difficulty.EASY, this.settings);
+        val normalBoard = Board(4, Difficulty.NORMAL, this.settings);
         val wrongRowsCorrectColumns = ArrayList<Field>();
         val wrongColumnsCorrectRows = ArrayList<Field>();
 

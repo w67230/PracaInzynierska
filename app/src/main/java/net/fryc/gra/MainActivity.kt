@@ -3,6 +3,7 @@ package net.fryc.gra
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.fryc.gra.storage.AppDataContainer
@@ -14,7 +15,17 @@ import java.util.logging.Logger
 class MainActivity(var isInMenu : Boolean = true) : ComponentActivity() {
 
     var container : AppDataContainer? = null;
-    var settings : Settings = Settings(0, false, false);
+    var settings : Settings = Settings(
+        0,
+        false,
+        false,
+        Color.Red.red, Color.Red.green, Color.Red.blue,
+        Color.Green.red, Color.Green.green, Color.Green.blue,
+        Color.Blue.red, Color.Blue.green, Color.Blue.blue,
+        Color.Magenta.red, Color.Magenta.green, Color.Magenta.blue,
+        Color.DarkGray.red, Color.DarkGray.green, Color.DarkGray.blue,
+        Color.Yellow.red, Color.Yellow.green, Color.Yellow.blue
+    );
     var scores : List<Score> = ArrayList<Score>();
 
     companion object {

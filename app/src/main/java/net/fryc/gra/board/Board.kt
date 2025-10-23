@@ -2,9 +2,10 @@ package net.fryc.gra.board
 
 import androidx.compose.ui.graphics.Color
 import net.fryc.gra.MainActivity
+import net.fryc.gra.storage.settings.Settings
 import kotlin.random.Random
 
-class Board(val size : Int, val difficulty: Difficulty) {
+class Board(val size : Int, val difficulty: Difficulty, val settings: Settings) {
 
     val fields = ArrayList<Field>();
     val fieldsMatrix : ArrayList<ArrayList<Field>>;
@@ -45,7 +46,6 @@ class Board(val size : Int, val difficulty: Difficulty) {
 
             if(field2 != null){
                 this.fields[this.fields.indexOf(field2)] = Field(field2.y, field2.x, field2.color, field.value, field2.board);
-                MainActivity.LOGGER.warning(this.sameValuesAmount.toString());
                 this.sameValuesAmount++;
             }
         }
@@ -110,27 +110,27 @@ class Board(val size : Int, val difficulty: Difficulty) {
         when(number){
             0 -> {
                 redFieldsCount++;
-                return Color.Red
+                return Color(this.settings.firstRed, this.settings.firstGreen, this.settings.firstBlue);
             };
             1 -> {
                 greenFieldsCount++;
-                return Color.Green
+                return Color(this.settings.secondRed, this.settings.secondGreen, this.settings.secondBlue);
             };
             2 -> {
                 blueFieldsCount++;
-                return Color.Cyan
+                return Color(this.settings.thirdRed, this.settings.thirdGreen, this.settings.thirdBlue);
             };
             3 -> {
                 magentaFieldsCount++;
-                return Color.Magenta
+                return Color(this.settings.fourthRed, this.settings.fourthGreen, this.settings.fourthBlue);
             };
             4 -> {
                 grayFieldsCount++;
-                return Color.DarkGray
+                return Color(this.settings.fifthRed, this.settings.fifthGreen, this.settings.fifthBlue);
             };
             else -> {
                 yellowFieldsCount++;
-                return Color.Yellow
+                return Color(this.settings.sixthRed, this.settings.sixthGreen, this.settings.sixthBlue);
             };
         }
     }
