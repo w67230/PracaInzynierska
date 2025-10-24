@@ -30,16 +30,21 @@ open class Field(open var y: Int, open var x : Int, open val color : Color, open
             if(activity.settings.moveBlocksWithClick){
                 if(this.canMove()){
                     this.move();
+                    this.board.increaseMovesCount();
                     redraw(this.board, activity);
                 }
             }
         }.draggable(rememberDraggableState {
             if(it != 0F){
-                this.tryToMove(if(it < 0) Direction.LEFT else Direction.RIGHT, activity)
+                if(this.tryToMove(if(it < 0) Direction.LEFT else Direction.RIGHT, activity)){
+                    this.board.increaseMovesCount();
+                }
             }
         }, Orientation.Horizontal).draggable(rememberDraggableState {
             if(it != 0F){
-                this.tryToMove(if(it < 0) Direction.UP else Direction.DOWN, activity)
+                if(this.tryToMove(if(it < 0) Direction.UP else Direction.DOWN, activity)){
+                    this.board.increaseMovesCount();
+                }
             }
         }, Orientation.Vertical)) {
             if(this@Field.value > 0 && this@Field.board.difficulty > Difficulty.EASY){
@@ -62,18 +67,22 @@ open class Field(open var y: Int, open var x : Int, open val color : Color, open
         }
     }
 
-    open fun tryToMove(direction : Direction, activity: MainActivity, multiMove : Boolean = true) {
+    open fun tryToMove(direction : Direction, activity: MainActivity, multiMove : Boolean = true) : Boolean {
         val blackField = this.board.getBlackField();
         if(this.isOnSameLine(blackField)){
             if(direction.isDirectionalMovingPossible(this, blackField)){
                 this.move(blackField);
                 redraw(this.board, activity);
+
+                return true;
             }
             else if(multiMove){
                 this.tryToMultiMove(direction, activity);
-                this.tryToMove(direction, activity, false);
+                return this.tryToMove(direction, activity, false);
             }
         }
+
+        return false;
     }
 
     open fun tryToMultiMove(direction : Direction, activity: MainActivity) {

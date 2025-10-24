@@ -18,7 +18,8 @@ class BlackField(override var y: Int, override var x : Int, override val value :
         Box(Modifier.height((90-this.board.size*5).dp).width((90-this.board.size*5).dp).padding(5.dp, 5.dp).background(this.color));
     }
 
-    override fun tryToMove(direction : Direction, activity: MainActivity, multiMove : Boolean) {
+    override fun tryToMove(direction : Direction, activity: MainActivity, multiMove : Boolean) : Boolean {
+        return false;
     }
 
     override fun tryToMultiMove(direction : Direction, activity: MainActivity) {

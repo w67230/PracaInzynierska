@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -61,31 +63,21 @@ fun redraw(board: Board, activity: MainActivity){
 
 @Composable
 fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
-    var shouldKeepTicking by remember {
-        mutableStateOf(true)
-    }
-    var refresh by remember {
-        mutableStateOf(false);
-    }
+    var shouldKeepTicking by remember { mutableStateOf(true) }
+    var refresh by remember { mutableStateOf(false); }
+
     LaunchedEffect(key1 = refresh) {
         if(shouldKeepTicking){
             delay(50);
             refresh = !refresh;
         }
     }
-    val clock by remember {
-        derivedStateOf { Clock.tick(Clock.systemDefaultZone(), Duration.ofSeconds(1)) }
-    }
-    val startTime by remember {
-        derivedStateOf { clock.millis() }
-    }
 
-    var shouldShowHelp by remember {
-        mutableStateOf(false);
-    }
-    var shouldShowWarning by remember {
-        mutableStateOf(false);
-    }
+    val clock by remember { derivedStateOf { Clock.tick(Clock.systemDefaultZone(), Duration.ofSeconds(1)) } }
+    val startTime by remember { derivedStateOf { clock.millis() } }
+
+    var shouldShowHelp by remember { mutableStateOf(false); }
+    var shouldShowWarning by remember { mutableStateOf(false); }
 
     Column(modifier) {
         addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
@@ -96,7 +88,7 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
 
         Spacer(modifier = Modifier.size(50.dp));
         Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(text = Time.from(clock.instant()).time.minus(startTime).milliseconds.toString(), fontWeight = FontWeight.Bold, fontSize = 5.em);
+            Text(text = Time.from(clock.instant()).time.minus(startTime).milliseconds.toString(), fontWeight = FontWeight.Bold, fontSize = 28.sp);
         }
         Spacer(modifier = Modifier.size(30.dp));
 
@@ -108,15 +100,21 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
             }
         }
 
-        Spacer(modifier = Modifier.size(90.dp));
+        Spacer(modifier = Modifier.size(50.dp));
+
+        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+            Text(text = stringResource(R.string.moves_done) + " " + board.moves, fontSize = 30.sp);
+        }
 
         if(board.checkWin()){
             shouldKeepTicking = false;
             val time : Long = Time.from(clock.instant()).time.minus(startTime).milliseconds.inWholeSeconds;
             val date : String = Date.from(clock.instant()).toString();
+            // TODO w bazie zapisuje jako int a nie long
+            // TODO przeniesc liczenie czasu do boarda
             val score by remember {
                 derivedStateOf { Score(
-                    movesAmount = 12,
+                    movesAmount = board.moves.toInt(),
                     timeInSeconds = time,
                     difficulty = board.difficulty.ordinal,
                     size = board.size,

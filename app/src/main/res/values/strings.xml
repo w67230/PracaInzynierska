@@ -37,4 +37,5 @@
     <string name="green">Zielony</string>
     <string name="blue">Niebieski</string>
     <string name="play">Graj</string>
+    <string name="moves_done">Wykonane ruchy:</string>
 </resources>

@@ -8,6 +8,7 @@ class Board(val size : Int, val difficulty: Difficulty, val settings: Settings) 
 
     val fields = ArrayList<Field>();
     val fieldsMatrix : ArrayList<ArrayList<Field>>;
+    var moves : Long = 0;
     var redFieldsCount = 0;
     var greenFieldsCount = 0;
     var blueFieldsCount = 0;
@@ -269,6 +270,10 @@ class Board(val size : Int, val difficulty: Difficulty, val settings: Settings) 
      */
     fun compareValues(value1 : Int, value2 : Int) : Boolean {
         return if(value2 < 1) true else value1 <= value2;
+    }
+
+    fun increaseMovesCount() {
+        this.moves++;
     }
 
 }
