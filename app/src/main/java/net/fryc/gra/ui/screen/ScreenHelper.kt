@@ -1,7 +1,9 @@
 package net.fryc.gra.ui.screen
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Text
@@ -11,8 +13,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import net.fryc.gra.R
 import net.fryc.gra.board.Difficulty
+import net.fryc.gra.ui.theme.getButtonColor
 
 
 @Composable
@@ -37,6 +41,20 @@ fun addNavigationBar(modifier : Modifier, onBackPress : () -> Unit, showHelp : B
             }
         }
     }
+}
+
+@Composable
+fun addButton(modifier : Modifier = Modifier, onClick : () -> Unit, content : @Composable (() -> Unit)) {
+    Button(colors = getButtonColor(), modifier = modifier.fillMaxWidth(0.45F), onClick = {
+        onClick.invoke();
+    }) {
+        content.invoke();
+    }
+}
+
+@Composable
+fun addButtonText(modifier : Modifier = Modifier, text : String) {
+    Text(text = text, modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 24.sp);
 }
 
 fun getDifficultyFromInt(difficulty : Int): Difficulty {

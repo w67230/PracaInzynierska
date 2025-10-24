@@ -12,7 +12,7 @@
     <string name="v_hard">Bardzo Trudny</string>
     <string name="size_info">Rozmiar:</string>
     <string name="difficulty_info">Trudność:</string>
-    <string name="h2p">Jak Grać?</string>
+    <string name="h2p">Samouczek</string>
     <string name="cel_gry">Celem gry jest ułożenie kolorowych bloczków (poprzez klikanie lub przeciąganie ich) w taki sposób, aby w każdym wierszu, lub kolumnie, znajdował się 1 kolor.</string>
     <string name="cel_dodatkowo">Na poziomach trudności wyższych niż łatwy, bloczki zawierają liczby, które muszą zostać ułożone rosnąco w danym wierszu lub kolumnie (ułożenie według kolorów nadal obowiązuje)</string>
     <string name="przyklad_latwy">Przykładowe prawidłowe ułożenie na łatwym poziomie trudności:</string>
@@ -20,10 +20,10 @@
     <string name="tytul_poziomy">Poziomy trudności</string>
     <string name="hard_cel_przyklad">Przykładowe prawidłowe ułożenie na trudnym poziomie trudności:</string>
     <string name="warning">Wszelkie postępy zostaną utracone.\nCzy na pewno chcesz wyjść do menu?\n</string>
-    <string name="settings">Opcje</string>
+    <string name="settings">Ustawienia</string>
     <string name="move_with_click">Przesuwaj bloki kliknięciem</string>
     <string name="multi_move_with_click">Przesuwaj wiele bloków kliknięciem</string>
-    <string name="scores">Wyniki</string>
+    <string name="scores">Zapisane wyniki</string>
     <string name="scores_empty">Nic tu nie ma...</string>
     <string name="time">Czas</string>
     <string name="moves">Ruchy</string>

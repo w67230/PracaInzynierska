@@ -18,7 +18,8 @@ import androidx.core.view.WindowCompat
 private val DarkColorScheme = darkColorScheme(
         primary = Purple80,
         secondary = PurpleGrey80,
-        tertiary = Pink80
+        tertiary = Pink80,
+        background = Tlo
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -57,7 +58,7 @@ fun GraTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            //window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
