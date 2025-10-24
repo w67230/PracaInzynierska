@@ -4,7 +4,13 @@ import androidx.compose.ui.graphics.Color
 import net.fryc.gra.storage.settings.Settings
 import kotlin.random.Random
 
-class Board(val size : Int, val difficulty: Difficulty, val settings: Settings) {
+class Board(
+    val size : Int,
+    val difficulty: Difficulty,
+    val settings: Settings,
+    val showTimer : Boolean = true,
+    val showMoves : Boolean = true
+) {
 
     val fields = ArrayList<Field>();
     val fieldsMatrix : ArrayList<ArrayList<Field>>;

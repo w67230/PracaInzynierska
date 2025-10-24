@@ -5,13 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,12 +43,10 @@ fun customization(activity: MainActivity){
 
 @Composable
 fun customizationScreen(activity: MainActivity) {
-    var size by remember {
-        mutableIntStateOf(4);
-    }
-    var difficulty by remember {
-        mutableStateOf(Difficulty.EASY);
-    }
+    var size by remember { mutableIntStateOf(4); }
+    var difficulty by remember { mutableStateOf(Difficulty.EASY); }
+    var showTimer by remember { mutableStateOf(true) }
+    var showMoves by remember { mutableStateOf(true) }
     Column {
 
         addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
@@ -67,9 +64,7 @@ fun customizationScreen(activity: MainActivity) {
                 size = it.toInt();
             })
 
-            Text(text = getSizeName(size), fontSize = 20.sp, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .fillMaxWidth(0.6f));
+            Text(text = getSizeName(size), fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterVertically));
         }
 
         Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
@@ -82,19 +77,39 @@ fun customizationScreen(activity: MainActivity) {
                 difficulty = getDifficultyFromInt(it.toInt());
             });
 
-            Text(text = getDifficultyName(difficulty), fontSize = 20.sp, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .fillMaxWidth(0.6f));
+            Text(text = getDifficultyName(difficulty), fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterVertically));
 
         }
 
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
-            Button(onClick = {
-                startGame(size, difficulty, activity);
+
+            Text("licznik czasu")
+
+            Switch(checked = showTimer, onCheckedChange = {
+                showTimer = !showTimer;
+            });
+        }
+
+        Row(modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .padding(top = 20.dp)) {
+
+            Text("licznik ruchow")
+
+            Switch(checked = showMoves, onCheckedChange = {
+                showMoves = !showMoves;
+            });
+        }
+
+        Row(modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .padding(top = 20.dp)) {
+            addButton(onClick = {
+                startGame(size, difficulty, showTimer, showMoves, activity);
             }) {
-                Text(text = stringResource(R.string.start));
+                addButtonText(text = stringResource(R.string.start));
             }
         }
     }

@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -44,8 +42,8 @@ import java.util.Date
 import kotlin.time.Duration.Companion.milliseconds
 
 
-fun startGame(size : Int = 4, difficulty : Difficulty = Difficulty.EASY, activity: MainActivity){
-    val board = Board(size, difficulty, activity.settings);
+fun startGame(size : Int = 4, difficulty : Difficulty = Difficulty.EASY, showTimer : Boolean = true, showMoves : Boolean = true, activity: MainActivity){
+    val board = Board(size, difficulty, activity.settings, showTimer, showMoves);
     activity.isInMenu = false;
     redraw(board, activity);
 }
@@ -87,9 +85,13 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
         }
 
         Spacer(modifier = Modifier.size(50.dp));
-        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(text = Time.from(clock.instant()).time.minus(startTime).milliseconds.toString(), fontWeight = FontWeight.Bold, fontSize = 28.sp);
+
+        if(board.showTimer){
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                Text(text = Time.from(clock.instant()).time.minus(startTime).milliseconds.toString(), fontWeight = FontWeight.Bold, fontSize = 28.sp);
+            }
         }
+
         Spacer(modifier = Modifier.size(30.dp));
 
         board.fieldsMatrix.forEach {
@@ -102,8 +104,10 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
 
         Spacer(modifier = Modifier.size(50.dp));
 
-        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(text = stringResource(R.string.moves_done) + " " + board.moves, fontSize = 30.sp);
+        if(board.showMoves){
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                Text(text = stringResource(R.string.moves_done) + " " + board.moves, fontSize = 30.sp);
+            }
         }
 
         if(board.checkWin()){
