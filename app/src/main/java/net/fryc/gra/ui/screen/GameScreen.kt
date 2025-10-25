@@ -71,9 +71,6 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
         }
     }
 
-    val clock by remember { derivedStateOf { Clock.tick(Clock.systemDefaultZone(), Duration.ofSeconds(1)) } }
-    val startTime by remember { derivedStateOf { clock.millis() } }
-
     var shouldShowHelp by remember { mutableStateOf(false); }
     var shouldShowWarning by remember { mutableStateOf(false); }
 
@@ -88,7 +85,7 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
 
         if(board.showTimer){
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text(text = Time.from(clock.instant()).time.minus(startTime).milliseconds.toString(), fontWeight = FontWeight.Bold, fontSize = 28.sp);
+                Text(text = board.getCurrentTime().toString(), fontWeight = FontWeight.Bold, fontSize = 28.sp);
             }
         }
 
@@ -112,10 +109,9 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
 
         if(board.checkWin()){
             shouldKeepTicking = false;
-            val time : Long = Time.from(clock.instant()).time.minus(startTime).milliseconds.inWholeSeconds;
-            val date : String = Date.from(clock.instant()).toString();
+            val time : Long = board.getCurrentTime().inWholeSeconds;
+            val date : String = Date.from(board.timer.instant()).toString();
             // TODO w bazie zapisuje jako int a nie long
-            // TODO przeniesc liczenie czasu do boarda
             val score by remember {
                 derivedStateOf { Score(
                     movesAmount = board.moves.toInt(),

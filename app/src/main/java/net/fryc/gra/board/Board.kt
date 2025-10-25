@@ -2,7 +2,11 @@ package net.fryc.gra.board
 
 import androidx.compose.ui.graphics.Color
 import net.fryc.gra.storage.settings.Settings
+import java.sql.Time
+import java.time.Clock
+import java.time.Duration
 import kotlin.random.Random
+import kotlin.time.Duration.Companion.milliseconds
 
 class Board(
     val size : Int,
@@ -14,6 +18,10 @@ class Board(
 
     val fields = ArrayList<Field>();
     val fieldsMatrix : ArrayList<ArrayList<Field>>;
+
+    val timer = Clock.tick(Clock.systemDefaultZone(), Duration.ofSeconds(1));
+    val startTime : Long = timer.millis();
+
     var moves : Long = 0;
     var redFieldsCount = 0;
     var greenFieldsCount = 0;
@@ -280,6 +288,10 @@ class Board(
 
     fun increaseMovesCount() {
         this.moves++;
+    }
+
+    fun getCurrentTime() : kotlin.time.Duration {
+        return Time.from(this.timer.instant()).time.minus(this.startTime).milliseconds;
     }
 
 }
