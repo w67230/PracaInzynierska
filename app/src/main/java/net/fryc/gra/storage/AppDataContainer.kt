@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import net.fryc.gra.storage.score.ScoreRepository
 import net.fryc.gra.storage.settings.SettingsRepository
 
-class AppDataContainer(private val context : Context) : ViewModel() {
+class AppDataContainer(private val context : Context) {
 
     val settingsRepository : SettingsRepository by lazy {
         SettingsRepository(GameDatabase.getDatabase(this.context).settingsDao());

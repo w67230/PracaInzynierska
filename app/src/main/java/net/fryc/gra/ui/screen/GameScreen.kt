@@ -35,11 +35,7 @@ import net.fryc.gra.board.Board
 import net.fryc.gra.board.Difficulty
 import net.fryc.gra.storage.score.Score
 import net.fryc.gra.ui.theme.GraTheme
-import java.sql.Time
-import java.time.Clock
-import java.time.Duration
 import java.util.Date
-import kotlin.time.Duration.Companion.milliseconds
 
 
 fun startGame(size : Int = 4, difficulty : Difficulty = Difficulty.EASY, showTimer : Boolean = true, showMoves : Boolean = true, activity: MainActivity){
@@ -126,7 +122,7 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
                 startMenu(activity);
             }, confirmButton = {
                 TextButton(onClick = {
-                    activity.container?.viewModelScope?.launch {
+                    activity.viewModel?.viewModelScope?.launch {
                         val score2 : Score = score;
                         activity.container?.scoreRepository?.saveScore(score2);
                     }
