@@ -1,4 +1,4 @@
-package net.fryc.gra.board
+package net.fryc.gra.logic
 
 enum class Difficulty {
 

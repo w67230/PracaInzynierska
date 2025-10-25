@@ -1,4 +1,4 @@
-package net.fryc.gra.board
+package net.fryc.gra.logic
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

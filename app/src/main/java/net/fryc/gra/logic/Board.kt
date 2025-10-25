@@ -1,4 +1,4 @@
-package net.fryc.gra.board
+package net.fryc.gra.logic
 
 import androidx.compose.ui.graphics.Color
 import net.fryc.gra.storage.settings.Settings

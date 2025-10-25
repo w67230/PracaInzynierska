@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import net.fryc.gra.R
-import net.fryc.gra.board.Difficulty
+import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.ui.theme.getButtonColor
 
 

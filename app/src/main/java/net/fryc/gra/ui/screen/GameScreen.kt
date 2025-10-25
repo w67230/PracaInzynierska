@@ -31,8 +31,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.fryc.gra.MainActivity
 import net.fryc.gra.R
-import net.fryc.gra.board.Board
-import net.fryc.gra.board.Difficulty
+import net.fryc.gra.logic.Board
+import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.storage.score.Score
 import net.fryc.gra.ui.theme.GraTheme
 import java.util.Date
