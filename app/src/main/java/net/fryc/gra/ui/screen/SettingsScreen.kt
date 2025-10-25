@@ -18,7 +18,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -91,7 +90,7 @@ fun settingsScreen(activity: MainActivity){
     Column {
 
         addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
-            activity.container?.viewModelScope?.launch {
+            activity.viewModel?.viewModelScope?.launch {
                 activity.container?.settingsRepository?.saveOptions(Settings(
                     0,
                     moveBlocksWithClick,

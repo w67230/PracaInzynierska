@@ -1,7 +1,6 @@
 package net.fryc.gra.storage
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
 import net.fryc.gra.storage.score.ScoreRepository
 import net.fryc.gra.storage.settings.SettingsRepository
 
