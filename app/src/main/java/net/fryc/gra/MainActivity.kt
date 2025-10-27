@@ -30,7 +30,7 @@ class MainActivity() : ComponentActivity() {
         Color.Yellow.red, Color.Yellow.green, Color.Yellow.blue
     );
     var scores : List<Score> = ArrayList<Score>();
-    val backStack : Stack<(activity : MainActivity) -> Unit> = Stack();
+    val backStack : Stack<(MainActivity) -> Unit> = Stack();
 
     companion object {
         val LOGGER : Logger = Logger.getLogger("gra");

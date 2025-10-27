@@ -227,7 +227,7 @@ private fun createColorBlock(color : Color, chosen : Boolean, onClick : () -> Un
         .background(color)
         .width(50.dp)
         .height(50.dp)
-        .border(5.dp, if(chosen) Color.Red else Color.Transparent)
+        .border(5.dp, if(chosen) Color.White else Color.Transparent)
         .clickable(onClick = {
         onClick.invoke();
     }));
