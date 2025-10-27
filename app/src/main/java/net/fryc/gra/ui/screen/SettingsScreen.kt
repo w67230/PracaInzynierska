@@ -7,16 +7,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -27,31 +32,52 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.fryc.gra.MainActivity
 import net.fryc.gra.R
 import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.theme.GraTheme
+import net.fryc.gra.ui.theme.getButtonColor
+import net.fryc.gra.ui.theme.getColorForNumbers
+import kotlin.random.Random
+
+val DEFAULT_SETTINGS : Settings = Settings(
+    0,
+    false, false, true, false,
+    Color.Red.red, Color.Red.green, Color.Red.blue,
+    Color.Green.red, Color.Green.green, Color.Green.blue,
+    Color.Blue.red, Color.Blue.green, Color.Blue.blue,
+    Color.Magenta.red, Color.Magenta.green, Color.Magenta.blue,
+    Color.DarkGray.red, Color.DarkGray.green, Color.DarkGray.blue,
+    Color.Yellow.red, Color.Yellow.green, Color.Yellow.blue
+)
 
 fun settings(activity: MainActivity){
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                settingsScreen(activity = activity);
+                SettingsScreen(activity = activity)
             }
         }
     }
 }
 
 @Composable
-fun settingsScreen(activity: MainActivity){
+fun SettingsScreen(activity: MainActivity){
+    var sthChanged by remember { mutableStateOf(false) }
+    var shouldShowWarning by remember { mutableStateOf(false) }
+    
     var moveBlocksWithClick by remember {
         mutableStateOf(activity.settings.moveBlocksWithClick)
     }
-    var multiMoveBlocksWithClick by remember { mutableStateOf(false) }
+    var multiMoveBlocksWithClick by remember { mutableStateOf(activity.settings.multiMoveWithCLick) }
 
     var chosenBlock by remember { mutableIntStateOf(0) }
 
@@ -86,86 +112,113 @@ fun settingsScreen(activity: MainActivity){
         )
     }
 
+    var addNumberBorder by remember { mutableStateOf(activity.settings.addNumberBorder) }
+    var switchNumbersColor by remember { mutableStateOf(activity.settings.switchNumbersColor) }
+
+    val changeCheck = {
+        sthChanged = !nothingChanged(
+            activity.settings,
+            moveBlocksWithClick,
+            multiMoveBlocksWithClick, switchNumbersColor, addNumberBorder,
+            first,
+            second,
+            third,
+            fourth,
+            fifth,
+            sixth
+        )
+    }
+
     Column {
 
         addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
-            activity.viewModel?.viewModelScope?.launch {
-                activity.container?.settingsRepository?.saveOptions(Settings(
-                    0,
-                    moveBlocksWithClick,
-                    false, false, false,
-                    first.red, first.green, first.blue,
-                    second.red, second.green, second.blue,
-                    third.red, third.green, third.blue,
-                    fourth.red, fourth.green, fourth.blue,
-                    fifth.red, fifth.green, fifth.blue,
-                    sixth.red, sixth.green, sixth.blue
-                ));
-
-            }.also {
-                activity.updateSettings();
+            if(sthChanged){
+                shouldShowWarning = true
             }
-            activity.onBackPressed();
+            else {
+                activity.onBackPressed()
+            }
         }, false) { }
 
-        Column {
-            Row(Modifier.align(Alignment.CenterHorizontally)) {
-                showSimpleText(R.string.move_with_click);
-                Switch(checked = moveBlocksWithClick, onCheckedChange = {
-                    moveBlocksWithClick = !moveBlocksWithClick;
-                })
+        Column(Modifier.fillMaxWidth(1F)) {
+            Column(Modifier.align(Alignment.CenterHorizontally)){
+                Row(Modifier.align(Alignment.CenterHorizontally)) {
+                    showSimpleText(R.string.move_with_click)
+                    Switch(checked = moveBlocksWithClick, onCheckedChange = {
+                        moveBlocksWithClick = !moveBlocksWithClick
+                        changeCheck.invoke()
+                    })
+                }
+
+                Row(Modifier.align(Alignment.CenterHorizontally)) {
+                    showSimpleText(R.string.multi_move_with_click)
+                    Switch(checked = multiMoveBlocksWithClick, enabled = moveBlocksWithClick, onCheckedChange = {
+                        multiMoveBlocksWithClick = !multiMoveBlocksWithClick
+                        changeCheck.invoke()
+                    })
+                }
+
+                Row(Modifier.align(Alignment.CenterHorizontally)) {
+                    showSimpleText(R.string.addNumberBorder)
+                    Switch(checked = addNumberBorder, onCheckedChange = {
+                        addNumberBorder = !addNumberBorder
+                        changeCheck.invoke()
+                    })
+                }
+
+                Row(Modifier.align(Alignment.CenterHorizontally)) {
+                    showSimpleText(R.string.switchNumberColor)
+                    Switch(checked = switchNumbersColor, onCheckedChange = {
+                        switchNumbersColor = !switchNumbersColor
+                        changeCheck.invoke()
+                    })
+                }
             }
 
-            Row(Modifier.align(Alignment.CenterHorizontally)) {
-                showSimpleText(R.string.multi_move_with_click);
-                Switch(checked = multiMoveBlocksWithClick, enabled = moveBlocksWithClick, onCheckedChange = {
-                    multiMoveBlocksWithClick = !multiMoveBlocksWithClick;
-                })
-            }
 
             var red by remember { mutableFloatStateOf(0.5f) }
             var green by remember { mutableFloatStateOf(0.5f) }
             var blue by remember { mutableFloatStateOf(0.5f) }
 
-            val color = Color(red, green, blue);
+            val color = Color(red, green, blue)
 
             Column(Modifier.align(Alignment.CenterHorizontally)) {
                 Row { showSimpleText(R.string.block_colors); }
                 Row {
-                    createColorBlock(if(chosenBlock == 1) color else first, chosenBlock == 1) {
-                        red = first.red;
-                        green = first.green;
-                        blue = first.blue;
+                    CreateColorBlock(if(chosenBlock == 1) color else first, chosenBlock == 1, addNumberBorder, switchNumbersColor) {
+                        red = first.red
+                        green = first.green
+                        blue = first.blue
                         chosenBlock = 1
                     }
-                    createColorBlock(if(chosenBlock == 2) color else second, chosenBlock == 2) {
-                        red = second.red;
-                        green = second.green;
-                        blue = second.blue;
+                    CreateColorBlock(if(chosenBlock == 2) color else second, chosenBlock == 2, addNumberBorder, switchNumbersColor) {
+                        red = second.red
+                        green = second.green
+                        blue = second.blue
                         chosenBlock = 2
                     }
-                    createColorBlock(if(chosenBlock == 3) color else third, chosenBlock == 3) {
-                        red = third.red;
-                        green = third.green;
-                        blue = third.blue;
+                    CreateColorBlock(if(chosenBlock == 3) color else third, chosenBlock == 3, addNumberBorder, switchNumbersColor) {
+                        red = third.red
+                        green = third.green
+                        blue = third.blue
                         chosenBlock = 3
                     }
-                    createColorBlock(if(chosenBlock == 4) color else fourth, chosenBlock == 4) {
-                        red = fourth.red;
-                        green = fourth.green;
-                        blue = fourth.blue;
+                    CreateColorBlock(if(chosenBlock == 4) color else fourth, chosenBlock == 4, addNumberBorder, switchNumbersColor) {
+                        red = fourth.red
+                        green = fourth.green
+                        blue = fourth.blue
                         chosenBlock = 4
                     }
-                    createColorBlock(if(chosenBlock == 5) color else fifth, chosenBlock == 5) {
-                        red = fifth.red;
-                        green = fifth.green;
-                        blue = fifth.blue;
+                    CreateColorBlock(if(chosenBlock == 5) color else fifth, chosenBlock == 5, addNumberBorder, switchNumbersColor) {
+                        red = fifth.red
+                        green = fifth.green
+                        blue = fifth.blue
                         chosenBlock = 5
                     }
-                    createColorBlock(if(chosenBlock == 6) color else sixth, chosenBlock == 6) {
-                        red = sixth.red;
-                        green = sixth.green;
-                        blue = sixth.blue;
+                    CreateColorBlock(if(chosenBlock == 6) color else sixth, chosenBlock == 6, addNumberBorder, switchNumbersColor) {
+                        red = sixth.red
+                        green = sixth.green
+                        blue = sixth.blue
                         chosenBlock = 6
                     }
                 }
@@ -173,62 +226,203 @@ fun settingsScreen(activity: MainActivity){
                 if(chosenBlock > 0){
                     Row {
                         Column {
-                            Text(stringResource(R.string.red));
-                            createColorSlider(red) { red = it }
+                            Text(stringResource(R.string.red))
+                            CreateColorSlider(red) { red = it }
                         }
                         Column {
-                            Text(stringResource(R.string.green));
-                            createColorSlider(green) { green = it }
+                            Text(stringResource(R.string.green))
+                            CreateColorSlider(green) { green = it }
                         }
                         Column {
-                            Text(stringResource(R.string.blue));
-                            createColorSlider(blue) { blue = it }
+                            Text(stringResource(R.string.blue))
+                            CreateColorSlider(blue) { blue = it }
                         }
                     }
 
                     Row {
                         Button({
-                            chosenBlock = 0;
+                            chosenBlock = 0
                         }) { Text(stringResource(R.string.cancel)) }
 
                         Button({
                             when(chosenBlock) {
-                                1 -> first = color;
-                                2 -> second = color;
-                                3 -> third = color;
-                                4 -> fourth = color;
-                                5 -> fifth = color;
-                                6 -> sixth = color;
+                                1 -> first = color
+                                2 -> second = color
+                                3 -> third = color
+                                4 -> fourth = color
+                                5 -> fifth = color
+                                6 -> sixth = color
                             }
-                            chosenBlock = 0;
+                            chosenBlock = 0
+                            changeCheck.invoke()
                         }) { Text(stringResource(R.string.save)) }
+                    }
+                }
+            }
+
+            Spacer(Modifier.size(10.dp))
+
+            Column(Modifier.align(Alignment.CenterHorizontally)) {
+                Row(Modifier.align(Alignment.CenterHorizontally)) {
+                    Button(modifier = Modifier.width(200.dp), colors = getButtonColor(), onClick = {
+                        moveBlocksWithClick = DEFAULT_SETTINGS.moveBlocksWithClick
+                        multiMoveBlocksWithClick = DEFAULT_SETTINGS.multiMoveWithCLick
+                        addNumberBorder = DEFAULT_SETTINGS.addNumberBorder
+                        switchNumbersColor = DEFAULT_SETTINGS.switchNumbersColor
+                        first = Color(DEFAULT_SETTINGS.firstRed, DEFAULT_SETTINGS.firstGreen, DEFAULT_SETTINGS.firstBlue)
+                        second = Color(DEFAULT_SETTINGS.secondRed, DEFAULT_SETTINGS.secondGreen, DEFAULT_SETTINGS.secondBlue)
+                        third = Color(DEFAULT_SETTINGS.thirdRed, DEFAULT_SETTINGS.thirdGreen, DEFAULT_SETTINGS.thirdBlue)
+                        fourth = Color(DEFAULT_SETTINGS.fourthRed, DEFAULT_SETTINGS.fourthGreen, DEFAULT_SETTINGS.fourthBlue)
+                        fifth = Color(DEFAULT_SETTINGS.fifthRed, DEFAULT_SETTINGS.fifthGreen, DEFAULT_SETTINGS.fifthBlue)
+                        sixth = Color(DEFAULT_SETTINGS.sixthRed, DEFAULT_SETTINGS.sixthGreen, DEFAULT_SETTINGS.sixthBlue)
+
+                        changeCheck.invoke()
+                    }) {
+                        addButtonText(text = stringResource(R.string.button_default))
+                    }
+
+                    Spacer(Modifier.width(50.dp))
+
+                    Button(modifier = Modifier.width(200.dp), colors = getButtonColor(), enabled = sthChanged, onClick = {
+                        saveSettings(activity, Settings(
+                            0,
+                            moveBlocksWithClick,
+                            multiMoveBlocksWithClick, switchNumbersColor, addNumberBorder,
+                            first.red, first.green, first.blue,
+                            second.red, second.green, second.blue,
+                            third.red, third.green, third.blue,
+                            fourth.red, fourth.green, fourth.blue,
+                            fifth.red, fifth.green, fifth.blue,
+                            sixth.red, sixth.green, sixth.blue
+                        ))
+
+                        sthChanged = false
+                    }) {
+                        addButtonText(text = stringResource(R.string.button_save))
                     }
                 }
             }
         }
     }
+
+    if(shouldShowWarning){
+        AlertDialog(onDismissRequest = {
+            shouldShowWarning = false
+        }, confirmButton = {
+            TextButton(onClick = {
+                shouldShowWarning = false
+                saveSettings(activity, Settings(
+                    0,
+                    moveBlocksWithClick,
+                    multiMoveBlocksWithClick, switchNumbersColor, addNumberBorder,
+                    first.red, first.green, first.blue,
+                    second.red, second.green, second.blue,
+                    third.red, third.green, third.blue,
+                    fourth.red, fourth.green, fourth.blue,
+                    fifth.red, fifth.green, fifth.blue,
+                    sixth.red, sixth.green, sixth.blue
+                ))
+                activity.onBackPressed()
+            }) {
+                Text(text = "Tak")
+            }
+        }, text = {
+            Text(text = stringResource(R.string.settings_warning))
+        }, dismissButton = {
+            TextButton(onClick = {
+                shouldShowWarning = false
+                activity.onBackPressed()
+            }) {
+                Text(text = "Nie")
+            }
+        })
+    }
 }
 
 @Composable
-private fun createColorSlider(value : Float, onValueChanged : (Float) -> Unit) {
+private fun CreateColorSlider(value : Float, onValueChanged : (Float) -> Unit) {
     Slider(
         modifier = Modifier.width(100.dp).padding(end = 7.dp),
         value = value,
         valueRange = 0f..1f,
         steps = 101,
         onValueChange = {
-        onValueChanged.invoke(it);
-    });
+        onValueChanged.invoke(it)
+        })
 }
 
 @Composable
-private fun createColorBlock(color : Color, chosen : Boolean, onClick : () -> Unit) {
+private fun CreateColorBlock(color : Color, chosen : Boolean, addNumberBorder : Boolean = false, switchNumbersColor : Boolean = false, onClick : () -> Unit) {
     Box(modifier = Modifier
         .background(color)
         .width(50.dp)
         .height(50.dp)
         .border(5.dp, if(chosen) Color.White else Color.Transparent)
         .clickable(onClick = {
-        onClick.invoke();
-    }));
+        onClick.invoke()
+        })) {
+        val number = Random.nextInt(1, 100).toString()
+        if(addNumberBorder){
+            Text(
+                text = number,
+                modifier = Modifier.align(Alignment.Center),
+                style = TextStyle(fontSize = 20.sp, color = getColorForNumbers(switchNumbersColor), drawStyle = Stroke(12f), letterSpacing = 2.sp, fontWeight = FontWeight.Bold)
+            )
+        }
+
+        Text(
+            text = number,
+            modifier = Modifier.align(Alignment.Center),
+            fontWeight = FontWeight.Black,
+            fontSize = 20.sp,
+            color = getColorForNumbers(!switchNumbersColor)
+        )
+    }
+}
+
+private fun saveSettings(activity : MainActivity, newSettings : Settings) {
+    activity.viewModel?.viewModelScope?.launch {
+        activity.container?.settingsRepository?.saveOptions(newSettings)
+
+    }.also {
+        activity.updateSettings()
+    }
+}
+
+private fun nothingChanged(
+    settings : Settings, 
+    moveWithClick : Boolean = settings.moveBlocksWithClick,
+    multiMoveWitchClick : Boolean = settings.multiMoveWithCLick,
+    switchNumbersColor : Boolean = settings.switchNumbersColor,
+    addNumberBorder : Boolean = settings.addNumberBorder,
+    first : Color = Color(settings.firstRed, settings.firstGreen, settings.firstBlue),
+    second : Color = Color(settings.secondRed, settings.secondGreen, settings.secondBlue),
+    third : Color = Color(settings.thirdRed, settings.thirdGreen, settings.thirdBlue),
+    fourth : Color = Color(settings.fourthRed, settings.fourthGreen, settings.fourthBlue),
+    fifth : Color = Color(settings.fifthRed, settings.fifthGreen, settings.fifthBlue),
+    sixth : Color = Color(settings.sixthRed, settings.sixthGreen, settings.sixthBlue),
+) : Boolean {
+
+    return settings.moveBlocksWithClick == moveWithClick &&
+            settings.multiMoveWithCLick == multiMoveWitchClick &&
+            settings.switchNumbersColor == switchNumbersColor &&
+            settings.addNumberBorder == addNumberBorder &&
+            settings.firstRed == first.red &&
+            settings.firstGreen == first.green &&
+            settings.firstBlue == first.blue &&
+            settings.secondRed == second.red &&
+            settings.secondGreen == second.green &&
+            settings.secondBlue == second.blue &&
+            settings.thirdRed == third.red &&
+            settings.thirdGreen == third.green &&
+            settings.thirdBlue == third.blue &&
+            settings.fourthRed == fourth.red &&
+            settings.fourthGreen == fourth.green &&
+            settings.fourthBlue == fourth.blue &&
+            settings.fifthRed == fifth.red &&
+            settings.fifthGreen == fifth.green &&
+            settings.fifthBlue == fifth.blue &&
+            settings.sixthRed == sixth.red &&
+            settings.sixthGreen == sixth.green &&
+            settings.sixthBlue == sixth.blue
 }

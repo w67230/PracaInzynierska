@@ -11,6 +11,7 @@ import net.fryc.gra.storage.AppDataContainer
 import net.fryc.gra.storage.AppViewModel
 import net.fryc.gra.storage.score.Score
 import net.fryc.gra.storage.settings.Settings
+import net.fryc.gra.ui.screen.DEFAULT_SETTINGS
 import net.fryc.gra.ui.screen.startMenu
 import java.util.Stack
 import java.util.logging.Logger
@@ -19,16 +20,7 @@ class MainActivity() : ComponentActivity() {
 
     var container : AppDataContainer? = null;
     var viewModel : ViewModel? = null;
-    var settings : Settings = Settings(
-        0,
-        false, false, false, false,
-        Color.Red.red, Color.Red.green, Color.Red.blue,
-        Color.Green.red, Color.Green.green, Color.Green.blue,
-        Color.Blue.red, Color.Blue.green, Color.Blue.blue,
-        Color.Magenta.red, Color.Magenta.green, Color.Magenta.blue,
-        Color.DarkGray.red, Color.DarkGray.green, Color.DarkGray.blue,
-        Color.Yellow.red, Color.Yellow.green, Color.Yellow.blue
-    );
+    var settings : Settings = DEFAULT_SETTINGS;
     var scores : List<Score> = ArrayList<Score>();
     val backStack : Stack<(MainActivity) -> Unit> = Stack();
 

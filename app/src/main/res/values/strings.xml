@@ -38,4 +38,9 @@
     <string name="blue">Niebieski</string>
     <string name="play">Graj</string>
     <string name="moves_done">Wykonane ruchy:</string>
+    <string name="addNumberBorder">Obramowania dla liczb</string>
+    <string name="switchNumberColor">Odwróć kolory liczb</string>
+    <string name="button_default">Domyślne</string>
+    <string name="button_save">Zapisz</string>
+    <string name="settings_warning">Wprowadzone zmiany nie zostały zapisane.\nCzy chcesz je zapisać?</string>
 </resources>
