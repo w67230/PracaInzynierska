@@ -39,29 +39,29 @@ import java.util.Date
 
 
 fun startGame(size : Int = 4, difficulty : Difficulty = Difficulty.EASY, showTimer : Boolean = true, showMoves : Boolean = true, activity: MainActivity){
-    val board = Board(size, difficulty, activity.settings, showTimer, showMoves);
-    redraw(board, activity);
+    val board = Board(size, difficulty, activity.settings, showTimer, showMoves)
+    redraw(board, activity)
 }
 
 fun redraw(board: Board, activity: MainActivity){
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                draw(board, activity);
+                Draw(board, activity)
             }
         }
     }
 }
 
 @Composable
-fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
+fun Draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
     var shouldKeepTicking by remember { mutableStateOf(true) }
     var refresh by remember { mutableStateOf(false); }
 
     LaunchedEffect(key1 = refresh) {
         if(shouldKeepTicking){
-            delay(50);
-            refresh = !refresh;
+            delay(50)
+            refresh = !refresh
         }
     }
 
@@ -69,42 +69,42 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
     var shouldShowWarning by remember { mutableStateOf(false); }
 
     Column(modifier) {
-        addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
-            shouldShowWarning = true;
+        AddNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
+            shouldShowWarning = true
         }, true) {
-            shouldShowHelp = true;
+            shouldShowHelp = true
         }
 
-        Spacer(modifier = Modifier.size(50.dp));
+        Spacer(modifier = Modifier.size(50.dp))
 
         if(board.showTimer){
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text(text = board.getCurrentTime().toString(), fontWeight = FontWeight.Bold, fontSize = 28.sp);
+                Text(text = board.getCurrentTime().toString(), fontWeight = FontWeight.Bold, fontSize = 28.sp)
             }
         }
 
-        Spacer(modifier = Modifier.size(30.dp));
+        Spacer(modifier = Modifier.size(30.dp))
 
         board.fieldsMatrix.forEach {
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                 it.forEach { field ->
-                    field.drawBox(activity);
+                    field.DrawBox(activity)
                 }
             }
         }
 
-        Spacer(modifier = Modifier.size(50.dp));
+        Spacer(modifier = Modifier.size(50.dp))
 
         if(board.showMoves){
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text(text = stringResource(R.string.moves_done) + " " + board.moves, fontSize = 30.sp);
+                Text(text = stringResource(R.string.moves_done) + " " + board.moves, fontSize = 30.sp)
             }
         }
 
         if(board.checkWin()){
-            shouldKeepTicking = false;
-            val time : Long = board.getCurrentTime().inWholeSeconds;
-            val date : String = Date.from(board.timer.instant()).toString();
+            shouldKeepTicking = false
+            val time : Long = board.getCurrentTime().inWholeSeconds
+            val date : String = Date.from(board.timer.instant()).toString()
             val score by remember {
                 derivedStateOf { Score(
                     movesAmount = board.moves,
@@ -116,66 +116,66 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
             }
 
             AlertDialog(onDismissRequest = {
-                startMenu(activity);
+                startMenu(activity)
             }, confirmButton = {
                 TextButton(onClick = {
                     activity.viewModel?.viewModelScope?.launch {
-                        val score2 : Score = score;
-                        activity.container?.scoreRepository?.saveScore(score2);
+                        val score2 : Score = score
+                        activity.container?.scoreRepository?.saveScore(score2)
                     }
 
-                    activity.backStack.clear();
-                    startMenu(activity);
+                    activity.backStack.clear()
+                    startMenu(activity)
                 }) {
-                    Text(text = "Zapisz i wyjdź");
+                    Text(text = "Zapisz i wyjdź")
                 }
             }, dismissButton = {
                 TextButton(onClick = {
-                    activity.backStack.clear();
-                    startMenu(activity);
+                    activity.backStack.clear()
+                    startMenu(activity)
                 }) {
-                    Text(text = "Wyjdź");
+                    Text(text = "Wyjdź")
                 }
             }, text = {
-                Text(text = stringResource(R.string.win));
-            });
+                Text(text = stringResource(R.string.win))
+            })
 
         }
 
         if(shouldShowHelp){
             AlertDialog(onDismissRequest = {
-                shouldShowHelp = false;
+                shouldShowHelp = false
             }, confirmButton = {
                 TextButton(onClick = {
-                    shouldShowHelp = false;
+                    shouldShowHelp = false
                 }) {
-                    Text(text = "Ok");
+                    Text(text = "Ok")
                 }
             }, text = {
                 Text(text =
                     stringResource(R.string.cel_gry) + "\n\n" + stringResource(R.string.cel_dodatkowo)
-                );
-            });
+                )
+            })
         }
         if(shouldShowWarning){
             AlertDialog(onDismissRequest = {
-                shouldShowWarning = false;
+                shouldShowWarning = false
             }, confirmButton = {
                 TextButton(onClick = {
-                    shouldShowWarning = false;
-                    activity.onBackPressed();
+                    shouldShowWarning = false
+                    activity.onBackPressed()
                 }) {
-                    Text(text = "Tak");
+                    Text(text = "Tak")
                 }
             }, text = {
-                Text(text = stringResource(R.string.warning));
+                Text(text = stringResource(R.string.warning))
             }, dismissButton = {
                 TextButton(onClick = {
-                    shouldShowWarning = false;
+                    shouldShowWarning = false
                 }) {
-                    Text(text = "Nie");
+                    Text(text = "Nie")
                 }
-            });
+            })
         }
     }
 }

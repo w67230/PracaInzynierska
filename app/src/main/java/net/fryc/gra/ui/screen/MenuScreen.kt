@@ -25,70 +25,70 @@ fun startMenu(activity: MainActivity){
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                menu(activity);
+                Menu(activity)
             }
         }
     }
 }
 
 @Composable
-fun menu(activity: MainActivity){
+fun Menu(activity: MainActivity){
     Column(modifier = Modifier.padding(start = 30.dp, end = 20.dp, top = 80.dp)) {
         Text(text = stringResource(R.string.menu), modifier = Modifier
             .align(Alignment.CenterHorizontally)
-            .padding(bottom = 50.dp), fontSize = 50.sp);
+            .padding(bottom = 50.dp), fontSize = 50.sp)
 
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
-            addButton(onClick = {
+            AddButton(onClick = {
                 activity.backStack.add {
-                    startMenu(it);
+                    startMenu(it)
                 }
-                customization(activity);
+                customization(activity)
             }) {
-                addButtonText(text = stringResource(R.string.play));
+                AddButtonText(text = stringResource(R.string.play))
             }
         }
 
-        Spacer(modifier = Modifier.height(25.dp));
+        Spacer(modifier = Modifier.height(25.dp))
 
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
-            addButton(onClick = {
+            AddButton(onClick = {
                 activity.backStack.add {
-                    startMenu(it);
+                    startMenu(it)
                 }
-                score(activity);
+                score(activity)
             }) {
-                addButtonText(text = stringResource(R.string.scores));
-            }
-        }
-
-        Row(modifier = Modifier
-            .align(Alignment.CenterHorizontally)
-            .padding(top = 20.dp)) {
-            addButton(onClick = {
-                activity.backStack.add {
-                    startMenu(it);
-                }
-                howToPlay(activity);
-            }) {
-                addButtonText(text = stringResource(R.string.h2p));
+                AddButtonText(text = stringResource(R.string.scores))
             }
         }
 
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
-            addButton(onClick = {
+            AddButton(onClick = {
                 activity.backStack.add {
-                    startMenu(it);
+                    startMenu(it)
                 }
-                settings(activity);
+                howToPlay(activity)
             }) {
-                addButtonText(text = stringResource(R.string.settings));
+                AddButtonText(text = stringResource(R.string.h2p))
+            }
+        }
+
+        Row(modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .padding(top = 20.dp)) {
+            AddButton(onClick = {
+                activity.backStack.add {
+                    startMenu(it)
+                }
+                settings(activity)
+            }) {
+                AddButtonText(text = stringResource(R.string.settings))
             }
         }
     }

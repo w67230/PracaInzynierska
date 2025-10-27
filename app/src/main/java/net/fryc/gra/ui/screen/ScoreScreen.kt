@@ -23,23 +23,23 @@ fun score(activity: MainActivity){
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                scoreScreen(activity = activity);
+                ScoreScreen(activity = activity)
             }
         }
     }
 }
 
 @Composable
-fun scoreScreen(activity: MainActivity){
+fun ScoreScreen(activity: MainActivity){
     Column {
 
-        addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
-            activity.onBackPressed();
+        AddNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
+            activity.onBackPressed()
         }, false) { }
 
         Column {
             if(activity.scores.isEmpty()){
-                showSimpleText(R.string.scores_empty);
+                ShowSimpleText(R.string.scores_empty)
             }
             else {
                 Row(Modifier.align(Alignment.CenterHorizontally)) {

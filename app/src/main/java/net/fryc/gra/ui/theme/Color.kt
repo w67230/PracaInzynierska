@@ -21,9 +21,9 @@ val Guziki = Color(0xFF352D41)
 
 @Composable
 fun getButtonColor() : ButtonColors {
-    return ButtonDefaults.buttonColors(containerColor = Guziki, contentColor = Color.White);
+    return ButtonDefaults.buttonColors(containerColor = Guziki, contentColor = Color.White)
 }
 
 fun getColorForNumbers(switchColors : Boolean) : Color {
-    return if(switchColors) Color.White else Color.Black;
+    return if(switchColors) Color.White else Color.Black
 }

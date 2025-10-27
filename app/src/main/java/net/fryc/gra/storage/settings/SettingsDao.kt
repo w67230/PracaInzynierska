@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface SettingsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveOptions(settings: Settings);
+    suspend fun saveOptions(settings: Settings)
 
     @Query("SELECT * from settings WHERE id = 0")
     fun getOptions(): Flow<Settings?>

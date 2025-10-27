@@ -4,24 +4,24 @@ enum class Difficulty {
 
     EASY {
         override fun getSameNumbersAmount(): Int {
-            return -1;
+            return -1
         }
     },
     NORMAL {
         override fun getSameNumbersAmount(): Int {
-            return 5;
+            return 5
         }
     },
     HARD {
         override fun getSameNumbersAmount(): Int {
-            return 3;
+            return 3
         }
     },
     VERY_HARD {
         override fun getSameNumbersAmount(): Int {
-            return 1;
+            return 1
         }
     };
 
-    abstract fun getSameNumbersAmount() : Int;
+    abstract fun getSameNumbersAmount() : Int
 }

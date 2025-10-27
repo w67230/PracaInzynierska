@@ -5,10 +5,10 @@ import kotlinx.coroutines.flow.Flow
 class SettingsRepository(private val settingsDao : SettingsDao) {
 
     fun getOptions() : Flow<Settings?> {
-        return this.settingsDao.getOptions();
+        return this.settingsDao.getOptions()
     }
 
     suspend fun saveOptions(settings : Settings) {
-        return this.settingsDao.saveOptions(settings);
+        return this.settingsDao.saveOptions(settings)
     }
 }

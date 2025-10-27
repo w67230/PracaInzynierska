@@ -34,49 +34,49 @@ fun customization(activity: MainActivity){
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                customizationScreen(activity);
+                CustomizationScreen(activity)
             }
         }
     }
 }
 
 @Composable
-fun customizationScreen(activity: MainActivity) {
+fun CustomizationScreen(activity: MainActivity) {
     var size by remember { mutableIntStateOf(4); }
     var difficulty by remember { mutableStateOf(Difficulty.EASY); }
     var showTimer by remember { mutableStateOf(true) }
     var showMoves by remember { mutableStateOf(true) }
     Column {
 
-        addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
-            activity.onBackPressed();
+        AddNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
+            activity.onBackPressed()
         }, false) { }
 
         Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
             Text(text = stringResource(R.string.size_info), fontSize = 20.sp, modifier = Modifier
                 .align(Alignment.CenterVertically)
-                .padding(end = 17.dp));
+                .padding(end = 17.dp))
 
             Slider(modifier = Modifier
                 .width(100.dp)
                 .padding(end = 7.dp),value = size.toFloat(),valueRange = 4f..6f, steps = 3, onValueChange = {
-                size = it.toInt();
+                size = it.toInt()
             })
 
-            Text(text = getSizeName(size), fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterVertically));
+            Text(text = getSizeName(size), fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterVertically))
         }
 
         Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
             Text(text = stringResource(R.string.difficulty_info), fontSize = 20.sp, modifier = Modifier
                 .align(Alignment.CenterVertically)
-                .padding(end = 7.dp));
+                .padding(end = 7.dp))
             Slider(modifier = Modifier
                 .width(100.dp)
                 .padding(end = 7.dp),value = difficulty.ordinal.toFloat(),valueRange = 0f..3f, steps = 4, onValueChange = {
-                difficulty = getDifficultyFromInt(it.toInt());
-            });
+                difficulty = getDifficultyFromInt(it.toInt())
+            })
 
-            Text(text = getDifficultyName(difficulty), fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterVertically));
+            Text(text = getDifficultyName(difficulty), fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterVertically))
 
         }
 
@@ -87,8 +87,8 @@ fun customizationScreen(activity: MainActivity) {
             Text("licznik czasu")
 
             Switch(checked = showTimer, onCheckedChange = {
-                showTimer = !showTimer;
-            });
+                showTimer = !showTimer
+            })
         }
 
         Row(modifier = Modifier
@@ -98,20 +98,20 @@ fun customizationScreen(activity: MainActivity) {
             Text("licznik ruchow")
 
             Switch(checked = showMoves, onCheckedChange = {
-                showMoves = !showMoves;
-            });
+                showMoves = !showMoves
+            })
         }
 
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
-            addButton(onClick = {
+            AddButton(onClick = {
                 activity.backStack.add {
-                    customization(it);
+                    customization(it)
                 }
-                startGame(size, difficulty, showTimer, showMoves, activity);
+                startGame(size, difficulty, showTimer, showMoves, activity)
             }) {
-                addButtonText(text = stringResource(R.string.start));
+                AddButtonText(text = stringResource(R.string.start))
             }
         }
     }

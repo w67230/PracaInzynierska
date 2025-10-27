@@ -3,7 +3,6 @@ package net.fryc.gra
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -18,36 +17,37 @@ import java.util.logging.Logger
 
 class MainActivity() : ComponentActivity() {
 
-    var container : AppDataContainer? = null;
-    var viewModel : ViewModel? = null;
-    var settings : Settings = DEFAULT_SETTINGS;
-    var scores : List<Score> = ArrayList<Score>();
-    val backStack : Stack<(MainActivity) -> Unit> = Stack();
+    var container : AppDataContainer? = null
+    var viewModel : ViewModel? = null
+    var settings : Settings = DEFAULT_SETTINGS
+    var scores : List<Score> = ArrayList<Score>()
+    val backStack : Stack<(MainActivity) -> Unit> = Stack()
 
     companion object {
-        val LOGGER : Logger = Logger.getLogger("gra");
+        val LOGGER : Logger = Logger.getLogger("gra")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState)
         //startGame(4,Difficulty.EASY, this);
         // TODO dac obsluge poziomej orientacji
-        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        this.viewModel = AppViewModel();
-        this.container = AppDataContainer(this.baseContext);
-        this.updateSettings();
-        this.updateScores();
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        this.viewModel = AppViewModel()
+        this.container = AppDataContainer(this.baseContext)
+        this.updateSettings()
+        this.updateScores()
 
-        startMenu(this);
+        startMenu(this)
     }
 
 
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onBackPressed() {
         if(this.backStack.isEmpty()){
-            super.onBackPressed();
+            super.onBackPressed()
         }
         else {
-            this.backStack.pop().invoke(this);
+            this.backStack.pop().invoke(this)
         }
     }
 
@@ -55,7 +55,7 @@ class MainActivity() : ComponentActivity() {
         this.viewModel?.viewModelScope?.launch {
             this@MainActivity.container?.settingsRepository?.getOptions()?.collect {
                 if (it != null) {
-                    this@MainActivity.settings = it;
+                    this@MainActivity.settings = it
                 }
             }
         }
@@ -64,7 +64,7 @@ class MainActivity() : ComponentActivity() {
     fun updateScores() {
         this.viewModel?.viewModelScope?.launch {
             this@MainActivity.container?.scoreRepository?.getAllScores()?.collect {
-                this@MainActivity.scores = it;
+                this@MainActivity.scores = it
             }
         }
     }

@@ -131,7 +131,7 @@ fun SettingsScreen(activity: MainActivity){
 
     Column {
 
-        addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
+        AddNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
             if(sthChanged){
                 shouldShowWarning = true
             }
@@ -143,7 +143,7 @@ fun SettingsScreen(activity: MainActivity){
         Column(Modifier.fillMaxWidth(1F)) {
             Column(Modifier.align(Alignment.CenterHorizontally)){
                 Row(Modifier.align(Alignment.CenterHorizontally)) {
-                    showSimpleText(R.string.move_with_click)
+                    ShowSimpleText(R.string.move_with_click)
                     Switch(checked = moveBlocksWithClick, onCheckedChange = {
                         moveBlocksWithClick = !moveBlocksWithClick
                         changeCheck.invoke()
@@ -151,7 +151,7 @@ fun SettingsScreen(activity: MainActivity){
                 }
 
                 Row(Modifier.align(Alignment.CenterHorizontally)) {
-                    showSimpleText(R.string.multi_move_with_click)
+                    ShowSimpleText(R.string.multi_move_with_click)
                     Switch(checked = multiMoveBlocksWithClick, enabled = moveBlocksWithClick, onCheckedChange = {
                         multiMoveBlocksWithClick = !multiMoveBlocksWithClick
                         changeCheck.invoke()
@@ -159,7 +159,7 @@ fun SettingsScreen(activity: MainActivity){
                 }
 
                 Row(Modifier.align(Alignment.CenterHorizontally)) {
-                    showSimpleText(R.string.addNumberBorder)
+                    ShowSimpleText(R.string.addNumberBorder)
                     Switch(checked = addNumberBorder, onCheckedChange = {
                         addNumberBorder = !addNumberBorder
                         changeCheck.invoke()
@@ -167,7 +167,7 @@ fun SettingsScreen(activity: MainActivity){
                 }
 
                 Row(Modifier.align(Alignment.CenterHorizontally)) {
-                    showSimpleText(R.string.switchNumberColor)
+                    ShowSimpleText(R.string.switchNumberColor)
                     Switch(checked = switchNumbersColor, onCheckedChange = {
                         switchNumbersColor = !switchNumbersColor
                         changeCheck.invoke()
@@ -183,7 +183,7 @@ fun SettingsScreen(activity: MainActivity){
             val color = Color(red, green, blue)
 
             Column(Modifier.align(Alignment.CenterHorizontally)) {
-                Row { showSimpleText(R.string.block_colors); }
+                Row { ShowSimpleText(R.string.block_colors); }
                 Row {
                     CreateColorBlock(if(chosenBlock == 1) color else first, chosenBlock == 1, addNumberBorder, switchNumbersColor) {
                         red = first.red
@@ -278,7 +278,7 @@ fun SettingsScreen(activity: MainActivity){
 
                         changeCheck.invoke()
                     }) {
-                        addButtonText(text = stringResource(R.string.button_default))
+                        AddButtonText(text = stringResource(R.string.button_default))
                     }
 
                     Spacer(Modifier.width(50.dp))
@@ -298,7 +298,7 @@ fun SettingsScreen(activity: MainActivity){
 
                         sthChanged = false
                     }) {
-                        addButtonText(text = stringResource(R.string.button_save))
+                        AddButtonText(text = stringResource(R.string.button_save))
                     }
                 }
             }

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface ScoreDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun saveScore(score: Score);
+    suspend fun saveScore(score: Score)
 
     @Query("SELECT * from score")
     fun getAllScores(): Flow<List<Score>>

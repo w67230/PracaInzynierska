@@ -14,27 +14,27 @@ import net.fryc.gra.MainActivity
 class BlackField(override var y: Int, override var x : Int, override val value : Int, override val board: Board) : Field(y, x, Color.Unspecified, value, board) {
 
     @Composable
-    override fun drawBox(activity: MainActivity){
-        Box(Modifier.height((90-this.board.size*5).dp).width((90-this.board.size*5).dp).padding(5.dp, 5.dp).background(this.color));
+    override fun DrawBox(activity: MainActivity){
+        Box(Modifier.height((90-this.board.size*5).dp).width((90-this.board.size*5).dp).padding(5.dp, 5.dp).background(this.color))
     }
 
     override fun tryToMove(direction : Direction, activity: MainActivity, multiMove : Boolean) : Boolean {
-        return false;
+        return false
     }
 
     override fun tryToMultiMove(direction : Direction, activity: MainActivity) {
     }
 
     override fun canMoveHorizontally(left : Boolean, field: Field) : Boolean {
-        return false;
+        return false
     }
 
     override fun canMoveVertically(up : Boolean, field: Field) : Boolean {
-        return false;
+        return false
     }
 
     override fun canMove() : Boolean {
-        return false;
+        return false
     }
 
     override fun move(field: Field){

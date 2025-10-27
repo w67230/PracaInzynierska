@@ -26,8 +26,8 @@ abstract class GameDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun settingsDao(): SettingsDao;
+    abstract fun settingsDao(): SettingsDao
 
-    abstract fun scoreDao(): ScoreDao;
+    abstract fun scoreDao(): ScoreDao
 
 }

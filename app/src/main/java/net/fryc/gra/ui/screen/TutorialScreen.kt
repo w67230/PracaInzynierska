@@ -31,7 +31,7 @@ fun howToPlay(activity: MainActivity){
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                howToPlayScreen(activity = activity);
+                howToPlayScreen(activity = activity)
             }
         }
     }
@@ -39,27 +39,27 @@ fun howToPlay(activity: MainActivity){
 
 @Composable
 fun howToPlayScreen(activity: MainActivity){
-    var x : Int;
-    var y : Int;
+    var x : Int
+    var y : Int
     Column {
 
-        addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
-            activity.onBackPressed();
+        AddNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
+            activity.onBackPressed()
         }, false) { }
 
         LazyColumn(modifier = Modifier.padding(start = 30.dp, end = 20.dp, top = 40.dp)) {
             this.item {
-                Text(text = stringResource(R.string.tytul_cel), fontWeight = FontWeight.Bold, fontSize = 6.em, modifier = Modifier.padding(bottom = 10.dp));
+                Text(text = stringResource(R.string.tytul_cel), fontWeight = FontWeight.Bold, fontSize = 6.em, modifier = Modifier.padding(bottom = 10.dp))
             }
             this.item {
-                showSimpleText(resourceString = R.string.cel_gry);
+                ShowSimpleText(resourceString = R.string.cel_gry)
             }
             this.item {
-                showSimpleText(resourceString = R.string.przyklad_latwy);
+                ShowSimpleText(resourceString = R.string.przyklad_latwy)
             }
             this.item {
-                x=0;
-                y=0;
+                x=0
+                y=0
                 while(y < 4){
                     Row {
                         while(x < 4) {
@@ -70,31 +70,31 @@ fun howToPlayScreen(activity: MainActivity){
                                     .padding(5.dp, 5.dp)
                                     .background(
                                         color = when (y) {
-                                            0 -> Color.Green;
-                                            1 -> Color.Red;
-                                            2 -> Color.Cyan;
-                                            3 -> if (x == 3) Color.Transparent else Color.Magenta;
-                                            else -> Color.Transparent;
+                                            0 -> Color.Green
+                                            1 -> Color.Red
+                                            2 -> Color.Cyan
+                                            3 -> if (x == 3) Color.Transparent else Color.Magenta
+                                            else -> Color.Transparent
                                         }
-                                    ));
+                                    ))
 
-                            x++;
+                            x++
                         }
                     }
 
-                    x = 0;
-                    y++;
+                    x = 0
+                    y++
                 }
             }
             this.item {
-                showSimpleText(resourceString = R.string.cel_dodatkowo);
+                ShowSimpleText(resourceString = R.string.cel_dodatkowo)
             }
             this.item {
-                showSimpleText(resourceString = R.string.hard_cel_przyklad);
+                ShowSimpleText(resourceString = R.string.hard_cel_przyklad)
             }
             this.item {
-                x=0;
-                y=0;
+                x=0
+                y=0
                 while(y < 4){
                     Row {
                         while(x < 4) {
@@ -105,31 +105,31 @@ fun howToPlayScreen(activity: MainActivity){
                                     .padding(5.dp, 5.dp)
                                     .background(
                                         color = when (y) {
-                                            0 -> Color.Cyan;
-                                            1 -> Color.Red;
-                                            2 -> Color.Green;
-                                            3 -> if (x == 3) Color.Transparent else Color.Magenta;
-                                            else -> Color.Transparent;
+                                            0 -> Color.Cyan
+                                            1 -> Color.Red
+                                            2 -> Color.Green
+                                            3 -> if (x == 3) Color.Transparent else Color.Magenta
+                                            else -> Color.Transparent
                                         }
                                     )){
                                 if(y < 3 || x < 3){
-                                    Text(text = x.toString(), modifier = Modifier.align(Alignment.Center), color = Color.Black, fontWeight = FontWeight.Bold);
+                                    Text(text = x.toString(), modifier = Modifier.align(Alignment.Center), color = Color.Black, fontWeight = FontWeight.Bold)
                                 }
                             }
 
-                            x++;
+                            x++
                         }
                     }
 
-                    x = 0;
-                    y++;
+                    x = 0
+                    y++
                 }
             }
             this.item {
                 Button(onClick = {
-                    activity.onBackPressed();
+                    activity.onBackPressed()
                 }) {
-                    Text(text = "Ok");
+                    Text(text = "Ok")
                 }
             }
         }
