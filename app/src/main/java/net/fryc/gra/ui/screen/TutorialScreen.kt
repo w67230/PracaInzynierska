@@ -28,7 +28,6 @@ import net.fryc.gra.ui.theme.GraTheme
 
 
 fun howToPlay(activity: MainActivity){
-    activity.isInMenu = false;
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -45,7 +44,7 @@ fun howToPlayScreen(activity: MainActivity){
     Column {
 
         addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
-            startMenu(activity);
+            activity.onBackPressed();
         }, false) { }
 
         LazyColumn(modifier = Modifier.padding(start = 30.dp, end = 20.dp, top = 40.dp)) {
@@ -128,7 +127,7 @@ fun howToPlayScreen(activity: MainActivity){
             }
             this.item {
                 Button(onClick = {
-                    startMenu(activity);
+                    activity.onBackPressed();
                 }) {
                     Text(text = "Ok");
                 }

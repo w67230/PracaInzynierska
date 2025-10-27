@@ -14,11 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import net.fryc.gra.MainActivity
 import net.fryc.gra.ui.screen.redraw
+import net.fryc.gra.ui.theme.getColorForNumbers
 import kotlin.math.abs
 
 
@@ -48,20 +51,20 @@ open class Field(open var y: Int, open var x : Int, open val color : Color, open
             }
         }, Orientation.Vertical)) {
             if(this@Field.value > 0 && this@Field.board.difficulty > Difficulty.EASY){
-                /* TODO obramowka do opcji
-                Text(
-                    text = this@Field.value.toString(),
-                    modifier = Modifier.align(Alignment.Center),
-                    style = TextStyle(fontSize = 20.sp, color = Color.White, drawStyle = Stroke(12f), letterSpacing = 2.sp, fontWeight = FontWeight.Bold)
-                );
+                if(activity.settings.addNumberBorder){
+                    Text(
+                        text = this@Field.value.toString(),
+                        modifier = Modifier.align(Alignment.Center),
+                        style = TextStyle(fontSize = 20.sp, color = getColorForNumbers(activity.settings.switchNumbersColor), drawStyle = Stroke(12f), letterSpacing = 2.sp, fontWeight = FontWeight.Bold)
+                    );
+                }
 
-                 */
                 Text(
                     text = this@Field.value.toString(),
                     modifier = Modifier.align(Alignment.Center),
                     fontWeight = FontWeight.Black,
                     fontSize = 20.sp,
-                    color = Color.Black
+                    color = getColorForNumbers(!activity.settings.switchNumbersColor)
                 );
             }
         }

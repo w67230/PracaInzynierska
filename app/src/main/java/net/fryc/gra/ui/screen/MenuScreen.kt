@@ -22,7 +22,6 @@ import net.fryc.gra.ui.theme.GraTheme
 
 
 fun startMenu(activity: MainActivity){
-    activity.isInMenu = true;
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -43,6 +42,9 @@ fun menu(activity: MainActivity){
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
             addButton(onClick = {
+                activity.backStack.add {
+                    startMenu(it);
+                }
                 customization(activity);
             }) {
                 addButtonText(text = stringResource(R.string.play));
@@ -55,6 +57,9 @@ fun menu(activity: MainActivity){
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
             addButton(onClick = {
+                activity.backStack.add {
+                    startMenu(it);
+                }
                 score(activity);
             }) {
                 addButtonText(text = stringResource(R.string.scores));
@@ -65,6 +70,9 @@ fun menu(activity: MainActivity){
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
             addButton(onClick = {
+                activity.backStack.add {
+                    startMenu(it);
+                }
                 howToPlay(activity);
             }) {
                 addButtonText(text = stringResource(R.string.h2p));
@@ -75,6 +83,9 @@ fun menu(activity: MainActivity){
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
             addButton(onClick = {
+                activity.backStack.add {
+                    startMenu(it);
+                }
                 settings(activity);
             }) {
                 addButtonText(text = stringResource(R.string.settings));

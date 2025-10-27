@@ -10,6 +10,9 @@ data class Settings(
     val moveBlocksWithClick : Boolean,
     val multiMoveWithCLick : Boolean,
 
+    val switchNumbersColor : Boolean,
+    val addNumberBorder : Boolean,
+
     val firstRed : Float,
     val firstGreen : Float,
     val firstBlue : Float,

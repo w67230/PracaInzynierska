@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class Score(
     @PrimaryKey(autoGenerate = true)
     val id : Int = 0,
-    val movesAmount : Int,
+    val movesAmount : Long,
     val timeInSeconds : Long,
     val difficulty : Int,
     val size : Int,

@@ -20,7 +20,6 @@ import net.fryc.gra.ui.theme.GraTheme
 
 
 fun score(activity: MainActivity){
-    activity.isInMenu = false;
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -35,7 +34,7 @@ fun scoreScreen(activity: MainActivity){
     Column {
 
         addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
-            startMenu(activity);
+            activity.onBackPressed();
         }, false) { }
 
         Column {

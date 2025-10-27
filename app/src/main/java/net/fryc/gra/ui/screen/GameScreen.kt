@@ -40,12 +40,10 @@ import java.util.Date
 
 fun startGame(size : Int = 4, difficulty : Difficulty = Difficulty.EASY, showTimer : Boolean = true, showMoves : Boolean = true, activity: MainActivity){
     val board = Board(size, difficulty, activity.settings, showTimer, showMoves);
-    activity.isInMenu = false;
     redraw(board, activity);
 }
 
 fun redraw(board: Board, activity: MainActivity){
-    activity.isInMenu = false;
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -107,10 +105,9 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
             shouldKeepTicking = false;
             val time : Long = board.getCurrentTime().inWholeSeconds;
             val date : String = Date.from(board.timer.instant()).toString();
-            // TODO w bazie zapisuje jako int a nie long
             val score by remember {
                 derivedStateOf { Score(
-                    movesAmount = board.moves.toInt(),
+                    movesAmount = board.moves,
                     timeInSeconds = time,
                     difficulty = board.difficulty.ordinal,
                     size = board.size,
@@ -127,12 +124,14 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
                         activity.container?.scoreRepository?.saveScore(score2);
                     }
 
+                    activity.backStack.clear();
                     startMenu(activity);
                 }) {
                     Text(text = "Zapisz i wyjdź");
                 }
             }, dismissButton = {
                 TextButton(onClick = {
+                    activity.backStack.clear();
                     startMenu(activity);
                 }) {
                     Text(text = "Wyjdź");
@@ -164,7 +163,7 @@ fun draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
             }, confirmButton = {
                 TextButton(onClick = {
                     shouldShowWarning = false;
-                    customization(activity);
+                    activity.onBackPressed();
                 }) {
                     Text(text = "Tak");
                 }

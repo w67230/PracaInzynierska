@@ -31,7 +31,6 @@ import net.fryc.gra.ui.theme.GraTheme
 
 
 fun customization(activity: MainActivity){
-    activity.isInMenu = false;
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -50,7 +49,7 @@ fun customizationScreen(activity: MainActivity) {
     Column {
 
         addNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
-            startMenu(activity);
+            activity.onBackPressed();
         }, false) { }
 
         Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
@@ -107,6 +106,9 @@ fun customizationScreen(activity: MainActivity) {
             .align(Alignment.CenterHorizontally)
             .padding(top = 20.dp)) {
             addButton(onClick = {
+                activity.backStack.add {
+                    customization(it);
+                }
                 startGame(size, difficulty, showTimer, showMoves, activity);
             }) {
                 addButtonText(text = stringResource(R.string.start));

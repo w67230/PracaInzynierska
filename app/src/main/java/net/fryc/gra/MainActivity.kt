@@ -12,16 +12,16 @@ import net.fryc.gra.storage.AppViewModel
 import net.fryc.gra.storage.score.Score
 import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.screen.startMenu
+import java.util.Stack
 import java.util.logging.Logger
 
-class MainActivity(var isInMenu : Boolean = true) : ComponentActivity() {
+class MainActivity() : ComponentActivity() {
 
     var container : AppDataContainer? = null;
     var viewModel : ViewModel? = null;
     var settings : Settings = Settings(
         0,
-        false,
-        false,
+        false, false, false, false,
         Color.Red.red, Color.Red.green, Color.Red.blue,
         Color.Green.red, Color.Green.green, Color.Green.blue,
         Color.Blue.red, Color.Blue.green, Color.Blue.blue,
@@ -30,6 +30,7 @@ class MainActivity(var isInMenu : Boolean = true) : ComponentActivity() {
         Color.Yellow.red, Color.Yellow.green, Color.Yellow.blue
     );
     var scores : List<Score> = ArrayList<Score>();
+    val backStack : Stack<(activity : MainActivity) -> Unit> = Stack();
 
     companion object {
         val LOGGER : Logger = Logger.getLogger("gra");
@@ -48,13 +49,13 @@ class MainActivity(var isInMenu : Boolean = true) : ComponentActivity() {
         startMenu(this);
     }
 
-    // TODO lepsza obsluga przycisku cofania
+
     override fun onBackPressed() {
-        if(this.isInMenu){
+        if(this.backStack.isEmpty()){
             super.onBackPressed();
         }
         else {
-            startMenu(this);
+            this.backStack.pop().invoke(this);
         }
     }
 

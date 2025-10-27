@@ -37,7 +37,6 @@ import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.theme.GraTheme
 
 fun settings(activity: MainActivity){
-    activity.isInMenu = false;
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -94,7 +93,7 @@ fun settingsScreen(activity: MainActivity){
                 activity.container?.settingsRepository?.saveOptions(Settings(
                     0,
                     moveBlocksWithClick,
-                    false,
+                    false, false, false,
                     first.red, first.green, first.blue,
                     second.red, second.green, second.blue,
                     third.red, third.green, third.blue,
@@ -106,7 +105,7 @@ fun settingsScreen(activity: MainActivity){
             }.also {
                 activity.updateSettings();
             }
-            startMenu(activity);
+            activity.onBackPressed();
         }, false) { }
 
         Column {
