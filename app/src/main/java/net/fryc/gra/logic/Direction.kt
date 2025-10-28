@@ -44,7 +44,7 @@ enum class Direction {
         }
 
         override fun getNextField(field: Field): Field? {
-            return field
+            return null
         }
     };
 

@@ -1,5 +1,7 @@
 package net.fryc.gra.logic
 
+import androidx.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting.Companion.PRIVATE
 import androidx.compose.ui.graphics.Color
 import net.fryc.gra.storage.settings.Settings
 import java.sql.Time
@@ -65,7 +67,8 @@ class Board(
         }
     }
 
-    private fun createFieldsMatrix() : ArrayList<ArrayList<Field>> {
+    @VisibleForTesting(otherwise = PRIVATE)
+    fun createFieldsMatrix() : ArrayList<ArrayList<Field>> {
         val matrix : ArrayList<ArrayList<Field>> = ArrayList()
         var y = 0
         while(y < this.size){
@@ -239,7 +242,7 @@ class Board(
             var previousColor = Color.Unspecified
             var previousValue = if(this.difficulty != Difficulty.EASY) 0 else -1
             while ((if(forRows) x else y) < this.size) {
-                val field = this.getFieldFromFields(x, y)
+                val field = this.getFieldFromMatrix(x, y)
                 if (field != null) {
                     if(this.compareColors(previousColor, field.color)){
                         previousColor = if(field.color == Color.Unspecified) previousColor else field.color
@@ -258,7 +261,7 @@ class Board(
                     }
                 }
                 else {
-                    throw NullPointerException("A null field found in fields array")
+                    throw NullPointerException("Couldn't find field in matrix: x=$x , y=$y")
                 }
 
                 if(forRows) x++ else y++
