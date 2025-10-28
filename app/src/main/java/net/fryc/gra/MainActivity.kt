@@ -8,8 +8,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.fryc.gra.storage.AppDataContainer
 import net.fryc.gra.storage.AppViewModel
+import net.fryc.gra.storage.customization.Customization
 import net.fryc.gra.storage.score.Score
 import net.fryc.gra.storage.settings.Settings
+import net.fryc.gra.ui.screen.DEFAULT_CUSTOMIZATION
 import net.fryc.gra.ui.screen.DEFAULT_SETTINGS
 import net.fryc.gra.ui.screen.startMenu
 import java.util.Stack
@@ -21,6 +23,7 @@ class MainActivity() : ComponentActivity() {
     var viewModel : ViewModel? = null
     var settings : Settings = DEFAULT_SETTINGS
     var scores : List<Score> = ArrayList<Score>()
+    var lastCustomization : Customization = DEFAULT_CUSTOMIZATION
     val backStack : Stack<(MainActivity) -> Unit> = Stack()
 
     companion object {
@@ -36,6 +39,7 @@ class MainActivity() : ComponentActivity() {
         this.container = AppDataContainer(this.baseContext)
         this.updateSettings()
         this.updateScores()
+        this.updateLastCustomization()
 
         startMenu(this)
     }
@@ -65,6 +69,16 @@ class MainActivity() : ComponentActivity() {
         this.viewModel?.viewModelScope?.launch {
             this@MainActivity.container?.scoreRepository?.getAllScores()?.collect {
                 this@MainActivity.scores = it
+            }
+        }
+    }
+
+    fun updateLastCustomization() {
+        this.viewModel?.viewModelScope?.launch {
+            this@MainActivity.container?.customizationRepository?.getLastCustomization()?.collect {
+                if(it != null){
+                    this@MainActivity.lastCustomization = it
+                }
             }
         }
     }

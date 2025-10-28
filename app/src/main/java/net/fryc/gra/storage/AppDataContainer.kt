@@ -1,6 +1,7 @@
 package net.fryc.gra.storage
 
 import android.content.Context
+import net.fryc.gra.storage.customization.CustomizationRepository
 import net.fryc.gra.storage.score.ScoreRepository
 import net.fryc.gra.storage.settings.SettingsRepository
 
@@ -12,5 +13,9 @@ class AppDataContainer(private val context : Context) {
 
     val scoreRepository : ScoreRepository by lazy {
         ScoreRepository(GameDatabase.getDatabase(this.context).scoreDao())
+    }
+
+    val customizationRepository : CustomizationRepository by lazy {
+        CustomizationRepository(GameDatabase.getDatabase(this.context).customizationDao())
     }
 }

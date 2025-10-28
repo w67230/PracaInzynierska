@@ -24,11 +24,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import net.fryc.gra.MainActivity
 import net.fryc.gra.R
 import net.fryc.gra.logic.Difficulty
+import net.fryc.gra.storage.customization.Customization
+import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.theme.GraTheme
 
+
+val DEFAULT_CUSTOMIZATION = Customization(0, 0, 4, true, true)
 
 fun customization(activity: MainActivity){
     activity.setContent {
@@ -42,10 +48,10 @@ fun customization(activity: MainActivity){
 
 @Composable
 fun CustomizationScreen(activity: MainActivity) {
-    var size by remember { mutableIntStateOf(4); }
-    var difficulty by remember { mutableStateOf(Difficulty.EASY); }
-    var showTimer by remember { mutableStateOf(true) }
-    var showMoves by remember { mutableStateOf(true) }
+    var size by remember { mutableIntStateOf(activity.lastCustomization.size) }
+    var difficulty by remember { mutableStateOf(getDifficultyFromInt(activity.lastCustomization.difficulty)) }
+    var showTimer by remember { mutableStateOf(activity.lastCustomization.showTimer) }
+    var showMoves by remember { mutableStateOf(activity.lastCustomization.showMoves) }
     Column {
 
         AddNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
@@ -109,10 +115,20 @@ fun CustomizationScreen(activity: MainActivity) {
                 activity.backStack.add {
                     customization(it)
                 }
+                saveCustomization(activity, Customization(0, difficulty.ordinal, size, showTimer, showMoves))
                 startGame(size, difficulty, showTimer, showMoves, activity)
             }) {
                 AddButtonText(text = stringResource(R.string.start))
             }
         }
+    }
+}
+
+private fun saveCustomization(activity : MainActivity, newCustomization : Customization) {
+    activity.viewModel?.viewModelScope?.launch {
+        activity.container?.customizationRepository?.saveCustomization(newCustomization)
+
+    }.also {
+        activity.updateLastCustomization()
     }
 }
