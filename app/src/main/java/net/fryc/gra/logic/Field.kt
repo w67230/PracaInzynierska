@@ -36,6 +36,16 @@ open class Field(open var y: Int, open var x : Int, open val color : Color, open
                     this.board.increaseMovesCount()
                     redraw(this.board, activity)
                 }
+                else if(activity.settings.multiMoveWithCLick){
+                    if(this.isOnSameLine(this.board.getBlackField())){
+                        val direction = this.getDirectionToField()
+
+                        this.tryToMultiMove(direction, activity)
+                        if(this.tryToMove(direction, activity, false)){
+                            this.board.increaseMovesCount()
+                        }
+                    }
+                }
             }
         }.draggable(rememberDraggableState {
             if(it != 0F){
@@ -125,6 +135,29 @@ open class Field(open var y: Int, open var x : Int, open val color : Color, open
         val xDiff = abs(this.x - field.x)
         val yDiff = abs(this.y - field.y)
         return (xDiff == 1 && yDiff == 0) || (xDiff == 0 && yDiff == 1)
+    }
+
+    fun getDirectionToField(field : Field = this.board.getBlackField()) : Direction {
+        if(this.x == field.x){
+            val diff = this.y - field.y
+            if(diff < 0){
+                return Direction.DOWN
+            }
+            else if(diff > 0){
+                return Direction.UP
+            }
+        }
+        else if(this.y == field.y){
+            val diff = this.x - field.x
+            if(diff < 0){
+                return Direction.RIGHT
+            }
+            else if(diff > 0){
+                return Direction.LEFT
+            }
+        }
+
+        return Direction.UNSPECIFIED
     }
 
     fun hasSamePositionAsOtherField() : Boolean {

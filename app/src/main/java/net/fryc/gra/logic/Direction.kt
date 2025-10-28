@@ -37,6 +37,15 @@ enum class Direction {
         override fun getNextField(field: Field): Field? {
             return field.board.getFieldFromMatrix(field.x + 1, field.y)
         }
+    },
+    UNSPECIFIED {
+        override fun isDirectionalMovingPossible(field : Field, blackField : Field): Boolean {
+            return false
+        }
+
+        override fun getNextField(field: Field): Field? {
+            return field
+        }
     };
 
     abstract fun isDirectionalMovingPossible(field : Field, blackField : Field = field.board.getBlackField()) : Boolean
