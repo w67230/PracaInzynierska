@@ -51,12 +51,12 @@ import kotlin.random.Random
 val DEFAULT_SETTINGS : Settings = Settings(
     0,
     false, false, true, false,
-    Color.Red.red, Color.Red.green, Color.Red.blue,
-    Color.Green.red, Color.Green.green, Color.Green.blue,
-    Color.Blue.red, Color.Blue.green, Color.Blue.blue,
-    Color.Magenta.red, Color.Magenta.green, Color.Magenta.blue,
-    Color.DarkGray.red, Color.DarkGray.green, Color.DarkGray.blue,
-    Color.Yellow.red, Color.Yellow.green, Color.Yellow.blue
+    0.8F, 0.06F, 0.08F,
+    0.13F, 0.85F, 0.1F,
+    0.15F, 0.35F, 0.7F,
+    0.74F, 0.15F, 0.72F,
+    0.6F, 0.4F, 0.39F,
+    0.875F, 0.4F, 0.11F
 )
 
 fun settings(activity: MainActivity){
