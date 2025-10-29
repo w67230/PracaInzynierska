@@ -55,7 +55,7 @@ fun ScoreScreen(activity: MainActivity){
     var shouldShowHelp by remember { mutableStateOf(false) }
 
     var sortBy by remember { mutableIntStateOf(TIME_COLUMN) }
-    var asc by remember { mutableStateOf(false) }
+    var asc by remember { mutableStateOf(true) }
 
     val headerOnClick : (Int) -> Unit = {
         if(sortBy == it){
@@ -81,19 +81,19 @@ fun ScoreScreen(activity: MainActivity){
                 Row(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.8F)) {
                     Box(Modifier.weight(1F).clickable(onClick = {
                         headerOnClick.invoke(TIME_COLUMN)
-                    })) { Text(stringResource(R.string.time)) }
+                    })) { AddTableHeader(R.string.time, sortBy == TIME_COLUMN, asc)}
                     Box(Modifier.weight(1F).clickable(onClick = {
                         headerOnClick.invoke(MOVES_COLUMN)
-                    })) { Text(stringResource(R.string.moves)) }
+                    })) { AddTableHeader(R.string.moves, sortBy == MOVES_COLUMN, asc) }
                     Box(Modifier.weight(1F).clickable(onClick = {
                         headerOnClick.invoke(DIFFICULTY_COLUMN)
-                    })) { Text(stringResource(R.string.difficulty)) }
+                    })) { AddTableHeader(R.string.difficulty, sortBy == DIFFICULTY_COLUMN, asc) }
                     Box(Modifier.weight(1F).clickable(onClick = {
                         headerOnClick.invoke(SIZE_COLUMN)
-                    })) { Text(stringResource(R.string.size)) }
+                    })) { AddTableHeader(R.string.size, sortBy == SIZE_COLUMN, asc) }
                     Box(Modifier.weight(1F).clickable(onClick = {
                         headerOnClick.invoke(DATE_COLUMN)
-                    })) { Text(stringResource(R.string.date)) }
+                    })) { AddTableHeader(R.string.date, sortBy == DATE_COLUMN, asc) }
                 }
 
                 LazyColumn(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.8F)) {

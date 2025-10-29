@@ -1,5 +1,6 @@
 package net.fryc.gra.ui.screen
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -83,6 +84,21 @@ fun AddButton(modifier : Modifier = Modifier, onClick : () -> Unit, content : @C
 @Composable
 fun AddButtonText(modifier : Modifier = Modifier, text : String) {
     Text(text = text, modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+}
+
+@Composable
+fun AddTableHeader(@StringRes strResource : Int, isSortedBy : Boolean, ascSort : Boolean) {
+    Row(Modifier.fillMaxWidth(1F)) {
+        Text(text = stringResource(strResource), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        if(isSortedBy){
+            Icon(
+                painter = painterResource(if(ascSort) R.drawable.arrow_drop_up_24px else R.drawable.arrow_drop_down_24px),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier.size(32.dp)
+            )
+        }
+    }
 }
 
 fun getDifficultyFromInt(difficulty : Int): Difficulty {
