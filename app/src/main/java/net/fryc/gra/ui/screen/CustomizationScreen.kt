@@ -2,13 +2,19 @@ package net.fryc.gra.ui.screen
 
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -21,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,13 +35,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.fryc.gra.MainActivity
 import net.fryc.gra.R
-import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.storage.customization.Customization
-import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.theme.GraTheme
 
 
 val DEFAULT_CUSTOMIZATION = Customization(0, 0, 4, true, true)
+val AVAILABLE_DIFFICULTIES = listOf<Int>(0, 1, 2, 3)
+val AVAILABLE_SIZES = listOf<Int>(4, 5, 6)
 
 fun customization(activity: MainActivity){
     activity.setContent {
@@ -52,65 +59,95 @@ fun CustomizationScreen(activity: MainActivity) {
     var difficulty by remember { mutableStateOf(getDifficultyFromInt(activity.lastCustomization.difficulty)) }
     var showTimer by remember { mutableStateOf(activity.lastCustomization.showTimer) }
     var showMoves by remember { mutableStateOf(activity.lastCustomization.showMoves) }
+
+    var sizeExpanded by remember { mutableStateOf(false) }
+    var diffExpanded by remember { mutableStateOf(false) }
+
     Column {
 
         AddNavigationBar(Modifier.background(Color.Red).align(Alignment.Start), {
             activity.onBackPressed()
         }, false) { }
 
-        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(text = stringResource(R.string.size_info), fontSize = 20.sp, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(end = 17.dp))
+        AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 28.dp), description = {
+            Text(text = stringResource(R.string.size_info), fontSize = 26.sp, modifier = Modifier
+                .padding(start = 40.dp))
+        }) {
+            Row(modifier = Modifier.padding(end = 40.dp).clickable {
+                sizeExpanded = true
+            }) {
+                Text(text = getSizeName(size), fontSize = 26.sp, modifier = Modifier.padding(end = 10.dp))
 
-            Slider(modifier = Modifier
-                .width(100.dp)
-                .padding(end = 7.dp),value = size.toFloat(),valueRange = 4f..6f, steps = 3, onValueChange = {
-                size = it.toInt()
-            })
+                Icon(
+                    painter = painterResource(if(sizeExpanded) R.drawable.arrow_drop_up_24px else R.drawable.arrow_drop_down_24px),
+                    contentDescription = null,
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(32.dp)
+                )
 
-            Text(text = getSizeName(size), fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterVertically))
+                DropdownMenu(expanded = sizeExpanded, onDismissRequest = {
+                    sizeExpanded = false;
+                }) {
+                    AVAILABLE_SIZES.forEach {
+                        DropdownMenuItem(text = {Text(getSizeName(it))}, onClick = {
+                            size = it
+                            sizeExpanded = false
+                        })
+                    }
+                }
+            }
         }
 
-        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(text = stringResource(R.string.difficulty_info), fontSize = 20.sp, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(end = 7.dp))
-            Slider(modifier = Modifier
-                .width(100.dp)
-                .padding(end = 7.dp),value = difficulty.ordinal.toFloat(),valueRange = 0f..3f, steps = 4, onValueChange = {
-                difficulty = getDifficultyFromInt(it.toInt())
-            })
+        AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+            Text(text = stringResource(R.string.difficulty), fontSize = 26.sp, modifier = Modifier
+                .padding(start = 40.dp))
+        }) {
+            Row(modifier = Modifier.padding(end = 40.dp).clickable {
+                diffExpanded = true
+            }) {
+                Text(text = getDifficultyName(difficulty), fontSize = 26.sp, modifier = Modifier.padding(end = 10.dp))
 
-            Text(text = getDifficultyName(difficulty), fontSize = 20.sp, modifier = Modifier.align(Alignment.CenterVertically))
+                Icon(
+                    painter = painterResource(if(diffExpanded) R.drawable.arrow_drop_up_24px else R.drawable.arrow_drop_down_24px),
+                    contentDescription = null,
+                    tint = Color.Unspecified,
+                    modifier = Modifier.size(32.dp)
+                )
 
+                DropdownMenu(expanded = diffExpanded, onDismissRequest = {
+                    diffExpanded = false;
+                }) {
+                    AVAILABLE_DIFFICULTIES.forEach {
+                        DropdownMenuItem(text = {Text(getDifficultyName(getDifficultyFromInt(it)))}, onClick = {
+                            difficulty = getDifficultyFromInt(it)
+                            diffExpanded = false
+                        })
+                    }
+                }
+            }
         }
 
-        Row(modifier = Modifier
-            .align(Alignment.CenterHorizontally)
-            .padding(top = 20.dp)) {
-
-            Text("licznik czasu")
-
-            Switch(checked = showTimer, onCheckedChange = {
+        AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+            Text(stringResource(R.string.timer), fontSize = 26.sp, modifier = Modifier
+                .padding(start = 40.dp))
+        }) {
+            Switch(modifier = Modifier.padding(end = 40.dp), checked = showTimer, onCheckedChange = {
                 showTimer = !showTimer
             })
         }
 
-        Row(modifier = Modifier
-            .align(Alignment.CenterHorizontally)
-            .padding(top = 20.dp)) {
-
-            Text("licznik ruchow")
-
-            Switch(checked = showMoves, onCheckedChange = {
+        AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+            Text(stringResource(R.string.moveCounter), fontSize = 26.sp, modifier = Modifier
+                .padding(start = 40.dp))
+        }) {
+            Switch(modifier = Modifier.padding(end = 40.dp), checked = showMoves, onCheckedChange = {
                 showMoves = !showMoves
             })
         }
 
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)
-            .padding(top = 20.dp)) {
+            .padding(top = 30.dp)) {
             AddButton(onClick = {
                 activity.backStack.add {
                     customization(it)
