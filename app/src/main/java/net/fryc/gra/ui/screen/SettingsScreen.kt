@@ -140,7 +140,7 @@ fun SettingsScreen(activity: MainActivity){
             }
         }, false) { }
 
-        Column(Modifier.fillMaxWidth(1F)) {
+        Column(Modifier.fillMaxWidth(1F).padding(top = PADDING_TOP_BELOW_NAV_BAR)) {
             Column(Modifier.align(Alignment.CenterHorizontally)){
                 Row(Modifier.align(Alignment.CenterHorizontally)) {
                     ShowSimpleText(R.string.move_with_click)

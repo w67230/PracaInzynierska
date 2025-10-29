@@ -75,7 +75,7 @@ fun Draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
             shouldShowHelp = true
         }
 
-        Spacer(modifier = Modifier.size(50.dp))
+        Spacer(modifier = Modifier.size(PADDING_TOP_BELOW_NAV_BAR))
 
         if(board.showTimer){
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {

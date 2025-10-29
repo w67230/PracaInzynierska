@@ -45,4 +45,6 @@
     <string name="settings_warning">Wprowadzone zmiany nie zostały zapisane.\nCzy chcesz je zapisać?</string>
     <string name="timer">Licznik czasu</string>
     <string name="moveCounter">Licznik ruchów</string>
+    <string name="help_scores">Naciśnij \"Zapisz i wyjdź\" po ukończonej grze, aby osiągnięty wynik został zapisany i mógł być tutaj wyświetlony.\n\n</string>
+    <string name="help_scores_not_empty">Naciśnij jeden z nagłówków aby posortować wyniki (ponowne naciśnięcie tego samego nagłówka spowoduje zmianę kolejności sortowania).</string>
 </resources>

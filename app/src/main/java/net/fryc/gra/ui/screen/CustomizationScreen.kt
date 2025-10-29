@@ -69,7 +69,7 @@ fun CustomizationScreen(activity: MainActivity) {
             activity.onBackPressed()
         }, false) { }
 
-        AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 28.dp), description = {
+        AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = PADDING_TOP_BELOW_NAV_BAR), description = {
             Text(text = stringResource(R.string.size_info), fontSize = 26.sp, modifier = Modifier
                 .padding(start = 40.dp))
         }) {

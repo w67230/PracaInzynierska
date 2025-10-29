@@ -24,6 +24,8 @@ import net.fryc.gra.R
 import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.ui.theme.getButtonColor
 
+val PADDING_TOP_BELOW_NAV_BAR = 30.dp
+
 
 @Composable
 fun ShowSimpleText(resourceString : Int){
