@@ -11,7 +11,7 @@ import net.fryc.gra.storage.score.ScoreDao
 import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.storage.settings.SettingsDao
 
-@Database(entities = [Settings::class, Score::class, Customization::class], version = 5, exportSchema = false)
+@Database(entities = [Settings::class, Score::class, Customization::class], version = 7, exportSchema = false)
 abstract class GameDatabase : RoomDatabase() {
 
     companion object {

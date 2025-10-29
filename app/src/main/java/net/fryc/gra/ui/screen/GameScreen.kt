@@ -35,8 +35,13 @@ import net.fryc.gra.logic.Board
 import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.storage.score.Score
 import net.fryc.gra.ui.theme.GraTheme
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
+val format = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH)
 
 fun startGame(size : Int = 4, difficulty : Difficulty = Difficulty.EASY, showTimer : Boolean = true, showMoves : Boolean = true, activity: MainActivity){
     val board = Board(size, difficulty, activity.settings, showTimer, showMoves)
@@ -104,7 +109,7 @@ fun Draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
         if(board.checkWin()){
             shouldKeepTicking = false
             val time : Long = board.getCurrentTime().inWholeSeconds
-            val date : String = Date.from(board.timer.instant()).toString()
+            val date : String = LocalDateTime.ofInstant(board.timer.instant(), board.timer.zone).toLocalDate().toString()
             val score by remember {
                 derivedStateOf { Score(
                     movesAmount = board.moves,
