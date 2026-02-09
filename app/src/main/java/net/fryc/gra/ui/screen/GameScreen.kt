@@ -60,7 +60,7 @@ fun redraw(board: Board, activity: MainActivity){
 
 @Composable
 fun Draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
-    var shouldKeepTicking by remember { mutableStateOf(true) }
+    var shouldKeepTicking by remember { mutableStateOf(board.showTimer) }
     var refresh by remember { mutableStateOf(false); }
 
     LaunchedEffect(key1 = refresh) {
