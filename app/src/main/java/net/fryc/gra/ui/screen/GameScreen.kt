@@ -35,13 +35,8 @@ import net.fryc.gra.logic.Board
 import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.storage.score.Score
 import net.fryc.gra.ui.theme.GraTheme
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
-val format = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH)
 
 fun startGame(size : Int = 4, difficulty : Difficulty = Difficulty.EASY, showTimer : Boolean = true, showMoves : Boolean = true, activity: MainActivity){
     val board = Board(size, difficulty, activity.settings, showTimer, showMoves)
