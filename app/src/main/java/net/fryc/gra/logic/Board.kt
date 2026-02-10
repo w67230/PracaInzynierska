@@ -1,9 +1,9 @@
 package net.fryc.gra.logic
 
-import androidx.annotation.VisibleForTesting
-import androidx.annotation.VisibleForTesting.Companion.PRIVATE
 import androidx.compose.ui.graphics.Color
+import net.fryc.gra.MainActivity
 import net.fryc.gra.storage.settings.Settings
+import net.fryc.gra.ui.screen.redraw
 import java.sql.Time
 import java.time.Clock
 import java.time.Duration
@@ -32,6 +32,10 @@ class Board(
     var grayFieldsCount = 0
     var yellowFieldsCount = 0
     var sameValuesAmount = 0
+
+    var uiUpdateFun : (MainActivity, Board) -> Unit = { activity, board ->
+        redraw(board, activity)
+    }
 
     init{
         this.createFields()
@@ -67,7 +71,6 @@ class Board(
         }
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
     fun createFieldsMatrix() : ArrayList<ArrayList<Field>> {
         val matrix : ArrayList<ArrayList<Field>> = ArrayList()
         var y = 0
@@ -300,6 +303,10 @@ class Board(
 
     fun getCurrentTime() : kotlin.time.Duration {
         return Time.from(this.timer.instant()).time.minus(this.startTime).milliseconds
+    }
+
+    fun forceUiUpdate(activity : MainActivity, board : Board = this) {
+        this.uiUpdateFun.invoke(activity, board)
     }
 
 }

@@ -24,21 +24,44 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import net.fryc.gra.MainActivity
 import net.fryc.gra.R
+import net.fryc.gra.logic.BlackField
+import net.fryc.gra.logic.Board
+import net.fryc.gra.logic.Difficulty
+import net.fryc.gra.logic.Field
 import net.fryc.gra.ui.theme.GraTheme
 
 
 fun howToPlay(activity: MainActivity){
+    val board = Board(4, Difficulty.EASY, activity.settings, false, false)
+    board.fields.clear()
+    board.fields.addAll(getCorrectlyAlignedFieldsByRow(board))
+    board.fieldsMatrix.clear()
+    board.fieldsMatrix.addAll(board.createFieldsMatrix())
+    board.uiUpdateFun = { acti, boar ->
+        howToPlay(acti, boar)
+    }
+
     activity.setContent {
         GraTheme {
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                howToPlayScreen(activity = activity)
+                howToPlayScreen(activity = activity, board = board)
+            }
+        }
+    }
+}
+
+fun howToPlay(activity: MainActivity, board : Board){
+    activity.setContent {
+        GraTheme {
+            Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                howToPlayScreen(activity = activity, board = board)
             }
         }
     }
 }
 
 @Composable
-fun howToPlayScreen(activity: MainActivity){
+fun howToPlayScreen(activity: MainActivity, board : Board){
     var x : Int
     var y : Int
     Column {
@@ -57,6 +80,16 @@ fun howToPlayScreen(activity: MainActivity){
             this.item {
                 ShowSimpleText(resourceString = R.string.przyklad_latwy)
             }
+            this.item {
+                board.fieldsMatrix.forEach {
+                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                        it.forEach { field ->
+                            field.DrawBox(activity)
+                        }
+                    }
+                }
+            }
+            /*
             this.item {
                 x=0
                 y=0
@@ -86,6 +119,8 @@ fun howToPlayScreen(activity: MainActivity){
                     y++
                 }
             }
+
+             */
             this.item {
                 ShowSimpleText(resourceString = R.string.cel_dodatkowo)
             }
@@ -134,4 +169,56 @@ fun howToPlayScreen(activity: MainActivity){
             }
         }
     }
+}
+
+fun getCorrectlyAlignedFieldsByRow(board : Board) : ArrayList<Field> {
+    val wrongColumnsCorrectRows = ArrayList<Field>()
+
+    wrongColumnsCorrectRows.add(Field(0, 0, Color.Red, 0, board))
+    wrongColumnsCorrectRows.add(Field(0, 1, Color.Red, 0, board))
+    wrongColumnsCorrectRows.add(Field(0, 2, Color.Red, 0, board))
+    wrongColumnsCorrectRows.add(Field(0, 3, Color.Red, 0, board))
+
+    wrongColumnsCorrectRows.add(Field(1, 0, Color.Green, 0, board))
+    wrongColumnsCorrectRows.add(Field(1, 1, Color.Green, 0, board))
+    wrongColumnsCorrectRows.add(Field(1, 2, Color.Green, 0, board))
+    wrongColumnsCorrectRows.add(Field(1, 3, Color.Green, 0, board))
+
+    wrongColumnsCorrectRows.add(Field(2, 0, Color.Blue, 0, board))
+    wrongColumnsCorrectRows.add(Field(2, 1, Color.Blue, 0, board))
+    wrongColumnsCorrectRows.add(Field(2, 2, Color.Blue, 0, board))
+    wrongColumnsCorrectRows.add(Field(2, 3, Color.Blue, 0, board))
+
+    wrongColumnsCorrectRows.add(Field(3, 0, Color.Magenta, 0, board))
+    wrongColumnsCorrectRows.add(BlackField(3, 1, 0, board))
+    wrongColumnsCorrectRows.add(Field(3, 2, Color.Magenta, 0, board))
+    wrongColumnsCorrectRows.add(Field(3, 3, Color.Magenta, 0, board))
+
+    return wrongColumnsCorrectRows;
+}
+
+fun getCorrectlyAlignedFieldsByColumn(board : Board) : ArrayList<Field> {
+    val wrongRowsCorrectColumns = ArrayList<Field>()
+
+    wrongRowsCorrectColumns.add(Field(0, 0, Color.Red, 0, board))
+    wrongRowsCorrectColumns.add(Field(1, 0, Color.Red, 0, board))
+    wrongRowsCorrectColumns.add(Field(2, 0, Color.Red, 0, board))
+    wrongRowsCorrectColumns.add(Field(3, 0, Color.Red, 0, board))
+
+    wrongRowsCorrectColumns.add(Field(0, 1, Color.Green, 0, board))
+    wrongRowsCorrectColumns.add(Field(1, 1, Color.Green, 0, board))
+    wrongRowsCorrectColumns.add(Field(2, 1, Color.Green, 0, board))
+    wrongRowsCorrectColumns.add(Field(3, 1, Color.Green, 0, board))
+
+    wrongRowsCorrectColumns.add(Field(0, 2, Color.Blue, 0, board))
+    wrongRowsCorrectColumns.add(Field(1, 2, Color.Blue, 0, board))
+    wrongRowsCorrectColumns.add(Field(2, 2, Color.Blue, 0, board))
+    wrongRowsCorrectColumns.add(Field(3, 2, Color.Blue, 0, board))
+
+    wrongRowsCorrectColumns.add(Field(0, 3, Color.Magenta, 0, board))
+    wrongRowsCorrectColumns.add(BlackField(1, 3, 0, board))
+    wrongRowsCorrectColumns.add(Field(2, 3, Color.Magenta, 0, board))
+    wrongRowsCorrectColumns.add(Field(3, 3, Color.Magenta, 0, board))
+
+    return wrongRowsCorrectColumns;
 }

@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import net.fryc.gra.MainActivity
-import net.fryc.gra.ui.screen.redraw
 import net.fryc.gra.ui.theme.getColorForNumbers
 import kotlin.math.abs
 
@@ -34,7 +33,7 @@ open class Field(open var y: Int, open var x : Int, open val color : Color, open
                 if(this.canMove()){
                     this.move()
                     this.board.increaseMovesCount()
-                    redraw(this.board, activity)
+                    this.board.forceUiUpdate(activity)
                 }
                 else if(activity.settings.multiMoveWithCLick){
                     if(this.isOnSameLine(this.board.getBlackField())){
@@ -85,7 +84,7 @@ open class Field(open var y: Int, open var x : Int, open val color : Color, open
         if(this.isOnSameLine(blackField)){
             if(direction.isDirectionalMovingPossible(this, blackField)){
                 this.move(blackField)
-                redraw(this.board, activity)
+                this.board.forceUiUpdate(activity)
 
                 return true
             }
