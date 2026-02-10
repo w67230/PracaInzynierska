@@ -142,7 +142,11 @@ fun Draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
                     Text(text = "Wyjdź")
                 }
             }, text = {
-                Text(text = stringResource(R.string.win))
+                Text(
+                    text = stringResource(R.string.win) + "\n" +
+                            stringResource(R.string.moves_done) + " " + score.movesAmount + "\n" +
+                            stringResource(R.string.time) + ":" + " " + score.timeInSeconds + "s"
+                )
             })
 
         }

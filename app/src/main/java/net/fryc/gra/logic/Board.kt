@@ -97,7 +97,7 @@ class Board(
     }
 
     private fun createBlackField() : Field {
-        return BlackField(0,0,-1, this)
+        return BlackField(Random.nextInt(0, this.size), Random.nextInt(0, this.size), -1, this)
     }
 
     private fun createRandomNonConflictingField() : Field {
