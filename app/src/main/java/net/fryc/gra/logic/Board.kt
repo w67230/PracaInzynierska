@@ -165,9 +165,9 @@ class Board(
             0 -> redFieldsCount < this.size
             1 -> greenFieldsCount < this.size
             2 -> blueFieldsCount < this.size
-            3 -> if(this.size > 4) magentaFieldsCount < this.size else magentaFieldsCount < this.size-1
-            4 -> if(this.size > 5) grayFieldsCount < this.size else grayFieldsCount < this.size-1
-            else -> yellowFieldsCount < this.size-1
+            3 -> magentaFieldsCount < this.size
+            4 -> grayFieldsCount < this.size
+            else -> yellowFieldsCount < this.size
         }
     }
 
