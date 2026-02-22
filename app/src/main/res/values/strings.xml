@@ -10,7 +10,7 @@
     <string name="normal">Normalna</string>
     <string name="hard">Trudna</string>
     <string name="v_hard">Bardzo trudna</string>
-    <string name="size_info">Rozmiar:</string>
+    <string name="size_info">Rozmiar</string>
     <string name="difficulty_info">Trudność:</string>
     <string name="h2p">Samouczek</string>
     <string name="cel_gry">Celem gry jest ułożenie kolorowych bloczków (poprzez klikanie lub przeciąganie ich) w taki sposób, aby w każdym wierszu, lub kolumnie, znajdował się 1 kolor.</string>

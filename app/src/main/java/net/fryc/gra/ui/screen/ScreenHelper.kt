@@ -61,7 +61,7 @@ fun AddNavigationBar(modifier : Modifier, onBackPress : () -> Unit, showHelp : B
 
 @Composable
 fun AddOption(modifier : Modifier, description : @Composable () -> Unit, option : @Composable () -> Unit) {
-    Row(modifier.fillMaxWidth(0.7F)) {
+    Row(modifier.fillMaxWidth(0.85F)) {
         Box(modifier = Modifier.weight(1F).align(Alignment.CenterVertically), contentAlignment = Alignment.CenterStart) {
             description.invoke()
         }
@@ -74,7 +74,7 @@ fun AddOption(modifier : Modifier, description : @Composable () -> Unit, option 
 
 @Composable
 fun AddButton(modifier : Modifier = Modifier, onClick : () -> Unit, content : @Composable (() -> Unit)) {
-    Button(colors = getButtonColor(), modifier = modifier.fillMaxWidth(0.45F), onClick = {
+    Button(colors = getButtonColor(), modifier = modifier.fillMaxWidth(0.75F), onClick = {
         onClick.invoke()
     }) {
         content.invoke()

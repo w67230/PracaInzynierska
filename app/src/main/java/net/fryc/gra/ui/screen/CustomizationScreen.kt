@@ -68,9 +68,9 @@ fun CustomizationScreen(activity: MainActivity) {
 
         AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = PADDING_TOP_BELOW_NAV_BAR), description = {
             Text(text = stringResource(R.string.size_info), fontSize = 26.sp, modifier = Modifier
-                .padding(start = 40.dp))
+                .padding(end = 20.dp, start = 5.dp))
         }) {
-            Row(modifier = Modifier.padding(end = 40.dp).clickable {
+            Row(modifier = Modifier.padding(start = 20.dp, end = 5.dp).clickable {
                 sizeExpanded = true
             }) {
                 Text(text = getSizeName(size), fontSize = 26.sp, modifier = Modifier.padding(end = 10.dp))
@@ -97,9 +97,9 @@ fun CustomizationScreen(activity: MainActivity) {
 
         AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
             Text(text = stringResource(R.string.difficulty), fontSize = 26.sp, modifier = Modifier
-                .padding(start = 40.dp))
+                .padding(end = 20.dp, start = 5.dp))
         }) {
-            Row(modifier = Modifier.padding(end = 40.dp).clickable {
+            Row(modifier = Modifier.padding(start = 20.dp, end = 5.dp).clickable {
                 diffExpanded = true
             }) {
                 Text(text = getDifficultyName(difficulty), fontSize = 26.sp, modifier = Modifier.padding(end = 10.dp))
@@ -108,7 +108,7 @@ fun CustomizationScreen(activity: MainActivity) {
                     painter = painterResource(if(diffExpanded) R.drawable.arrow_drop_up_24px else R.drawable.arrow_drop_down_24px),
                     contentDescription = null,
                     tint = Color.Unspecified,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(30.dp)
                 )
 
                 DropdownMenu(expanded = diffExpanded, onDismissRequest = {
@@ -126,18 +126,18 @@ fun CustomizationScreen(activity: MainActivity) {
 
         AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
             Text(stringResource(R.string.timer), fontSize = 26.sp, modifier = Modifier
-                .padding(start = 40.dp))
+                .padding(end = 20.dp, start = 5.dp))
         }) {
-            Switch(modifier = Modifier.padding(end = 40.dp), checked = showTimer, onCheckedChange = {
+            Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = showTimer, onCheckedChange = {
                 showTimer = !showTimer
             })
         }
 
         AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
             Text(stringResource(R.string.moveCounter), fontSize = 26.sp, modifier = Modifier
-                .padding(start = 40.dp))
+                .padding(end = 20.dp, start = 5.dp))
         }) {
-            Switch(modifier = Modifier.padding(end = 40.dp), checked = showMoves, onCheckedChange = {
+            Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = showMoves, onCheckedChange = {
                 showMoves = !showMoves
             })
         }
