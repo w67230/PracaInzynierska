@@ -16,6 +16,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
@@ -33,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -140,39 +144,48 @@ fun SettingsScreen(activity: MainActivity){
             }
         }, false) { }
 
+
+
         Column(Modifier.fillMaxWidth(1F).padding(top = PADDING_TOP_BELOW_NAV_BAR)) {
-            Column(Modifier.align(Alignment.CenterHorizontally)){
-                Row(Modifier.align(Alignment.CenterHorizontally)) {
-                    ShowSimpleText(R.string.move_with_click)
-                    Switch(checked = moveBlocksWithClick, onCheckedChange = {
-                        moveBlocksWithClick = !moveBlocksWithClick
-                        changeCheck.invoke()
-                    })
-                }
 
-                Row(Modifier.align(Alignment.CenterHorizontally)) {
-                    ShowSimpleText(R.string.multi_move_with_click)
-                    Switch(checked = multiMoveBlocksWithClick, enabled = moveBlocksWithClick, onCheckedChange = {
-                        multiMoveBlocksWithClick = !multiMoveBlocksWithClick
-                        changeCheck.invoke()
-                    })
-                }
+            AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+                Text(stringResource(R.string.move_with_click), fontSize = 26.sp, modifier = Modifier
+                    .padding(end = 20.dp, start = 5.dp))
+            }) {
+                Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = moveBlocksWithClick, onCheckedChange = {
+                    moveBlocksWithClick = !moveBlocksWithClick
+                    changeCheck.invoke()
+                })
+            }
 
-                Row(Modifier.align(Alignment.CenterHorizontally)) {
-                    ShowSimpleText(R.string.addNumberBorder)
-                    Switch(checked = addNumberBorder, onCheckedChange = {
-                        addNumberBorder = !addNumberBorder
-                        changeCheck.invoke()
-                    })
-                }
+            AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+                Text(stringResource(R.string.multi_move_with_click), fontSize = 26.sp, modifier = Modifier
+                    .padding(end = 20.dp, start = 5.dp))
+            }) {
+                Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = multiMoveBlocksWithClick, enabled = moveBlocksWithClick, onCheckedChange = {
+                    multiMoveBlocksWithClick = !multiMoveBlocksWithClick
+                    changeCheck.invoke()
+                })
+            }
 
-                Row(Modifier.align(Alignment.CenterHorizontally)) {
-                    ShowSimpleText(R.string.switchNumberColor)
-                    Switch(checked = switchNumbersColor, onCheckedChange = {
-                        switchNumbersColor = !switchNumbersColor
-                        changeCheck.invoke()
-                    })
-                }
+            AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+                Text(stringResource(R.string.addNumberBorder), fontSize = 26.sp, modifier = Modifier
+                    .padding(end = 20.dp, start = 5.dp))
+            }) {
+                Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = addNumberBorder, onCheckedChange = {
+                    addNumberBorder = !addNumberBorder
+                    changeCheck.invoke()
+                })
+            }
+
+            AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+                Text(stringResource(R.string.switchNumberColor), fontSize = 26.sp, modifier = Modifier
+                    .padding(end = 20.dp, start = 5.dp))
+            }) {
+                Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = switchNumbersColor, onCheckedChange = {
+                    switchNumbersColor = !switchNumbersColor
+                    changeCheck.invoke()
+                })
             }
 
 
@@ -240,22 +253,26 @@ fun SettingsScreen(activity: MainActivity){
                     }
 
                     Row {
-                        Button({
-                            chosenBlock = 0
-                        }) { Text(stringResource(R.string.cancel)) }
+                        Column(Modifier.padding(start = 15.dp, end = 5.dp)) {
+                            Button({
+                                chosenBlock = 0
+                            }) { Text(stringResource(R.string.cancel)) }
+                        }
 
-                        Button({
-                            when(chosenBlock) {
-                                1 -> first = color
-                                2 -> second = color
-                                3 -> third = color
-                                4 -> fourth = color
-                                5 -> fifth = color
-                                6 -> sixth = color
-                            }
-                            chosenBlock = 0
-                            changeCheck.invoke()
-                        }) { Text(stringResource(R.string.save)) }
+                        Column(Modifier.padding(start = 5.dp, end = 15.dp)) {
+                            Button({
+                                when(chosenBlock) {
+                                    1 -> first = color
+                                    2 -> second = color
+                                    3 -> third = color
+                                    4 -> fourth = color
+                                    5 -> fifth = color
+                                    6 -> sixth = color
+                                }
+                                chosenBlock = 0
+                                changeCheck.invoke()
+                            }) { Text(stringResource(R.string.save)) }
+                        }
                     }
                 }
             }
@@ -390,7 +407,7 @@ private fun saveSettings(activity : MainActivity, newSettings : Settings) {
 }
 
 private fun nothingChanged(
-    settings : Settings, 
+    settings : Settings,
     moveWithClick : Boolean = settings.moveBlocksWithClick,
     multiMoveWitchClick : Boolean = settings.multiMoveWithCLick,
     switchNumbersColor : Boolean = settings.switchNumbersColor,

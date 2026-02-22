@@ -78,7 +78,7 @@ fun ScoreScreen(activity: MainActivity){
                 ShowSimpleText(R.string.scores_empty)
             }
             else {
-                Row(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.8F)) {
+                Row(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.9F)) {
                     Box(Modifier.weight(1F).clickable(onClick = {
                         headerOnClick.invoke(TIME_COLUMN)
                     })) { AddTableHeader(R.string.time, sortBy == TIME_COLUMN, asc)}
@@ -96,16 +96,19 @@ fun ScoreScreen(activity: MainActivity){
                     })) { AddTableHeader(R.string.date, sortBy == DATE_COLUMN, asc) }
                 }
 
-                LazyColumn(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.8F)) {
+                LazyColumn(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.9F)) {
+                    var test = true
                     getSortedScores(activity.scores, sortBy, asc).forEach {
                         this.item {
-                            Row(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(1F)) {
+                            val color = if(test) Color.Gray else Color.DarkGray // TODO kolory odpowiednie tu dobrac
+                            Row(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(1F).background(color = color)) {
                                 Box(Modifier.weight(1F)) { Text(text = it.timeInSeconds.toString()) }
                                 Box(Modifier.weight(1F)) { Text(text = it.movesAmount.toString()) }
                                 Box(Modifier.weight(1F)) { Text(text = getDifficultyName(getDifficultyFromInt(it.difficulty))) }
                                 Box(Modifier.weight(1F)) { Text(text = getSizeName(it.size)) }
                                 Box(Modifier.weight(1F)) { Text(text = it.date) }
                             }
+                            test = !test
                         }
                     }
                 }
