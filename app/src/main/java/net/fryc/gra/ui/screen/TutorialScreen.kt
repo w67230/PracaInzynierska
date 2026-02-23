@@ -31,6 +31,7 @@ import net.fryc.gra.logic.Board
 import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.logic.Field
 import net.fryc.gra.ui.theme.GraTheme
+import net.fryc.gra.ui.theme.getButtonColor
 
 
 fun howToPlay(activity: MainActivity){
@@ -94,38 +95,6 @@ fun howToPlayScreen(activity: MainActivity, board : Board){
                     }
                 }
             }
-            /*
-            this.item {
-                x=0
-                y=0
-                while(y < 4){
-                    Row {
-                        while(x < 4) {
-                            Box(
-                                Modifier
-                                    .height(70.dp)
-                                    .width(70.dp)
-                                    .padding(5.dp, 5.dp)
-                                    .background(
-                                        color = when (y) {
-                                            0 -> Color.Green
-                                            1 -> Color.Red
-                                            2 -> Color.Cyan
-                                            3 -> if (x == 3) Color.Transparent else Color.Magenta
-                                            else -> Color.Transparent
-                                        }
-                                    ))
-
-                            x++
-                        }
-                    }
-
-                    x = 0
-                    y++
-                }
-            }
-
-             */
             this.item {
                 ShowSimpleText(resourceString = R.string.cel_dodatkowo)
             }
@@ -166,7 +135,7 @@ fun howToPlayScreen(activity: MainActivity, board : Board){
                 }
             }
             this.item {
-                Button(onClick = {
+                Button(colors = getButtonColor(), onClick = {
                     activity.onBackPressed()
                 }) {
                     Text(text = "Ok")

@@ -4,6 +4,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -48,6 +50,11 @@ import net.fryc.gra.MainActivity
 import net.fryc.gra.R
 import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.theme.GraTheme
+import net.fryc.gra.ui.theme.Guziki
+import net.fryc.gra.ui.theme.GuzikiJasne
+import net.fryc.gra.ui.theme.Pink80
+import net.fryc.gra.ui.theme.PurpleGrey40
+import net.fryc.gra.ui.theme.PurpleGrey80
 import net.fryc.gra.ui.theme.getButtonColor
 import net.fryc.gra.ui.theme.getColorForNumbers
 import kotlin.random.Random
@@ -256,7 +263,7 @@ fun SettingsScreen(activity: MainActivity){
                         Column(Modifier.padding(start = 15.dp, end = 5.dp)) {
                             Button({
                                 chosenBlock = 0
-                            }) { Text(stringResource(R.string.cancel)) }
+                            }, colors = getButtonColor()) { Text(stringResource(R.string.cancel)) }
                         }
 
                         Column(Modifier.padding(start = 5.dp, end = 15.dp)) {
@@ -271,7 +278,7 @@ fun SettingsScreen(activity: MainActivity){
                                 }
                                 chosenBlock = 0
                                 changeCheck.invoke()
-                            }) { Text(stringResource(R.string.save)) }
+                            }, colors = getButtonColor()) { Text(stringResource(R.string.save)) }
                         }
                     }
                 }
@@ -363,8 +370,14 @@ private fun CreateColorSlider(value : Float, onValueChanged : (Float) -> Unit) {
         value = value,
         valueRange = 0f..1f,
         steps = 101,
+        colors = SliderDefaults.colors(
+            thumbColor = if(isSystemInDarkTheme()) Guziki else GuzikiJasne,
+            activeTickColor = if(isSystemInDarkTheme()) Guziki else GuzikiJasne,
+            activeTrackColor = PurpleGrey80,
+            inactiveTrackColor = Color.Transparent
+        ),
         onValueChange = {
-        onValueChanged.invoke(it)
+            onValueChanged.invoke(it)
         })
 }
 
@@ -376,7 +389,7 @@ private fun CreateColorBlock(color : Color, chosen : Boolean, addNumberBorder : 
         .height(50.dp)
         .border(5.dp, if(chosen) Color.White else Color.Transparent)
         .clickable(onClick = {
-        onClick.invoke()
+            onClick.invoke()
         })) {
         val number = Random.nextInt(1, 100).toString()
         if(addNumberBorder){
