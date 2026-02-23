@@ -32,8 +32,7 @@ class MainActivity() : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //startGame(4,Difficulty.EASY, this);
-        // TODO dac obsluge poziomej orientacji
+
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         this.viewModel = AppViewModel()
         this.container = AppDataContainer(this.baseContext)

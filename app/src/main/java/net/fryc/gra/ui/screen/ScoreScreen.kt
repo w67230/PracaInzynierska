@@ -29,8 +29,9 @@ import net.fryc.gra.MainActivity
 import net.fryc.gra.R
 import net.fryc.gra.storage.score.Score
 import net.fryc.gra.ui.theme.GraTheme
+import net.fryc.gra.ui.theme.getColorForTableHeader
+import net.fryc.gra.ui.theme.getColorForTableRow
 import java.time.LocalDate
-
 
 
 const val TIME_COLUMN = 0
@@ -78,7 +79,9 @@ fun ScoreScreen(activity: MainActivity){
                 ShowSimpleText(R.string.scores_empty)
             }
             else {
-                Row(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.9F)) {
+                Row(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.9F).background(
+                    getColorForTableHeader()
+                )) {
                     Box(Modifier.weight(1F).clickable(onClick = {
                         headerOnClick.invoke(TIME_COLUMN)
                     })) { AddTableHeader(R.string.time, sortBy == TIME_COLUMN, asc)}
@@ -97,10 +100,10 @@ fun ScoreScreen(activity: MainActivity){
                 }
 
                 LazyColumn(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(0.9F)) {
-                    var test = true
+                    var isOdd = true
                     getSortedScores(activity.scores, sortBy, asc).forEach {
                         this.item {
-                            val color = if(test) Color.Gray else Color.DarkGray // TODO kolory odpowiednie tu dobrac
+                            val color = getColorForTableRow(isOdd)
                             Row(Modifier.align(Alignment.CenterHorizontally).fillMaxWidth(1F).background(color = color)) {
                                 Box(Modifier.weight(1F)) { Text(text = it.timeInSeconds.toString()) }
                                 Box(Modifier.weight(1F)) { Text(text = it.movesAmount.toString()) }
@@ -108,7 +111,7 @@ fun ScoreScreen(activity: MainActivity){
                                 Box(Modifier.weight(1F)) { Text(text = getSizeName(it.size)) }
                                 Box(Modifier.weight(1F)) { Text(text = it.date) }
                             }
-                            test = !test
+                            isOdd = !isOdd
                         }
                     }
                 }

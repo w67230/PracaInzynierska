@@ -3,6 +3,7 @@ package net.fryc.gra.ui.screen
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -76,7 +77,7 @@ fun CustomizationScreen(activity: MainActivity) {
                 Text(text = getSizeName(size), fontSize = 26.sp, modifier = Modifier.padding(end = 10.dp))
 
                 Icon(
-                    painter = painterResource(if(sizeExpanded) R.drawable.arrow_drop_up_24px else R.drawable.arrow_drop_down_24px),
+                    painter = getDropdownIcon(diffExpanded),
                     contentDescription = null,
                     tint = Color.Unspecified,
                     modifier = Modifier.size(32.dp)
@@ -105,7 +106,7 @@ fun CustomizationScreen(activity: MainActivity) {
                 Text(text = getDifficultyName(difficulty), fontSize = 26.sp, modifier = Modifier.padding(end = 10.dp))
 
                 Icon(
-                    painter = painterResource(if(diffExpanded) R.drawable.arrow_drop_up_24px else R.drawable.arrow_drop_down_24px),
+                    painter = getDropdownIcon(diffExpanded),
                     contentDescription = null,
                     tint = Color.Unspecified,
                     modifier = Modifier.size(30.dp)

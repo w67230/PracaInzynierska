@@ -1,6 +1,7 @@
 package net.fryc.gra.ui.screen
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,7 +42,7 @@ fun AddNavigationBar(modifier : Modifier, onBackPress : () -> Unit, showHelp : B
             onBackPress.invoke()
         }) {
             Icon(
-                painter = painterResource(R.drawable.arrow_back_24px),
+                painter = painterResource(if(isSystemInDarkTheme()) R.drawable.arrow_back_24px else R.drawable.arrow_back_black_24px),
                 contentDescription = null,
                 tint = Color.Unspecified,
                 modifier = Modifier.size(32.dp)
@@ -92,7 +94,7 @@ fun AddTableHeader(@StringRes strResource : Int, isSortedBy : Boolean, ascSort :
         Text(text = stringResource(strResource), fontWeight = FontWeight.Bold, fontSize = 18.sp)
         if(isSortedBy){
             Icon(
-                painter = painterResource(if(ascSort) R.drawable.arrow_drop_up_24px else R.drawable.arrow_drop_down_24px),
+                painter = getDropdownIcon(ascSort),
                 contentDescription = null,
                 tint = Color.Unspecified,
                 modifier = Modifier.size(32.dp)
@@ -128,4 +130,14 @@ fun getSizeName(size : Int) : String {
         6 -> stringResource(R.string.size_6)
         else -> stringResource(R.string.size_6)
     }
+}
+
+@Composable
+fun getDropdownIcon(isUp : Boolean) : Painter {
+    return painterResource(
+        if(isUp)
+            if(isSystemInDarkTheme()) R.drawable.arrow_drop_up_24px else R.drawable.arrow_drop_up_black_24px
+        else
+            if(isSystemInDarkTheme()) R.drawable.arrow_drop_down_24px else R.drawable.arrow_drop_down_black_24px
+    )
 }

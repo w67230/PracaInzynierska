@@ -15,14 +15,15 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-        primary = Purple80,
+        primary = Purple40,
         secondary = PurpleGrey80,
         tertiary = Pink80,
         background = Tlo
 )
 
 private val LightColorScheme = lightColorScheme(
-        primary = Purple40,
+        background = TloJasne,
+        primary = GuzikiJasne,
         secondary = PurpleGrey40,
         tertiary = Pink40
 
@@ -64,7 +65,7 @@ fun GraTheme(
 
     MaterialTheme(
             colorScheme = colorScheme,
-            typography = Typography,
+            typography = if(isSystemInDarkTheme()) Typography else LightTypography,
             content = content
     )
 }

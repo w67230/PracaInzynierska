@@ -5,9 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
@@ -70,7 +72,10 @@ fun howToPlayScreen(activity: MainActivity, board : Board){
             activity.onBackPressed()
         }, false) { }
 
-        LazyColumn(modifier = Modifier.padding(start = 30.dp, end = 20.dp, top = 40.dp)) {
+        LazyColumn(modifier = Modifier.padding(start = 30.dp, end = 20.dp)) {
+            this.item {
+                Spacer(Modifier.size(PADDING_TOP_BELOW_NAV_BAR))
+            }
             this.item {
                 Text(text = stringResource(R.string.tytul_cel), fontWeight = FontWeight.Bold, fontSize = 6.em, modifier = Modifier.padding(bottom = 10.dp))
             }
