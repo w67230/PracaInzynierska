@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -151,178 +152,205 @@ fun SettingsScreen(activity: MainActivity){
 
 
 
-        Column(Modifier.fillMaxWidth(1F).padding(top = PADDING_TOP_BELOW_NAV_BAR)) {
+        LazyColumn(Modifier.fillMaxWidth(1F)) {
 
-            AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-                Text(stringResource(R.string.move_with_click), fontSize = fontSize, modifier = Modifier
-                    .padding(end = 20.dp, start = 5.dp))
-            }) {
-                Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = moveBlocksWithClick, onCheckedChange = {
-                    moveBlocksWithClick = !moveBlocksWithClick
-                    changeCheck.invoke()
-                })
+            this.item {
+                Spacer(Modifier.size(PADDING_TOP_BELOW_NAV_BAR))
             }
 
-            AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-                Text(stringResource(R.string.multi_move_with_click), fontSize = fontSize, modifier = Modifier
-                    .padding(end = 20.dp, start = 5.dp))
-            }) {
-                Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = multiMoveBlocksWithClick, enabled = moveBlocksWithClick, onCheckedChange = {
-                    multiMoveBlocksWithClick = !multiMoveBlocksWithClick
-                    changeCheck.invoke()
-                })
-            }
-
-            AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-                Text(stringResource(R.string.addNumberBorder), fontSize = fontSize, modifier = Modifier
-                    .padding(end = 20.dp, start = 5.dp))
-            }) {
-                Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = addNumberBorder, onCheckedChange = {
-                    addNumberBorder = !addNumberBorder
-                    changeCheck.invoke()
-                })
-            }
-
-            AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-                Text(stringResource(R.string.switchNumberColor), fontSize = fontSize, modifier = Modifier
-                    .padding(end = 20.dp, start = 5.dp))
-            }) {
-                Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = switchNumbersColor, onCheckedChange = {
-                    switchNumbersColor = !switchNumbersColor
-                    changeCheck.invoke()
-                })
-            }
-
-
-            var red by remember { mutableFloatStateOf(0.5f) }
-            var green by remember { mutableFloatStateOf(0.5f) }
-            var blue by remember { mutableFloatStateOf(0.5f) }
-
-            val color = Color(red, green, blue)
-
-            Column(Modifier.align(Alignment.CenterHorizontally)) {
-                Row { ShowSimpleText(R.string.block_colors); }
-                Row {
-                    CreateColorBlock(if(chosenBlock == 1) color else first, chosenBlock == 1, addNumberBorder, switchNumbersColor) {
-                        red = first.red
-                        green = first.green
-                        blue = first.blue
-                        chosenBlock = 1
-                    }
-                    CreateColorBlock(if(chosenBlock == 2) color else second, chosenBlock == 2, addNumberBorder, switchNumbersColor) {
-                        red = second.red
-                        green = second.green
-                        blue = second.blue
-                        chosenBlock = 2
-                    }
-                    CreateColorBlock(if(chosenBlock == 3) color else third, chosenBlock == 3, addNumberBorder, switchNumbersColor) {
-                        red = third.red
-                        green = third.green
-                        blue = third.blue
-                        chosenBlock = 3
-                    }
-                    CreateColorBlock(if(chosenBlock == 4) color else fourth, chosenBlock == 4, addNumberBorder, switchNumbersColor) {
-                        red = fourth.red
-                        green = fourth.green
-                        blue = fourth.blue
-                        chosenBlock = 4
-                    }
-                    CreateColorBlock(if(chosenBlock == 5) color else fifth, chosenBlock == 5, addNumberBorder, switchNumbersColor) {
-                        red = fifth.red
-                        green = fifth.green
-                        blue = fifth.blue
-                        chosenBlock = 5
-                    }
-                    CreateColorBlock(if(chosenBlock == 6) color else sixth, chosenBlock == 6, addNumberBorder, switchNumbersColor) {
-                        red = sixth.red
-                        green = sixth.green
-                        blue = sixth.blue
-                        chosenBlock = 6
+            this.item {
+                Column(Modifier.fillMaxWidth(1F)) {
+                    AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+                        Text(stringResource(R.string.move_with_click), fontSize = fontSize, modifier = Modifier
+                            .padding(end = 20.dp, start = 5.dp))
+                    }) {
+                        Switch(modifier = Modifier.padding(end = 5.dp, start = 20.dp), checked = moveBlocksWithClick, onCheckedChange = {
+                            moveBlocksWithClick = !moveBlocksWithClick
+                            changeCheck.invoke()
+                        })
                     }
                 }
+            }
 
-                if(chosenBlock > 0){
-                    Row {
-                        Column {
-                            Text(stringResource(R.string.red))
-                            CreateColorSlider(red) { red = it }
-                        }
-                        Column {
-                            Text(stringResource(R.string.green))
-                            CreateColorSlider(green) { green = it }
-                        }
-                        Column {
-                            Text(stringResource(R.string.blue))
-                            CreateColorSlider(blue) { blue = it }
-                        }
+            this.item {
+                Column(Modifier.fillMaxWidth(1F)) {
+                    AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+                        Text(stringResource(R.string.multi_move_with_click), fontSize = fontSize, modifier = Modifier
+                            .padding(end = 20.dp, start = 5.dp))
+                    }) {
+                        Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = multiMoveBlocksWithClick, enabled = moveBlocksWithClick, onCheckedChange = {
+                            multiMoveBlocksWithClick = !multiMoveBlocksWithClick
+                            changeCheck.invoke()
+                        })
                     }
+                }
+            }
 
-                    Row {
-                        Column(Modifier.padding(start = 15.dp, end = 5.dp)) {
-                            Button({
-                                chosenBlock = 0
-                            }, colors = getButtonColor()) { Text(stringResource(R.string.cancel)) }
+            this.item {
+                Column(Modifier.fillMaxWidth(1F)) {
+                    AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+                        Text(stringResource(R.string.addNumberBorder), fontSize = fontSize, modifier = Modifier
+                            .padding(end = 20.dp, start = 5.dp))
+                    }) {
+                        Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = addNumberBorder, onCheckedChange = {
+                            addNumberBorder = !addNumberBorder
+                            changeCheck.invoke()
+                        })
+                    }
+                }
+            }
+
+            this.item {
+                Column(Modifier.fillMaxWidth(1F)) {
+                    AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
+                        Text(stringResource(R.string.switchNumberColor), fontSize = fontSize, modifier = Modifier
+                            .padding(end = 20.dp, start = 5.dp))
+                    }) {
+                        Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = switchNumbersColor, onCheckedChange = {
+                            switchNumbersColor = !switchNumbersColor
+                            changeCheck.invoke()
+                        })
+                    }
+                }
+            }
+
+            this.item {
+                Spacer(Modifier.size(SMALL_SPACER))
+
+                var red by remember { mutableFloatStateOf(0.5f) }
+                var green by remember { mutableFloatStateOf(0.5f) }
+                var blue by remember { mutableFloatStateOf(0.5f) }
+
+                val color = Color(red, green, blue)
+
+                Column(Modifier.fillMaxWidth(1F)) {
+                    Column(Modifier.align(Alignment.CenterHorizontally)) {
+                        Row(Modifier.align(Alignment.CenterHorizontally)) { ShowSimpleText(R.string.block_colors) }
+                        Row {
+                            CreateColorBlock(if(chosenBlock == 1) color else first, chosenBlock == 1, addNumberBorder, switchNumbersColor) {
+                                red = first.red
+                                green = first.green
+                                blue = first.blue
+                                chosenBlock = 1
+                            }
+                            CreateColorBlock(if(chosenBlock == 2) color else second, chosenBlock == 2, addNumberBorder, switchNumbersColor) {
+                                red = second.red
+                                green = second.green
+                                blue = second.blue
+                                chosenBlock = 2
+                            }
+                            CreateColorBlock(if(chosenBlock == 3) color else third, chosenBlock == 3, addNumberBorder, switchNumbersColor) {
+                                red = third.red
+                                green = third.green
+                                blue = third.blue
+                                chosenBlock = 3
+                            }
+                            CreateColorBlock(if(chosenBlock == 4) color else fourth, chosenBlock == 4, addNumberBorder, switchNumbersColor) {
+                                red = fourth.red
+                                green = fourth.green
+                                blue = fourth.blue
+                                chosenBlock = 4
+                            }
+                            CreateColorBlock(if(chosenBlock == 5) color else fifth, chosenBlock == 5, addNumberBorder, switchNumbersColor) {
+                                red = fifth.red
+                                green = fifth.green
+                                blue = fifth.blue
+                                chosenBlock = 5
+                            }
+                            CreateColorBlock(if(chosenBlock == 6) color else sixth, chosenBlock == 6, addNumberBorder, switchNumbersColor) {
+                                red = sixth.red
+                                green = sixth.green
+                                blue = sixth.blue
+                                chosenBlock = 6
+                            }
                         }
 
-                        Column(Modifier.padding(start = 5.dp, end = 15.dp)) {
-                            Button({
-                                when(chosenBlock) {
-                                    1 -> first = color
-                                    2 -> second = color
-                                    3 -> third = color
-                                    4 -> fourth = color
-                                    5 -> fifth = color
-                                    6 -> sixth = color
+                        if(chosenBlock > 0){
+                            Row {
+                                Column {
+                                    Text(stringResource(R.string.red))
+                                    CreateColorSlider(red) { red = it }
                                 }
-                                chosenBlock = 0
-                                changeCheck.invoke()
-                            }, colors = getButtonColor()) { Text(stringResource(R.string.save)) }
+                                Column {
+                                    Text(stringResource(R.string.green))
+                                    CreateColorSlider(green) { green = it }
+                                }
+                                Column {
+                                    Text(stringResource(R.string.blue))
+                                    CreateColorSlider(blue) { blue = it }
+                                }
+                            }
+
+                            AddOption(Modifier.padding(start = 5.dp, end = 5.dp), {
+                                Button({
+                                    chosenBlock = 0
+                                }, colors = getButtonColor()) { Text(stringResource(R.string.cancel)) }
+                            }) {
+                                Button({
+                                    when(chosenBlock) {
+                                        1 -> first = color
+                                        2 -> second = color
+                                        3 -> third = color
+                                        4 -> fourth = color
+                                        5 -> fifth = color
+                                        6 -> sixth = color
+                                    }
+                                    chosenBlock = 0
+                                    changeCheck.invoke()
+                                }, colors = getButtonColor()) { Text(stringResource(R.string.save)) }
+                            }
                         }
                     }
                 }
             }
 
-            Spacer(Modifier.size(10.dp))
+            this.item {
+                Spacer(Modifier.size(SPACER))
+            }
 
-            Column(Modifier.align(Alignment.CenterHorizontally)) {
-                Row(Modifier.align(Alignment.CenterHorizontally)) {
-                    Button(modifier = Modifier.width(200.dp), colors = getButtonColor(), onClick = {
-                        moveBlocksWithClick = DEFAULT_SETTINGS.moveBlocksWithClick
-                        multiMoveBlocksWithClick = DEFAULT_SETTINGS.multiMoveWithCLick
-                        addNumberBorder = DEFAULT_SETTINGS.addNumberBorder
-                        switchNumbersColor = DEFAULT_SETTINGS.switchNumbersColor
-                        first = Color(DEFAULT_SETTINGS.firstRed, DEFAULT_SETTINGS.firstGreen, DEFAULT_SETTINGS.firstBlue)
-                        second = Color(DEFAULT_SETTINGS.secondRed, DEFAULT_SETTINGS.secondGreen, DEFAULT_SETTINGS.secondBlue)
-                        third = Color(DEFAULT_SETTINGS.thirdRed, DEFAULT_SETTINGS.thirdGreen, DEFAULT_SETTINGS.thirdBlue)
-                        fourth = Color(DEFAULT_SETTINGS.fourthRed, DEFAULT_SETTINGS.fourthGreen, DEFAULT_SETTINGS.fourthBlue)
-                        fifth = Color(DEFAULT_SETTINGS.fifthRed, DEFAULT_SETTINGS.fifthGreen, DEFAULT_SETTINGS.fifthBlue)
-                        sixth = Color(DEFAULT_SETTINGS.sixthRed, DEFAULT_SETTINGS.sixthGreen, DEFAULT_SETTINGS.sixthBlue)
+            this.item {
+                Column(Modifier.fillMaxWidth(1F)) {
+                    Column(Modifier.align(Alignment.CenterHorizontally)) {
+                        AddOption(Modifier.padding(start = 5.dp, end = 5.dp), {
+                            Button(modifier = Modifier.width(200.dp), colors = getButtonColor(), onClick = {
+                                moveBlocksWithClick = DEFAULT_SETTINGS.moveBlocksWithClick
+                                multiMoveBlocksWithClick = DEFAULT_SETTINGS.multiMoveWithCLick
+                                addNumberBorder = DEFAULT_SETTINGS.addNumberBorder
+                                switchNumbersColor = DEFAULT_SETTINGS.switchNumbersColor
+                                first = Color(DEFAULT_SETTINGS.firstRed, DEFAULT_SETTINGS.firstGreen, DEFAULT_SETTINGS.firstBlue)
+                                second = Color(DEFAULT_SETTINGS.secondRed, DEFAULT_SETTINGS.secondGreen, DEFAULT_SETTINGS.secondBlue)
+                                third = Color(DEFAULT_SETTINGS.thirdRed, DEFAULT_SETTINGS.thirdGreen, DEFAULT_SETTINGS.thirdBlue)
+                                fourth = Color(DEFAULT_SETTINGS.fourthRed, DEFAULT_SETTINGS.fourthGreen, DEFAULT_SETTINGS.fourthBlue)
+                                fifth = Color(DEFAULT_SETTINGS.fifthRed, DEFAULT_SETTINGS.fifthGreen, DEFAULT_SETTINGS.fifthBlue)
+                                sixth = Color(DEFAULT_SETTINGS.sixthRed, DEFAULT_SETTINGS.sixthGreen, DEFAULT_SETTINGS.sixthBlue)
 
-                        changeCheck.invoke()
-                    }) {
-                        AddButtonText(text = stringResource(R.string.button_default))
-                    }
+                                changeCheck.invoke()
+                            }) {
+                                AddButtonText(text = stringResource(R.string.button_default))
+                            }
+                        }) {
+                            Button(modifier = Modifier.width(200.dp), colors = getButtonColor(), enabled = sthChanged, onClick = {
+                                saveSettings(activity, Settings(
+                                    0,
+                                    moveBlocksWithClick,
+                                    multiMoveBlocksWithClick, switchNumbersColor, addNumberBorder,
+                                    first.red, first.green, first.blue,
+                                    second.red, second.green, second.blue,
+                                    third.red, third.green, third.blue,
+                                    fourth.red, fourth.green, fourth.blue,
+                                    fifth.red, fifth.green, fifth.blue,
+                                    sixth.red, sixth.green, sixth.blue
+                                ))
 
-                    Spacer(Modifier.width(50.dp))
-
-                    Button(modifier = Modifier.width(200.dp), colors = getButtonColor(), enabled = sthChanged, onClick = {
-                        saveSettings(activity, Settings(
-                            0,
-                            moveBlocksWithClick,
-                            multiMoveBlocksWithClick, switchNumbersColor, addNumberBorder,
-                            first.red, first.green, first.blue,
-                            second.red, second.green, second.blue,
-                            third.red, third.green, third.blue,
-                            fourth.red, fourth.green, fourth.blue,
-                            fifth.red, fifth.green, fifth.blue,
-                            sixth.red, sixth.green, sixth.blue
-                        ))
-
-                        sthChanged = false
-                    }) {
-                        AddButtonText(text = stringResource(R.string.button_save))
+                                sthChanged = false
+                            }) {
+                                AddButtonText(text = stringResource(R.string.button_save))
+                            }
+                        }
                     }
                 }
+
+                Spacer(Modifier.size(SMALL_SPACER))
             }
         }
     }
