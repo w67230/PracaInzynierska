@@ -226,7 +226,7 @@ fun SettingsScreen(activity: MainActivity){
                 Column(Modifier.fillMaxWidth(1F)) {
                     Column(Modifier.align(Alignment.CenterHorizontally)) {
                         Row(Modifier.align(Alignment.CenterHorizontally)) { ShowSimpleText(R.string.block_colors) }
-                        Row {
+                        Row(Modifier.align(Alignment.CenterHorizontally)) {
                             CreateColorBlock(if(chosenBlock == 1) color else first, chosenBlock == 1, addNumberBorder, switchNumbersColor) {
                                 red = first.red
                                 green = first.green
@@ -266,7 +266,7 @@ fun SettingsScreen(activity: MainActivity){
                         }
 
                         if(chosenBlock > 0){
-                            Row {
+                            Row(Modifier.align(Alignment.CenterHorizontally)) {
                                 Column {
                                     Text(stringResource(R.string.red))
                                     CreateColorSlider(red) { red = it }

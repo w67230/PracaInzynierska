@@ -77,7 +77,7 @@ fun CustomizationScreen(activity: MainActivity) {
                 Text(text = getSizeName(size), fontSize = fontSize, modifier = Modifier.padding(end = 10.dp))
 
                 Icon(
-                    painter = getDropdownIcon(diffExpanded),
+                    painter = getDropdownIcon(sizeExpanded),
                     contentDescription = null,
                     tint = Color.Unspecified,
                     modifier = Modifier.size(32.dp)
@@ -103,7 +103,7 @@ fun CustomizationScreen(activity: MainActivity) {
             Row(modifier = Modifier.padding(start = 20.dp, end = 5.dp).clickable {
                 diffExpanded = true
             }) {
-                Text(text = getDifficultyName(difficulty), fontSize = fontSize, modifier = Modifier.padding(end = 10.dp))
+                Text(text = getDifficultyName(difficulty), fontSize = fontSize, modifier = Modifier.padding(end = 10.dp).weight(1F, false))
 
                 Icon(
                     painter = getDropdownIcon(diffExpanded),
