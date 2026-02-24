@@ -17,9 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -38,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,9 +48,9 @@ import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.theme.GraTheme
 import net.fryc.gra.ui.theme.Guziki
 import net.fryc.gra.ui.theme.GuzikiJasne
-import net.fryc.gra.ui.theme.Pink80
-import net.fryc.gra.ui.theme.PurpleGrey40
+import net.fryc.gra.ui.theme.OPTION_FONT_SIZE
 import net.fryc.gra.ui.theme.PurpleGrey80
+import net.fryc.gra.ui.theme.SMALLER_OPTION_FONT_SIZE
 import net.fryc.gra.ui.theme.getButtonColor
 import net.fryc.gra.ui.theme.getColorForNumbers
 import kotlin.random.Random
@@ -82,6 +78,8 @@ fun settings(activity: MainActivity){
 
 @Composable
 fun SettingsScreen(activity: MainActivity){
+    val fontSize = getAppropriateSize(SMALLER_OPTION_FONT_SIZE, OPTION_FONT_SIZE)
+
     var sthChanged by remember { mutableStateOf(false) }
     var shouldShowWarning by remember { mutableStateOf(false) }
     
@@ -156,7 +154,7 @@ fun SettingsScreen(activity: MainActivity){
         Column(Modifier.fillMaxWidth(1F).padding(top = PADDING_TOP_BELOW_NAV_BAR)) {
 
             AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-                Text(stringResource(R.string.move_with_click), fontSize = 26.sp, modifier = Modifier
+                Text(stringResource(R.string.move_with_click), fontSize = fontSize, modifier = Modifier
                     .padding(end = 20.dp, start = 5.dp))
             }) {
                 Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = moveBlocksWithClick, onCheckedChange = {
@@ -166,7 +164,7 @@ fun SettingsScreen(activity: MainActivity){
             }
 
             AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-                Text(stringResource(R.string.multi_move_with_click), fontSize = 26.sp, modifier = Modifier
+                Text(stringResource(R.string.multi_move_with_click), fontSize = fontSize, modifier = Modifier
                     .padding(end = 20.dp, start = 5.dp))
             }) {
                 Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = multiMoveBlocksWithClick, enabled = moveBlocksWithClick, onCheckedChange = {
@@ -176,7 +174,7 @@ fun SettingsScreen(activity: MainActivity){
             }
 
             AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-                Text(stringResource(R.string.addNumberBorder), fontSize = 26.sp, modifier = Modifier
+                Text(stringResource(R.string.addNumberBorder), fontSize = fontSize, modifier = Modifier
                     .padding(end = 20.dp, start = 5.dp))
             }) {
                 Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = addNumberBorder, onCheckedChange = {
@@ -186,7 +184,7 @@ fun SettingsScreen(activity: MainActivity){
             }
 
             AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-                Text(stringResource(R.string.switchNumberColor), fontSize = 26.sp, modifier = Modifier
+                Text(stringResource(R.string.switchNumberColor), fontSize = fontSize, modifier = Modifier
                     .padding(end = 20.dp, start = 5.dp))
             }) {
                 Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = switchNumbersColor, onCheckedChange = {

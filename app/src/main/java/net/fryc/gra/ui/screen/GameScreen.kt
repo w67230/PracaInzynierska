@@ -24,8 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -35,6 +33,8 @@ import net.fryc.gra.logic.Board
 import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.storage.score.Score
 import net.fryc.gra.ui.theme.GraTheme
+import net.fryc.gra.ui.theme.LARGE_FONT
+import net.fryc.gra.ui.theme.VERY_LARGE_FONT
 import java.time.LocalDateTime
 
 
@@ -55,6 +55,7 @@ fun redraw(board: Board, activity: MainActivity){
 
 @Composable
 fun Draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
+    val fontSize = getAppropriateSize(LARGE_FONT, VERY_LARGE_FONT)
     var shouldKeepTicking by remember { mutableStateOf(board.showTimer) }
     var refresh by remember { mutableStateOf(false); }
 
@@ -79,11 +80,11 @@ fun Draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
 
         if(board.showTimer){
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text(text = board.getCurrentTime().toString(), fontWeight = FontWeight.Bold, fontSize = 28.sp)
+                Text(text = board.getCurrentTime().toString(), fontWeight = FontWeight.Bold, fontSize = fontSize)
             }
         }
 
-        Spacer(modifier = Modifier.size(30.dp))
+        Spacer(modifier = Modifier.size(getAppropriateSize(SMALL_SPACER, SPACER)))
 
         board.fieldsMatrix.forEach {
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
@@ -93,11 +94,11 @@ fun Draw(board : Board, activity: MainActivity, modifier: Modifier = Modifier){
             }
         }
 
-        Spacer(modifier = Modifier.size(50.dp))
+        Spacer(modifier = Modifier.size(getAppropriateSize(SPACER, BIG_SPACER)))
 
         if(board.showMoves){
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text(text = stringResource(R.string.moves_done) + " " + board.moves, fontSize = 30.sp)
+                Text(text = stringResource(R.string.moves_done) + " " + board.moves, fontSize = fontSize)
             }
         }
 

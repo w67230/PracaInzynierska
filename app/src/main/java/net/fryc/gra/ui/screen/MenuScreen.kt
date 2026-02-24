@@ -36,7 +36,7 @@ fun Menu(activity: MainActivity){
     Column(modifier = Modifier.padding(start = 30.dp, end = 20.dp, top = 80.dp)) {
         Text(text = stringResource(R.string.menu), modifier = Modifier
             .align(Alignment.CenterHorizontally)
-            .padding(bottom = 50.dp), fontSize = 50.sp)
+            .padding(bottom = 50.dp), fontSize = getAppropriateSize(40.sp, 50.sp))
 
         Row(modifier = Modifier
             .align(Alignment.CenterHorizontally)

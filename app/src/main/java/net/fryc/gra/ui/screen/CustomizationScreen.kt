@@ -3,7 +3,6 @@ package net.fryc.gra.ui.screen
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,16 +24,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.fryc.gra.MainActivity
 import net.fryc.gra.R
 import net.fryc.gra.storage.customization.Customization
 import net.fryc.gra.ui.theme.GraTheme
+import net.fryc.gra.ui.theme.OPTION_FONT_SIZE
+import net.fryc.gra.ui.theme.SMALLER_OPTION_FONT_SIZE
 
 
 val DEFAULT_CUSTOMIZATION = Customization(0, 0, 4, true, true)
@@ -53,6 +52,7 @@ fun customization(activity: MainActivity){
 
 @Composable
 fun CustomizationScreen(activity: MainActivity) {
+    val fontSize = getAppropriateSize(SMALLER_OPTION_FONT_SIZE, OPTION_FONT_SIZE)
     var size by remember { mutableIntStateOf(activity.lastCustomization.size) }
     var difficulty by remember { mutableStateOf(getDifficultyFromInt(activity.lastCustomization.difficulty)) }
     var showTimer by remember { mutableStateOf(activity.lastCustomization.showTimer) }
@@ -68,13 +68,13 @@ fun CustomizationScreen(activity: MainActivity) {
         }, false) { }
 
         AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = PADDING_TOP_BELOW_NAV_BAR), description = {
-            Text(text = stringResource(R.string.size_info), fontSize = 26.sp, modifier = Modifier
+            Text(text = stringResource(R.string.size_info), fontSize = fontSize, modifier = Modifier
                 .padding(end = 20.dp, start = 5.dp))
         }) {
             Row(modifier = Modifier.padding(start = 20.dp, end = 5.dp).clickable {
                 sizeExpanded = true
             }) {
-                Text(text = getSizeName(size), fontSize = 26.sp, modifier = Modifier.padding(end = 10.dp))
+                Text(text = getSizeName(size), fontSize = fontSize, modifier = Modifier.padding(end = 10.dp))
 
                 Icon(
                     painter = getDropdownIcon(diffExpanded),
@@ -97,13 +97,13 @@ fun CustomizationScreen(activity: MainActivity) {
         }
 
         AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-            Text(text = stringResource(R.string.difficulty), fontSize = 26.sp, modifier = Modifier
+            Text(text = stringResource(R.string.difficulty), fontSize = fontSize, modifier = Modifier
                 .padding(end = 20.dp, start = 5.dp))
         }) {
             Row(modifier = Modifier.padding(start = 20.dp, end = 5.dp).clickable {
                 diffExpanded = true
             }) {
-                Text(text = getDifficultyName(difficulty), fontSize = 26.sp, modifier = Modifier.padding(end = 10.dp))
+                Text(text = getDifficultyName(difficulty), fontSize = fontSize, modifier = Modifier.padding(end = 10.dp))
 
                 Icon(
                     painter = getDropdownIcon(diffExpanded),
@@ -126,7 +126,7 @@ fun CustomizationScreen(activity: MainActivity) {
         }
 
         AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-            Text(stringResource(R.string.timer), fontSize = 26.sp, modifier = Modifier
+            Text(stringResource(R.string.timer), fontSize = fontSize, modifier = Modifier
                 .padding(end = 20.dp, start = 5.dp))
         }) {
             Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = showTimer, onCheckedChange = {
@@ -135,7 +135,7 @@ fun CustomizationScreen(activity: MainActivity) {
         }
 
         AddOption(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 20.dp), description = {
-            Text(stringResource(R.string.moveCounter), fontSize = 26.sp, modifier = Modifier
+            Text(stringResource(R.string.moveCounter), fontSize = fontSize, modifier = Modifier
                 .padding(end = 20.dp, start = 5.dp))
         }) {
             Switch(modifier = Modifier.padding(start = 20.dp, end = 5.dp), checked = showMoves, onCheckedChange = {

@@ -18,16 +18,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import net.fryc.gra.R
 import net.fryc.gra.logic.Difficulty
+import net.fryc.gra.ui.theme.BIGGER_FONT
+import net.fryc.gra.ui.theme.BUTTON_TEXT_FONT_SIZE
+import net.fryc.gra.ui.theme.SMALLER_BUTTON_TEXT_FONT_SIZE
 import net.fryc.gra.ui.theme.getButtonColor
 
 val PADDING_TOP_BELOW_NAV_BAR = 30.dp
+val BIG_SPACER = 50.dp
+val SPACER = 30.dp
+val SMALL_SPACER = 10.dp
 
 
 @Composable
@@ -85,13 +94,25 @@ fun AddButton(modifier : Modifier = Modifier, onClick : () -> Unit, content : @C
 
 @Composable
 fun AddButtonText(modifier : Modifier = Modifier, text : String) {
-    Text(text = text, modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+    Text(
+        text = text,
+        modifier = modifier,
+        fontWeight = FontWeight.Bold,
+        fontSize = getAppropriateSize(SMALLER_BUTTON_TEXT_FONT_SIZE, BUTTON_TEXT_FONT_SIZE)
+    )
 }
 
 @Composable
 fun AddTableHeader(@StringRes strResource : Int, isSortedBy : Boolean, ascSort : Boolean) {
     Row(Modifier.fillMaxWidth(1F)) {
-        Text(text = stringResource(strResource), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        val text = stringResource(strResource)
+        if(text.length > 4 && LocalConfiguration.current.screenWidthDp < 500) {
+            Text(text = text.substring(0, 2).plus("."), fontWeight = FontWeight.Bold, fontSize = BIGGER_FONT)
+        }
+        else {
+            Text(text = text, fontWeight = FontWeight.Bold, fontSize = BIGGER_FONT)
+        }
+
         if(isSortedBy){
             Icon(
                 painter = getDropdownIcon(ascSort),
@@ -140,4 +161,14 @@ fun getDropdownIcon(isUp : Boolean) : Painter {
         else
             if(isSystemInDarkTheme()) R.drawable.arrow_drop_down_24px else R.drawable.arrow_drop_down_black_24px
     )
+}
+
+@Composable
+fun getAppropriateSize(smallerOption : TextUnit, biggerOption : TextUnit) : TextUnit {
+    return if(LocalConfiguration.current.screenWidthDp < 400) smallerOption else biggerOption
+}
+
+@Composable
+fun getAppropriateSize(smallerOption : Dp, biggerOption : Dp) : Dp {
+    return if(LocalConfiguration.current.screenWidthDp < 400) smallerOption else biggerOption
 }
