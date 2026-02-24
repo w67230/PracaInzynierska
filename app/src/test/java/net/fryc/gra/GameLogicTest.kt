@@ -1,5 +1,7 @@
 package net.fryc.gra
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import net.fryc.gra.logic.Board
 import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.logic.Field
@@ -57,5 +59,37 @@ class GameLogicTest {
         normalBoard.fieldsMatrix.addAll(normalBoard.createFieldsMatrix())
 
         Assert.assertTrue(normalBoard.checkRowWin())
+    }
+
+    @Test
+    fun when_boardIsCreated_then_numberOfIdenticalFieldsIsAppropriate() {
+        val BOARDS_TO_TEST_PER_DIFFICULTY_ABOVE_EASY = 25
+
+        Difficulty.entries.forEach {
+            if(it.ordinal > 0) {
+                var i = 0
+                while(i < BOARDS_TO_TEST_PER_DIFFICULTY_ABOVE_EASY) {
+                    Assert.assertTrue(hasRequiredNumberOfIdenticalFields(Board(4, it, settings)))
+                    Assert.assertTrue(hasRequiredNumberOfIdenticalFields(Board(5, it, settings)))
+                    Assert.assertTrue(hasRequiredNumberOfIdenticalFields(Board(6, it, settings)))
+
+                    i++
+                }
+            }
+        }
+    }
+
+    fun hasRequiredNumberOfIdenticalFields(board : Board) : Boolean {
+        val map = HashMap<Color, HashMap<Int, Int>>()
+        board.fields.forEach {
+            map.getOrPut(it.color) { HashMap() }.let { map2 ->
+                map2.put(
+                    it.value,
+                    map2.getOrPut(it.value) { -1 }.plus(1)
+                )
+            }
+        }
+
+        return map.values.sumOf { it.values.sum() } == board.difficulty.getSameNumbersAmount()
     }
 }

@@ -1,6 +1,7 @@
 package net.fryc.gra.logic
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import net.fryc.gra.MainActivity
 import net.fryc.gra.storage.settings.Settings
 import net.fryc.gra.ui.screen.redraw
@@ -59,9 +60,16 @@ class Board(
             }.toList()
 
             var field2 : Field? = null
+            val possibleFieldsWithoutDuplicates = ArrayList<Field>(possibleFields)
+
             for(x in possibleFields){
-                field2 = possibleFields.filter { x.value != it.value }.getOrNull(0)
-                if(field2 != null) break
+                val tempList = possibleFieldsWithoutDuplicates.filter { x.value == it.value }.toList()
+                if(tempList.size > 1) {
+                    possibleFieldsWithoutDuplicates.removeIf { tempList.first().value == it.value }
+                }
+                else if(tempList.isNotEmpty()){
+                    field2 = tempList.first()
+                }
             }
 
             if(field2 != null){
@@ -191,7 +199,9 @@ class Board(
         }.isEmpty()
 
         if(!available && this.difficulty.getSameNumbersAmount() > this.sameValuesAmount){
+            MainActivity.LOGGER.warning("DODAJE nowego IDENTYCZNEGO o wartosci " + value + " i kolorze " + color.toArgb())
             this.sameValuesAmount++
+
             return true
         }
 
