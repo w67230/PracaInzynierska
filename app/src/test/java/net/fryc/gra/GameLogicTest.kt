@@ -1,7 +1,6 @@
 package net.fryc.gra
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import net.fryc.gra.logic.Board
 import net.fryc.gra.logic.Difficulty
 import net.fryc.gra.logic.Field

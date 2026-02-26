@@ -35,10 +35,12 @@ class MainActivity() : ComponentActivity() {
 
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         this.viewModel = AppViewModel()
-        this.container = AppDataContainer(this.baseContext)
-        this.updateSettings()
-        this.updateScores()
-        this.updateLastCustomization()
+        this.viewModel?.viewModelScope?.launch {
+            this@MainActivity.container = AppDataContainer(this@MainActivity.baseContext)
+            this@MainActivity.updateSettings()
+            this@MainActivity.updateScores()
+            this@MainActivity.updateLastCustomization()
+        }
 
         startMenu(this)
     }
