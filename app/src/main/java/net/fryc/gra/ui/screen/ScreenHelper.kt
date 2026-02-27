@@ -1,13 +1,18 @@
 package net.fryc.gra.ui.screen
 
+import android.os.Build
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +37,7 @@ import net.fryc.gra.ui.theme.BIGGER_FONT
 import net.fryc.gra.ui.theme.BUTTON_TEXT_FONT_SIZE
 import net.fryc.gra.ui.theme.SMALLER_BUTTON_TEXT_FONT_SIZE
 import net.fryc.gra.ui.theme.getButtonColor
+import net.fryc.gra.ui.theme.getColorForNavBar
 
 val PADDING_TOP_BELOW_NAV_BAR = 30.dp
 val BIG_SPACER = 50.dp
@@ -46,7 +52,10 @@ fun ShowSimpleText(resourceString : Int){
 
 @Composable
 fun AddNavigationBar(modifier : Modifier, onBackPress : () -> Unit, showHelp : Boolean, onHelpPress : () -> Unit) {
-    NavigationBar(modifier = modifier.height(50.dp)) {
+    if(Build.VERSION.SDK_INT > 34){
+        Spacer(Modifier.size(50.dp))
+    }
+    Row(modifier = modifier.height(50.dp).fillMaxWidth(1F).background(color = getColorForNavBar())) {
         IconButton(modifier = Modifier.align(Alignment.CenterVertically), onClick = {
             onBackPress.invoke()
         }) {
