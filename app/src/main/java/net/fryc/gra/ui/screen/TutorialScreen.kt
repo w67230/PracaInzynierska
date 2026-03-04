@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -76,50 +77,71 @@ fun howToPlayScreen(activity: MainActivity, board : Board){
             activity.onBackPressed()
         }, false) { }
 
-        LazyColumn(modifier = Modifier.padding(start = 30.dp, end = 20.dp)) {
+        LazyColumn(modifier = Modifier.padding(start = 30.dp, end = 20.dp).fillMaxWidth(1F)) {
             this.item {
                 Spacer(Modifier.size(PADDING_TOP_BELOW_NAV_BAR))
             }
             this.item {
-                AddOption(Modifier.padding(start = 5.dp, end = 5.dp), {
-                    Button(modifier = Modifier.width(200.dp).padding(end = 5.dp), colors = getButtonColor(), enabled = board.difficulty != Difficulty.EASY, onClick = {
-                        howToPlay(activity, Difficulty.EASY)
+                Column(Modifier.fillMaxWidth(1F)) {
+                    AddOption(Modifier.padding(start = 5.dp, end = 5.dp).fillMaxWidth(1F), {
+                        Button(modifier = Modifier.width(200.dp).padding(end = 5.dp), colors = getButtonColor(), enabled = board.difficulty != Difficulty.EASY, onClick = {
+                            howToPlay(activity, Difficulty.EASY)
+                        }) {
+                            AddButtonText(text = stringResource(R.string.easy))
+                        }
                     }) {
-                        AddButtonText(text = stringResource(R.string.easy))
-                    }
-                }) {
-                    Button(modifier = Modifier.width(200.dp).padding(start = 5.dp), colors = getButtonColor(), enabled = board.difficulty == Difficulty.EASY, onClick = {
-                        howToPlay(activity, Difficulty.NORMAL)
-                    }) {
-                        AddButtonText(text = stringResource(R.string.normal))
+                        Button(modifier = Modifier.width(200.dp).padding(start = 5.dp), colors = getButtonColor(), enabled = board.difficulty == Difficulty.EASY, onClick = {
+                            howToPlay(activity, Difficulty.NORMAL)
+                        }) {
+                            AddButtonText(text = stringResource(R.string.normal))
+                        }
                     }
                 }
             }
             this.item {
-                if(board.difficulty == Difficulty.EASY) {
-                    ShowSimpleText(resourceString = R.string.cel_gry)
-                }
-                else {
-                    ShowSimpleText(resourceString = R.string.cel_dodatkowo)
+                Spacer(Modifier.size(SPACER))
+            }
+            this.item {
+                Column(Modifier.fillMaxWidth(1F)) {
+                    Row(Modifier.align(Alignment.CenterHorizontally)) {
+                        if(board.difficulty == Difficulty.EASY) {
+                            ShowSimpleText(resourceString = R.string.cel_gry)
+                        }
+                        else {
+                            ShowSimpleText(resourceString = R.string.cel_dodatkowo)
+                        }
+                    }
                 }
             }
             this.item {
-                if(board.checkWin()) {
-                    ShowSimpleText(resourceString = R.string.przyklad)
-                }
-                else {
-                    Text(
-                        text = stringResource(R.string.przyklad_zly),
-                        modifier = Modifier.padding(bottom = 10.dp),
-                        color = Color.Red
-                    )
+                Spacer(Modifier.size(SMALL_SPACER))
+            }
+            this.item {
+                Column(Modifier.fillMaxWidth(1F)) {
+                    Row(Modifier.align(Alignment.CenterHorizontally)) {
+                        if(board.checkWin()) {
+                            ShowSimpleText(resourceString = R.string.przyklad)
+                        }
+                        else {
+                            Text(
+                                text = stringResource(R.string.przyklad_zly),
+                                modifier = Modifier.padding(bottom = 10.dp),
+                                color = Color.Red
+                            )
+                        }
+                    }
                 }
             }
             this.item {
-                board.fieldsMatrix.forEach {
-                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                        it.forEach { field ->
-                            field.DrawBox(activity)
+                Spacer(Modifier.size(SMALL_SPACER))
+            }
+            this.item {
+                Column(Modifier.fillMaxWidth(1F)) {
+                    board.fieldsMatrix.forEach {
+                        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                            it.forEach { field ->
+                                field.DrawBox(activity)
+                            }
                         }
                     }
                 }
