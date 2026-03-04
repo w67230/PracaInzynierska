@@ -20,8 +20,8 @@ class GameLogicTest {
     fun when_rowsOrColumnsAreCorrectlyOrdered_then_PlayerWins() {
         val board = Board(4, Difficulty.EASY, this.settings)
         val normalBoard = Board(4, Difficulty.NORMAL, this.settings)
-        val wrongRowsCorrectColumns = getCorrectlyAlignedFieldsByColumn(board)
-        val wrongColumnsCorrectRows = getCorrectlyAlignedFieldsByRow(board)
+        val wrongRowsCorrectColumns = getCorrectlyAlignedFieldsByColumn(board, DEFAULT_SETTINGS)
+        val wrongColumnsCorrectRows = getCorrectlyAlignedFieldsByRow(board, DEFAULT_SETTINGS)
 
         board.fields.clear()
         board.fields.addAll(wrongRowsCorrectColumns)
